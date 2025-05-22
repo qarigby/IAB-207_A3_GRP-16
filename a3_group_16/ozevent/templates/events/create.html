@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% from 'bootstrap5/form.html' import render_form %}
+
+<!-- Setting Page Title -->
+{% block title %}
+        <title>OzEvent - Create Event</title>
+        <!-- Need to add dynamic event name to the title -->
+{% endblock %} 
+
+<!-- Link to stylesheet -->
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="../../static/style/main.css">
+{% endblock %}
+
+<!-- Link to Logo -->
+{% block logo %}
+        <img src="../../static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
+{% endblock %}
+
+<!-- Event Creation Form -->
+{% block content %}
+        <section>
+            <div class="container mt-5 mb-4">
+                <div class="row justify-content-center">
+                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                        <form id="eventForm">
+                            <h1 class="form-title pt-2 pb-4 text-center">Create Your Event</h1>
+                            <div class="form-group row">
+                                <div class="col-sm-5 col-md-5 col-lg-6">
+                                    <!-- Event Title -->
+                                    <label for="eventTitle">Title</label>
+                                    <input type="text" class="form-control" id="eventTitle" name="eventTitle" required placeholder="Enter event title">
+                                </div>
+
+                                <div class="col-sm-7 col-md-7 col-lg-6">
+                                    <!-- Image -->
+                                    <label for="eventImage" class="form-label">Image</label>
+                                    <input class="form-control mt-0" id="eventImage" name="eventImage" type="file" accept="image/*">
+                                </div>
+                            </div>
+                                
+                            <div class="form-group row">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <!-- Artist Name -->
+                                    <label for="artistName">Artist(s)</label>
+                                    <input type="text" class="form-control" id="artistName" name="artistName" 
+                                    required placeholder="Enter artist name(s)">
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <!-- Location -->
+                                    <label for="eventLocation">Location</label>
+                                    <input type="text" class="form-control" id="eventLocation" name="eventLocation" 
+                                    required placeholder="Enter event location">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Description -->
+                                <div class="col-12">
+                                    <label for="eventDescription">Description</label>
+                                    <textarea class="form-control" id="eventDescription" name="eventDescription" 
+                                    placeholder="Enter event description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Date -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <label for="eventDate">Date</label>
+                                    <input type="date" class="form-control" id="eventDate" name="eventDate" required>
+                                </div>
+
+                                <!-- Time -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <label for="eventTime">Time</label>
+                                    <input type="time" class="form-control" id="eventTime" name="eventTime" required>
+                                </div>
+
+                                <!-- Genre -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <label for="eventGenre">Genre</label>
+                                    <select class="form-select" id="eventGenre" name="eventGenre" required>
+                                        <option value="">Select genre</option>
+                                        <option value="pop">Pop</option>
+                                        <option value="rock">Rock</option>
+                                        <option value="country">Blues</option>
+                                        <option value="jazz">Jazz</option>
+                                        <option value="rap">Rap</option>
+                                        <option value="metal">Metal</option>
+                                        <option value="country">Country</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Tickets Available -->
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                                    <label for="eventTickets">Tickets Available</label>
+                                    <input type="number" class="form-control" id="eventTickets" name="eventTickets"
+                                    required placeholder="Enter ticket count">
+                                </div>
+                                
+                                <!-- Ticket Price -->
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                                    <label for="ticketPrice">Ticket Price</label>
+                                    <div class="input-group" id="ticketPrice">
+                                        <span class="input-group-text mt-2">$</span>
+                                        <input type="number" class="form-control mt-2" id="ticketPrice" name="ticketPrice"
+                                        required placeholder="Enter ticket price">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row pt-4 pb-3">
+                                <!-- Discard Event Button -->
+                                <div class="col-12 col-md-4 mb-3">
+                                    <button type="button" class="btn w-100" id="discardEventBtn" data-bs-toggle="modal"
+                                    data-bs-target="#discardModal">Discard Event</button>
+
+                                    <!-- Discard Event Modal -->
+                                    <div class="modal fade" id="discardModal" tabindex="-1" aria-labelledby="discardModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title text-center w-100" id="discardModalLabel">Discard Event</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    Are you sure you want to discard this event?
+                                                </div>
+                                                <div class="modal-footer justify-content-center mb-4">
+                                                    <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="reset" class="btn ms-3" id="discardEventBtn" data-bs-dismiss="modal">Discard</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Save Draft Button -->
+                                <div class="col-12 col-md-4 mb-3">
+                                    <button type="button" class="btn w-100" id="saveDraftBtn" data-bs-toggle="modal"
+                                    data-bs-target="#saveDraftModal">Save Draft</button>
+
+                                    <!-- Save Draft Modal -->
+                                    <div class="modal fade" id="saveDraftModal" tabindex="-1" aria-labelledby="saveDraftModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title text-center w-100" id="saveDraftModalLabel">Save Draft</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    Do you want to save this event as a draft?
+                                                </div>
+                                                <div class="modal-footer justify-content-center mb-4">
+                                                    <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn ms-3" id="saveDraftBtn" data-bs-dismiss="modal">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Create Now Button -->
+                                <div class="col-12 col-md-4">
+                                    <button type="button" class="btn w-100" id="createNowBtn" data-bs-toggle="modal"
+                                    data-bs-target="#createNowModal">Create Now</button>
+
+                                    <!-- Create Event Modal -->
+                                    <div class="modal fade" id="createNowModal" tabindex="-1" aria-labelledby="createNowModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title text-center w-100" id="createNowModalLabel">Create Event</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    Are you ready to create this event now?
+                                                </div>
+                                                <div class="modal-footer justify-content-center mb-4">
+                                                    <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn ms-3" id="createNowBtn" data-bs-dismiss="modal">Create</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>    
+                    </div>
+                </div>
+            </div> 
+        </section>
+{% endblock %}
