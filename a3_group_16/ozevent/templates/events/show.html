@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+<!-- Setting Page Title -->
+{% block title %}
+        <title>OzEvent</title>
+        <!-- Need to add dynamic event name to the title -->
+{% endblock %} 
+
+<!-- Link to stylesheet -->
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="../../static/style/main.css">
+{% endblock %}
+
+<!-- Link to Logo -->
+{% block logo %}
+        <img src="../../static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
+{% endblock %}
+
+
+<!-- Event Details -->
+{% block content %} 
+        <section>
+            <div class="container mt-5 mb-5">
+                <div class="row justify-content-center">
+                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-9 col-xl-8 col-xxl-7 p-2">
+                        <form id="bookingForm">
+
+                            <!-- Cover Image -->
+                            <div class="form-group row mb-4">
+                                <div class="col-12 text-center">
+                                    <img src="../../static/img/beatles_tribute.jpg" alt="Event Image" class="event-image">
+                                    <h1 class="form-title text-center">Let It Be (United Kingdom)</h1>
+                                </div>
+                            </div>
+
+                            <!-- Event Description -->
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <div class="event-description text-center">
+                                        <p> 
+                                            Get a glimpse of The Beatles with Let It Be, a captivating theatre performance 
+                                            breathing new life into the timeless classics. Let It Be captures the authentic 
+                                            spirit of The Fab Four, taking audiences on a journey through time to the golden 
+                                            era of music. Sing along to their catchy hits and dance all night to this stunning 
+                                            new musical showcasing the legendary story of The Beatles.
+                                        </p>
+                                        <hr class="row-divider mb-4">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Event Details -->
+                            <div class="form-group row text-center" id="middleText">
+                                <div class="col-6 col-sm-4 mb-2">
+                                    <h4 class="mb-3" id="middleHeading">Date</h4>
+                                    <p>Friday, May 2<br>Doors at 7:00 PM<br>Show at 8:00 PM</p>
+                                </div>
+                                <div class="col-6 col-sm-4 mb-2 column-divider">
+                                    <h4 class="mb-3" id="middleHeading">Venue</h4>
+                                    <p>Fortitude Music Hall<br>Fortitude Valley<br>Brisbane QLD</p>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <h4 class="mb-3" id="middleHeading">Tickets</h4>
+                                    <p>General Admission<br>Reserved Seating<br>Backstage Passes</p>
+                                </div>
+                                <div>
+                                    <hr class="row-divider mb-4">
+                                </div>
+                            </div>
+
+                            <!-- Buy Tickets Button -->
+                            <div class="form-group row text-center mb-4">
+                                <div class="col-12">
+                                    <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Buy Tickets</button>
+                                </div>
+                            </div>
+                        
+                            <!-- View Comments -->
+                            <div class="accordion">
+                                <div class="accordion-item mb-2">
+                                    <h2 class="accordion-header" aria-labelledby="viewCommentsHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">View Comments</button>
+                                    </h2>
+                                    <div id="collapseComments" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="comment-section">
+                                                <div class="comment">
+                                                    <img src="./static/img/commenter_1.jpg" alt="Geoff's Avatar" class="avatar">
+                                                    <p><b>Geoff Dunn</b><br>I hope they play Blackbird!</p>
+                                                </div>
+                                                <div class="comment">
+                                                    <img src="./static/img/commenter_2.jpg" alt="Jamie's Avatar" class="avatar">
+                                                    <p><b>Jamie Stower</b><br>Saw this band play last year... I'm obsessed.</p>
+                                                </div>
+                                                <div class="comment">
+                                                    <img src="./static/img/commenter_3.jpg" alt="Lynn's Avatar" class="avatar">
+                                                    <p><b>Lynn Adams</b><br>My friend Amy bought tickets for my birthday! I can't wait!!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post Comments -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" aria-labelledby="postCommentsHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapsePostComment" aria-expanded="false" aria-controls="#collapsePostComment">Post a Comment</button>
+                                    </h2>
+                                    <div id="collapsePostComment" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <form id="commentForm">
+                                                <div>
+                                                    <textarea class="form-control" id="commentTextArea" aria-label="Write your comment" placeholder="Write your comment..."></textarea>
+                                                </div>
+                                                <button type="button" class="btn d-block mx-auto mt-4" id="postCommentBtn" data-bs-toggle="modal" data-bs-target="#postCommentModal"  aria-label="Post Comment">Post Comment</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- Avoid closing Accordion to preserve rounded formatting -->
+                
+                            <!-- Ticket Booking Modal -->
+                            <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title text-center w-100" id="bookingModalLabel">Buy Your Tickets</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <div class="mx-auto col-2 mb-3">
+                                                <label for="ticketCount" class="form-label">Ticket(s)</label>
+                                                <input type="number" class="form-control" id="ticketCount" min="1" max="10" value="1">
+                                            </div>
+                                            <div class="mx-auto col-6 mb-3">
+                                                <label for="ticketType" class="form-label">Admission Type</label>
+                                                <select class="form-select" id="ticketType">
+                                                    <option value="general">General Admission</option>
+                                                    <option value="reserved">Reserved Seating</option>
+                                                    <option value="vip">Backstage Passes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center mb-4">
+                                            <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn ms-3" id="buyTicketsBtn" data-bs-dismiss="modal">Buy Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post Comment Modal -->
+                            <div class="modal fade" id="postCommentModal" tabindex="-1" aria-labelledby="postCommentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title text-center w-100" id="postCommentModalLabel">Post Your Comment</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            Would you like to post your comment?
+                                        </div>
+                                        <div class="modal-footer justify-content-center mb-4">
+                                            <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="reset" class="btn ms-3" id="postCommentBtn" data-bs-dismiss="modal">Post Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

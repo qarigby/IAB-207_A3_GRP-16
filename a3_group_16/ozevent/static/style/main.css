@@ -1,0 +1,534 @@
+body {
+    background: #FFDEAD;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', sans-serif;
+    padding-top: 64px;
+    min-height: 100vh;
+}
+
+.navbar {
+    background: #8B4513;
+    border-bottom: 3px solid #FFA305;
+}
+
+.navbar-brand img {
+    margin-left: 15px;
+    max-height: 100px;
+    max-width: 100px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.navbar-nav,
+.offcanvas,
+.offcanvas .dropdown-menu {
+    font-family: inherit;
+}
+
+.navbar-nav .dropdown-menu {
+    background: #8B4513;
+    border: none;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .dropdown-toggle,
+.navbar-nav .dropdown-menu .dropdown-item {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    color: #FFDEAD;
+    white-space: nowrap;
+    line-height: 2.5;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .dropdown-toggle:focus,
+.navbar-nav .dropdown-toggle.show {
+    color: #FFD700;
+    background: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .dropdown-toggle:not(.show) {
+    color: #FFDEAD;
+    text-shadow: none;
+    transform: none;
+    letter-spacing: normal;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    color: #FFD700;
+    background: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+    letter-spacing: 0.5px;
+}
+
+.offcanvas {
+    background: #8B4513;
+    color: #FFDEAD;
+    width: 70% !important;
+}
+
+.offcanvas .nav-link,
+.offcanvas .dropdown-toggle,
+.offcanvas .dropdown-menu .dropdown-item {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #FFDEAD;
+    white-space: nowrap;
+    line-height: 2.5;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.offcanvas .nav-link:hover,
+.offcanvas .dropdown-menu .dropdown-item:hover {
+    color: #FFD700;
+    background: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+    letter-spacing: 0.5px;
+}
+
+.navbar-toggler {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    background: transparent;
+    box-shadow: none;
+}
+
+.navbar-toggler-icon,
+.offcanvas .btn-close {
+    filter: invert(1);
+}
+
+.navbar-toggler-icon:hover,
+.offcanvas .btn-close:hover {
+    filter: invert(1) brightness(100);
+}
+
+.searchBar .btn {
+    background: #FFB000;
+    color: #8B4513;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.searchBar .btn:hover {
+    background: #FFD700;
+}
+
+.searchBar .form-control {
+    background: white;
+    width: clamp(0px, 60%, 350px);
+    color: black;
+    border: 2px solid #FFA305;
+    transition: width 0.3s ease;
+}
+
+.searchBar .form-control:hover,
+.searchBar .form-control:focus {
+    width: 350px;
+    box-shadow: none;
+}
+
+.offcanvas-body .searchBar .form-control {
+    width: clamp(0px, 60%, 200px);
+}
+
+.offcanvas-body .searchBar .form-control:hover,
+.offcanvas-body .searchBar .form-control:focus {
+    width: 200px;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-bottom: 4px solid #FFA305;
+}
+
+.carousel-inner .carousel-caption {
+    font-family: inherit;
+    color: #FFDEAD;
+    top: 70%;
+    transform: translateY(-50%);
+    text-shadow:
+        2px 2px 8px rgba(0, 0, 0, 1),
+        4px 4px 12px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.carousel-inner h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: bold;
+}
+
+.carousel-inner p {
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    font-weight: normal;
+}
+
+.card {
+    background: #FFB000;
+    border: 3px solid #FFA305;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background: #FFD700; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card img {
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: black;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: black;
+}
+
+.status-bubble {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+    font-size: 1rem;
+    padding: 10px 15px;
+}
+
+.status-bubble.bg-open {
+    background: green;
+}
+
+.status-bubble.bg-inactive {
+    background: grey;
+}
+
+.status-bubble.bg-soldOut {
+    background: red;
+}
+
+.status-bubble.bg-cancelled {
+    background: #F08000;
+}
+
+.event-form {
+    font-family: inherit;
+    color: #4A0404;
+    font-weight: 600;
+    background: #FFB000;
+    padding: 40px;
+    border-radius: 40px;
+    border: 3px solid #B1652E;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.form-title {
+    font-size: clamp(2rem, 3vw, 4rem);
+    font-weight: bold;
+    color: #FFDEAD;
+    white-space: nowrap;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    letter-spacing: 3px;
+}
+
+.form-group .form-select,
+.form-group .form-textarea,
+.form-group .form-control:not(.input-group .form-control) {
+    background: white;
+    border: 1px solid #B1652E;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group .input-group-text,
+.input-group .form-control {
+    border: 1px solid #B1652E;
+}
+
+.form-group .btn,
+#postCommentBtn,
+#buyTicketsBtn,
+#cancelBtn {
+    color: #8B4513;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 15px;
+    transition: all 0.5s ease;
+}
+
+#discardEventBtn {
+    background: #F28C82;
+    border: 2px solid #FF2400;
+}
+
+#discardEventBtn:hover {
+    background: #E34234;
+    color: white;
+}
+
+#saveDraftBtn {
+    background: #90BFF9;
+    border: 2px solid #6082B6;
+}
+
+#saveDraftBtn:hover {
+    background: #6495ED;
+    color: white;
+}
+
+#createNowBtn {
+    background: #7EE65A;
+    border: 2px solid green;
+}
+
+#createNowBtn:hover {
+    background: #4CBB17;
+    color: white;
+}
+
+#cancelBtn {
+    background: #D9D9D9;
+    border: 2px solid #A9A9A9;
+}
+
+#cancelBtn:hover {
+    background: #C0C0C0;
+    color: white;
+}
+
+.modal .modal-content {
+    background: #FFB000;
+    color: #8B4513;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.modal-footer,
+.modal-header {
+    border: none;
+}
+
+.pill-format {
+    display: inline-block;
+    padding: 5px;
+    background: linear-gradient(135deg, #FFB000, #FFA500);
+    border-radius: 999px;
+}
+
+#userBooking {
+    border: none;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+#userBooking .card-title,
+#userBooking .card-subtitle {
+    font-size: clamp(10px, 2.5vw, 17px);
+}
+
+#postCommentBtn {
+    background: #90BFF9;
+    font-weight: 500px;
+    border: 2px solid #6082B6;
+}
+
+#postCommentBtn:hover {
+    background: #6495ED;
+    color: white;
+}
+
+#buyTicketsBtn {
+    background: #7EE65A;
+    border: 2px solid green;
+}
+
+#buyTicketsBtn:hover {
+background: #4CBB17;
+    color: white;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.comment p {
+    margin: 0;
+    font-weight: normal;
+}
+
+#bookingForm .form-title {
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    padding: 0 1rem;
+    transform: translate(-50%, -50%);
+    text-shadow:
+        2px 2px 8px rgba(0, 0, 0, 1),
+        4px 4px 12px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+#bookingForm .event-description {
+    font-size: clamp(1rem, 1.3vw, 1.6rem);
+    font-style: italic;
+}
+
+#middleText {
+    font-size: clamp(0.9rem, 1.2vw, 1.5rem);
+}
+
+#middleHeading {
+    font-size: clamp(1.1rem, 1.6vw, 2rem);
+    font-weight: bold;
+    color: #FFDEAD;
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+    letter-spacing: 3px;
+}
+
+.column-divider {
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.row-divider {
+    border: 1px solid black;
+}
+
+@media (max-width: 576px) {
+    .column-divider {
+        border-right: none;
+    }
+}
+
+.event-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.accordion {
+    background: transparent;
+}
+
+.accordion-item {
+    border: 2px solid #FFA305;
+    background: #FFDEAD;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.accordion-collapse {
+    max-height: 10;
+    overflow: hidden;
+    border-radius: 30px;
+    transition: max-height 0.5s ease-out;
+}
+
+.accordion-collapse.show {
+    max-height: 260px;
+}
+
+.accordion-button {
+    background: #8B4513;
+    color: #FFDEAD;
+    padding: 25px;
+    border: none;
+    border-radius: 30px 30px 0 0;
+}
+
+.accordion-button:not(.collapsed),
+.accordion-button:hover {
+    background-color: #B1652E;
+    color: white;
+}
+
+.accordion-body {
+    background: #FFDEAD;
+    color: #4A0404;
+    padding: 25px;
+    border-radius: 0 0 30px 30px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    aspect-ratio: 1 / 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+#commentTextArea {
+    height: 40px;
+    border: 2px solid #FFA305;
+    transition: height 0.3s ease;
+}
+
+#commentTextArea:hover,
+#commentTextArea:focus {
+    height: 100px;
+}
+
+.comment-section {
+    font-size: clamp(0.9rem, 1.2vw, 1.5rem);
+}
+
+.footer {
+    background: #8B4513;
+    font-family: inherit;
+    color: #FFDEAD;
+    border-top: 3px solid #FFA305;
+}
