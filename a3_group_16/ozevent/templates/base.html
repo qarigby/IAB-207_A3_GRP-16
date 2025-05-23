@@ -61,7 +61,7 @@
                         </li>
                         <li class="nav-item ms-2 me-2"><a class="nav-link" href="{{ url_for('events.create') }}">Create Event</a></li>
                         <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('order.history') }}">My Bookings</a></li>
-                        <li class="nav-item d-none d-lg-block me-1"><a class="nav-link" href="{{ url_for('main.index') }}">Sign Out</a></li>
+                        <li class="nav-item d-none d-lg-block me-1"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign Out</a></li>
 
                         {% else %}
                         <!-- Dropdown Menu -->
@@ -133,7 +133,7 @@
                          {% if current_user.is_authenticated %}
                          <li class="nav-item"><a class="nav-link" href="{{ url_for('events.create') }}">Create Event</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('order.history') }}">My Bookings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Sign Out</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign Out</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
@@ -143,6 +143,26 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Logout Modal -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Confirm Sign Out</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to sign out?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger" href="{{ url_for('auth.logout') }}">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Code for using Flask flash -->
         <div class="container-fluid">
