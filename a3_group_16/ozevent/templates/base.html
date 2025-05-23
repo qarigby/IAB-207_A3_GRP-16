@@ -26,7 +26,7 @@
             <div class="container-fluid">
 
                 <!-- Logo -->
-                <a class="navbar-brand mx-auto" href="index.html">
+                <a class="navbar-brand mx-auto" href="{{ url_for('main.index') }}">
                     {% block logo %}
                     {% endblock %}
                 </a>
@@ -40,7 +40,7 @@
                  <!-- Desktop Menu -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item ms-2 me-2"><a class="nav-link" href="event-creation.html">Create Event</a></li>
+                        <li class="nav-item ms-2 me-2"><a class="nav-link" href="{{ url_for('events.create') }}">Create Event</a></li>
 
                         <!-- Dropdown Menu -->
                         <li class="nav-item dropdown">
@@ -59,8 +59,16 @@
                         </li>
 
                         <!-- Other Links -->
-                        <li class="nav-item me-2"><a class="nav-link" href="booking-history.html">My Bookings</a></li>
-                        <li class="nav-item d-none d-lg-block me-1"><a class="nav-link" href="index.html">Sign Out</a></li>
+                        
+
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('order.history') }}">My Bookings</a></li>
+                        <li class="nav-item d-none d-lg-block me-1"><a class="nav-link" href="{{ url_for('main.index') }}">Sign Out</a></li>
+
+                        {% else %}
+                        <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+                        <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
 
@@ -75,7 +83,7 @@
             <!-- Offcanvas Menu -->
             <div class="offcanvas offcanvas-end d-sm-none" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="{{ url_for('main.index') }}">
                         <img src="static/img/brand_logo.png" 
                         alt="OzEvent Logo" class="img-fluid">
                     </a>
@@ -112,7 +120,7 @@
 
                         <!-- Other Links -->
                         <li class="nav-item"><a class="nav-link" href="booking-history.html">My Bookings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html">Sign Out</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Sign Out</a></li>
                     </ul>
                 </div>
             </div>
