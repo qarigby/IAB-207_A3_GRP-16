@@ -4,6 +4,7 @@ from flask_login import login_user, login_required, logout_user
 from .models import User
 from .forms import LoginForm, RegisterForm
 from . import db
+from ozevent.utils import logout_required
 
 # Create a blueprint - make sure all BPs have unique names
 auth_bp = Blueprint('auth', __name__)
@@ -11,6 +12,7 @@ auth_bp = Blueprint('auth', __name__)
 # this is a hint for a login function
 @auth_bp.route('/login', methods=['GET', 'POST'])
 # view function
+@logout_required
 def login():
     login_form = LoginForm()
     error = None
@@ -35,6 +37,7 @@ def login():
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
+@logout_required
 def register():
     register = RegisterForm()
     #the validation of form is fine, HTTP request is POST
@@ -44,7 +47,7 @@ def register():
             pwd = register.password.data
             email = register.email.data
             name = register.name.data
-            
+
             #check if a user exists
             user = db.session.scalar(db.select(User).where(User.username==uname))
             email_exists = db.session.scalar(db.select(User).where(User.email==email))
