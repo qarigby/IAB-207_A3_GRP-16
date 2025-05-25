@@ -17,32 +17,27 @@
         <img src="static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
 {% endblock %}
 
-<!-- Page Heading -->
 {% block header %}
         <div class="container mt-4 mb-3">
             <div class="row g-5 justify-content-center">
                 <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">{{heading}}</h1>
+                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Error</h1>
                 </div>
             </div>
         </div>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5 mb-4">
+
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="event-form col-md-6">
-            <div>
-                {{ render_form(form) }}
+        <div class="col-md-8 text-center">
+            <div class="p-4 mb-5">
+                <p class="fs-3 fw-bold">Something went wrong!</p>
+                <p class="fs-5 text-muted">{{ error }}</p>
             </div>
         </div>
     </div>
-    {% if heading == 'Login' %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-4 text-center">
-            <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
-        </div>
-    </div>
-    {% endif %}
 </div>
+
 {% endblock %}

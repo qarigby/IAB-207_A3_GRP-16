@@ -5,5 +5,5 @@ from . import db
 order_bp = Blueprint('order', __name__)
 
 @order_bp.route('/booking-history')
-def index():
+def history():
     return render_template('booking_history.html')

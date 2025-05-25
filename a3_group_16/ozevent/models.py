@@ -33,7 +33,7 @@ class Event(db.Model):
     # Relation to Comments:
     comments = db.relationship('Comment', backref='event')
     # Relation to Orders:
-    orders = db.relationship('Orer', backref='event')
+    orders = db.relationship('Order', backref='event')
 
 class Comment(db.Model):
     __tablename__ = 'comments'
