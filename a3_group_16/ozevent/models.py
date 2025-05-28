@@ -14,6 +14,8 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comment', backref='user')
     # Relation to Orders:
     orders = db.relationship('Order', backref='user')
+    # Relation to Events:
+    eents = db.relationship('Event', backref='user')
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -29,11 +31,15 @@ class Event(db.Model):
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(400), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
 
     # Relation to Comments:
     comments = db.relationship('Comment', backref='event')
     # Relation to Orders:
     orders = db.relationship('Order', backref='event')
+
+    # Adding the foreign key
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Comment(db.Model):
     __tablename__ = 'comments'

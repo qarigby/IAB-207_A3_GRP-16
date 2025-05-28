@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+<!-- Setting Page Title -->
+{% block title %}
+    <title>OzEvent - Manage Events</title>
+{% endblock %} 
+
+<!-- Link to stylesheet -->
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="../../static/style/main.css">
+{% endblock %}
+
+<!-- Link to Logo -->
+{% block logo %}
+        <img src="../../static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
+{% endblock %}
+
+<!-- Header -->
+{% block header %}
+        <section>
+            <div class="container mt-4 mb-3">
+                <div class="row g-5 justify-content-center">
+                    <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8 position-relative">
+                        <!-- Back button (absolutely positioned) -->
+                        <a href="{{url_for('events.owned_events')}}" class="btn btn-secondary position-absolute top-50 translate-middle-y" style="left: 75px;">Back</a>
+                        
+                        <!-- Centered title -->
+                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Manage</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}
+
+<!-- Main Content -->
+{% block content %}
+        <!-- Update Event Form -->
+        <section>
+            <div class="container mt-5 mb-4">
+                <div class="row justify-content-center">
+                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                        <form id="eventForm" method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <h1 class="form-title pt-2 pb-4 text-center">Update Event</h1>
+                            <div class="form-group row">
+                                <div class="col-sm-5 col-md-5 col-lg-6">
+                                    <!-- Event Title -->
+                                    {{ form.name.label(class="form-label") }}
+                                    {{ form.name(class="form-control") }}
+                                </div>
+
+                                <!-- Genre -->
+                                <div class="col-sm-5 col-md-5 col-lg-6">
+                                    {{ form.genre.label(class="form-label") }}
+                                    {{ form.genre(class="form-control") }}
+                                </div>
+                            </div>
+                                
+                            <div class="form-group row">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <!-- Artist Name -->
+                                    {{ form.artist.label(class="form-label") }}
+                                    {{ form.artist(class="form-control") }}
+                                </div>
+                                
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <!-- Venue -->
+                                    {{ form.venue.label(class="form-label") }}
+                                    {{ form.venue(class="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Short Description -->
+                                <div class="col-12">
+                                    {{ form.short_description.label(class="form-label") }}
+                                    {{ form.short_description(class="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Description -->
+                                <div class="col-12">
+                                    {{ form.description.label(class="form-label") }}
+                                    {{ form.description(class="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <!-- Date -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ form.date.label(class="form-label") }}
+                                    {{ form.date(class="form-control") }}
+                                </div>
+
+                                <!-- Start Time -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ form.start_time.label(class="form-label") }}
+                                    {{ form.start_time(class="form-control") }}
+                                </div>
+
+                                <!-- End Time -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ form.end_time.label(class="form-label") }}
+                                    {{ form.end_time(class="form-control") }}
+                                </div>
+
+
+                            <div class="form-group row justify-content-center">                         
+                                <!-- Tickets Available -->
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{ form.available_tickets.label(class="form-label") }}
+                                    {{ form.available_tickets(class="form-control") }}
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <!-- Image -->
+                                    {{ form.image.label(class="form-label") }}
+                                    {{ form.image(class="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row pt-4 pb-3 justify-content-center">
+                                <!-- Clear Form Button -->
+                                <div class="col-12 col-md-4 mb-3">
+                                    <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
+                                </div>
+
+                                <!-- Create Now Button -->
+                                <div class="col-12 col-md-4">
+                                    <button type="Submit" class="btn w-100" id="createNowBtn">Update</button>
+                                </div>
+                            </div>
+                        </form>    
+                    </div>
+                </div>
+            </div> 
+        </section>
+
+        <!-- Cancel Event Button -->
+        {% if event.status == 'open' %}
+        <section>
+            <div class="container mt-5 mb-4">
+                <div class="row justify-content-center">
+                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                        <h1 class="form-title pt-2 pb-4 text-center">Cancel Event</h1>
+                        <div class="form-group row pt-4 justify-content-center">
+                            <div class="col-12 col-md-4 mb-3">
+                                <a href="{{ url_for('events.cancel', id=event.id) }}" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#cancelModal" 
+                                class="btn w-100 btn-danger" 
+                                id="discardEventBtn">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Cancel Event Modal -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Confirm Event Cancellation</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to cancel this event?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                        <a class="btn btn-danger" href="{{ url_for('events.cancel', id=event.id) }}">Cancel Event</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
