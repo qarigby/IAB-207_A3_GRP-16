@@ -55,3 +55,5 @@ def create():
     return render_template('events/create.html', form=form)
 
 # Check over but i think this is done
+# Need to make sure that the successfull redirect navigates to the event's details page
+#       - Need to wait until dynamic event details pages are implemented
