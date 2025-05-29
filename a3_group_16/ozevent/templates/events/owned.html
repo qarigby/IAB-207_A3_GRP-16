@@ -36,7 +36,6 @@
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
                         {% for event in events %}
-                        <!-- Need to add in the link for the a href -->
                         <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4" id="userBooking">
                             <img src="../..{{event.image}}" class="card-img-top" alt="event-img">
                             <span class="status-bubble bg-{{event.status}}">{{ event.status|upper}}</span>
@@ -49,8 +48,8 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <h6 class="card-subtitle mt-2 mb-1">{{ event.date }}</h6>
-                                        <!-- <h6 class="card-subtitle mt-2 mb-1">{{ event.start_time }} - {{ event.end_time }}</h6>  -->
                                          <h6 class="card-subtitle mt-2 mb-1">
+                                            <!-- Display the times in a readable format -->
                                             {{ event.start_time.strftime('%#I%p')|upper }} - {{ event.end_time.strftime('%#I%p')|upper }}
                                         </h6>
                                         <h6 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h6>

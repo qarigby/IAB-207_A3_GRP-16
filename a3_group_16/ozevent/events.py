@@ -7,10 +7,12 @@ from . import db
 
 events_bp = Blueprint('events', __name__, url_prefix='/events')
 
+# Need to implement this still
 @events_bp.route('/')
 def show():
     return render_template('events/show.html')
 
+# For creating a new event
 @events_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
@@ -44,7 +46,9 @@ def create():
 
         # Alert the user upon success
         flash('Successfully created new event', 'success')
-        return redirect(url_for('main.index'))   
+        return redirect(url_for('main.index'))  
+
+    # Alert user to errors in the creation form 
     if form.errors:
         all_errors = ", ".join(
             err_msg
@@ -53,20 +57,25 @@ def create():
         )
         flash(f"Cannot create event: {all_errors}")
 
-
+    # Render the html file
     return render_template('events/create.html', form=form)
 
-
+# Shows users the events that they have created
 @events_bp.route('/manage', methods=['GET', 'POST'])
 @login_required
 def owned_events():
+    # select the events that a user has created
     events = db.session.scalars(db.select(Event).where(Event.user_id == current_user.id)).all()
     return render_template('events/owned.html', events=events)
 
+# Allows user to modify an event they own
 @events_bp.route('/manage/event-<id>', methods=['GET', 'POST'])
 @login_required
 def manage(id):
     event = db.session.scalar(db.select(Event).where(Event.id == id))
+
+    # If the user has not created any events
+    # Maybe we can make this display a message on the page instead of a 404
     if not event:
         abort(404)
 
@@ -76,6 +85,7 @@ def manage(id):
         # storing image filepath
         db_fp = check_upload_file(form)
         
+        # Assign the fields again (may have been updated)
         event.name=form.name.data
         event.artist=form.artist.data
         event.genre=form.genre.data
@@ -89,24 +99,37 @@ def manage(id):
         event.image=db_fp
 
         db.session.commit()
+        # Alert the user to the update's success
         flash("Event updated successfully.")
         return redirect(url_for('events.owned_events'))
     
+    # Alert user to errors in the creation form 
+    if form.errors:
+        all_errors = ", ".join(
+            err_msg
+            for field_errors in form.errors.values()
+            for err_msg in field_errors
+        )
+        flash(f"Cannot create event: {all_errors}")
+    
     return render_template('events/manage.html', event=event, form=form)
 
+# Allows user to cancel an event they own
 @events_bp.route('/manage/event-<id>/cancel')
 @login_required
 def cancel(id):
     event = db.session.scalar(db.select(Event).where(Event.id == id))
+
+    # If the user has not created any events
     if not event:
         abort(404)
-    
+    # Allow cancellation only if the event is eligible
     if event.status == 'open':
         event.status = 'cancelled'
         db.session.commit()
         flash("Event cancelled successfully.")
     else:
-        flash('The event is either in the past or has previously been cancelled.')
+        flash('Unable to cancel event. The event is either in the past or has previously been cancelled.')
 
 
     return redirect(url_for('events.owned_events'))
@@ -114,3 +137,5 @@ def cancel(id):
 # Check over but i think this is done
 # Need to make sure that the successfull redirect navigates to the event's details page
 #       - Need to wait until dynamic event details pages are implemented
+#       - Add the 'no events' message instead of 404 error when a user has not created any events but goes to the manage page
+#       - Make the buttons not pressable if a user wants to cancel an event that is not open or sold out

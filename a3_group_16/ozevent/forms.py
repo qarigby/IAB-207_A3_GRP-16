@@ -79,6 +79,8 @@ class EventForm(FlaskForm):
     image = FileField('Cover Image', validators=[FileRequired(message='An image must be uploaded'), FileAllowed(ALLOWED_FILES, message='Only PNG or JPG files allowed')])
     submit = SubmitField('Create')
     
+    # Field validators
+
     def validate_date(self, field):
         if field.data < date.today():
             raise ValidationError("Date cannot be in the past")
@@ -92,6 +94,7 @@ class EventForm(FlaskForm):
         start = self.start_time.data
         end = self.end_time.data
 
+        # Ensures start and end-time validation
         if start == end:
             self.end_time.errors.append("End time cannot be the same as start time.")
             return False

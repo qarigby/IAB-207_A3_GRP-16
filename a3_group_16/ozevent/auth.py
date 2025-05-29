@@ -9,21 +9,31 @@ from ozevent.utils import logout_required
 # Create a blueprint - make sure all BPs have unique names
 auth_bp = Blueprint('auth', __name__)
 
-# this is a hint for a login function
+# Allows a user to login to their account
 @auth_bp.route('/login', methods=['GET', 'POST'])
-# view function
 @logout_required
 def login():
     login_form = LoginForm()
+
     error = None
+
     if login_form.validate_on_submit():
+        # Assign fields from form to database object
         user_name = login_form.username.data
         password = login_form.password.data
+
+        # Match with the user in the system
         user = db.session.scalar(db.select(User).where(User.username==user_name))
+
+        # If the user credentials do not match the db
         if user is None:
             error = 'That username doesnt exist, please try again'
+        
+        # Checks password is correct
         elif not check_password_hash(user.password_hash, password): # takes the hash and cleartext password
             error = 'Incorrect password, please try again'
+
+        # If login is successful
         if error is None:
             login_user(user)
             nextp = request.args.get('next') # this gives the url from where the login page was accessed
@@ -35,12 +45,12 @@ def login():
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
 
-
+# Allows a user to register with the system
 @auth_bp.route('/register', methods=['GET', 'POST'])
 @logout_required
 def register():
     register = RegisterForm()
-    #the validation of form is fine, HTTP request is POST
+    
     if (register.validate_on_submit()==True):
             #get username, password and email from the form
             uname = register.username.data
@@ -61,20 +71,21 @@ def register():
                 flash('A user with that email already exists, please use another email, or log-in to an existing account.') 
                 return redirect(url_for('auth.register'))
             
-
-            # don't store the password in plaintext!
+            # Storing the password as a hash
             pwd_hash = generate_password_hash(pwd)
+
             #create a new User model object
             new_user = User(name=name, username=uname, password_hash=pwd_hash, email=email)
             db.session.add(new_user)
             db.session.commit()
+
             #commit to the database and redirect to HTML page
             return redirect(url_for('auth.login'))
-    #the else is called when the HTTP request calling this page is a GET
+    
     else:
         return render_template('user.html', form=register, heading='Register')
     
-
+# Allows a user to logout of the system
 @auth_bp.route('/logout')
 @login_required
 def logout():
