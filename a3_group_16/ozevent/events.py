@@ -72,14 +72,19 @@ def owned_events():
 @events_bp.route('/manage/event-<id>', methods=['GET', 'POST'])
 @login_required
 def manage(id):
+    user_id = current_user.id
+    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.user_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
-    # If the user has not created any events
-    # Maybe we can make this display a message on the page instead of a 404
+    # If the event does not exist
     if not event:
         abort(404)
 
-    form = EventForm(obj=event)
+    # If the user does not own the event
+    if not user_event:
+        abort(403)  
+
+    form = EventForm(obj=user_event)
 
     if form.validate_on_submit():
         # storing image filepath
@@ -112,20 +117,27 @@ def manage(id):
         )
         flash(f"Cannot create event: {all_errors}")
     
-    return render_template('events/manage.html', event=event, form=form)
+    return render_template('events/manage.html', event=user_event, form=form)
 
 # Allows user to cancel an event they own
 @events_bp.route('/manage/event-<id>/cancel')
 @login_required
 def cancel(id):
+    user_id = current_user.id
+    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.user_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
-    # If the user has not created any events
+    # If the event does not exist
     if not event:
         abort(404)
+
+    # If the user does not own the event
+    if not user_event:
+        abort(403)  
+
     # Allow cancellation only if the event is eligible
-    if event.status == 'open':
-        event.status = 'cancelled'
+    if user_event.status == 'open':
+        user_event.status = 'cancelled'
         db.session.commit()
         flash("Event cancelled successfully.")
     else:
@@ -137,5 +149,3 @@ def cancel(id):
 # Check over but i think this is done
 # Need to make sure that the successfull redirect navigates to the event's details page
 #       - Need to wait until dynamic event details pages are implemented
-#       - Add the 'no events' message instead of 404 error when a user has not created any events but goes to the manage page
-#       - Make the buttons not pressable if a user wants to cancel an event that is not open or sold out

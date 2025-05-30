@@ -5,16 +5,6 @@
     <title>OzEvent - Manage Events</title>
 {% endblock %} 
 
-<!-- Link to stylesheet -->
-{% block css %}
-        <link rel="stylesheet" type="text/css" href="../../static/style/main.css">
-{% endblock %}
-
-<!-- Link to Logo -->
-{% block logo %}
-        <img src="../../static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
-{% endblock %}
-
 <!-- Header -->
 {% block header %}
         <section>
@@ -138,7 +128,7 @@
         </section>
 
         <!-- Cancel Event Button -->
-        {% if event.status == 'open' %}
+        {% if event.status == 'open' or event.status == 'soldOut' %}
         <section>
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
@@ -149,7 +139,7 @@
                                 <a href="{{ url_for('events.cancel', id=event.id) }}" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#cancelModal" 
-                                class="btn w-100 btn-danger" 
+                                class="btn w-100 btn-danger " 
                                 id="discardEventBtn">
                                     Cancel
                                 </a>
@@ -179,6 +169,43 @@
                 </div>
             </div>
         </div>
+
+        <!-- JS for detecting form changes -->
+        <script>
+            const form = document.getElementById("eventForm");
+            const submit = document.getElementById("createNowBtn");
+
+            submit.classList.add('disabled');
+
+            // Store the initial values of all form fields
+            const initialValues = {};
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+                initialValues[field.name] = field.value;
+            });
+
+            // Function to check for changes
+            function checkForChanges() {
+                let changed = false;
+
+                form.querySelectorAll('input, select, textarea').forEach(field => {
+                if (field.value !== initialValues[field.name]) {
+                    changed = true;
+                }
+                });
+
+                // update styling
+                if (changed) {
+                submit.classList.remove('disabled');
+                } else {
+                submit.classList.add('disabled');
+                }
+            }
+
+            // Listen to changes on all fields
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+                field.addEventListener('input', checkForChanges);
+            });
+        </script>
 
 
 {% endblock %}

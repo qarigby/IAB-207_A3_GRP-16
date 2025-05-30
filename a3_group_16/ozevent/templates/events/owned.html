@@ -35,33 +35,48 @@
             <div class="container mt-4 mb-3">
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                        {% for event in events %}
-                        <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4" id="userBooking">
-                            <img src="../..{{event.image}}" class="card-img-top" alt="event-img">
-                            <span class="status-bubble bg-{{event.status}}">{{ event.status|upper}}</span>
-                            <div class="card-body">
-                                <div class="row justify-content-center">
-                                    <div class="col-auto text-center">
-                                        <h4><strong>{{ event.name }}</strong></h4>
+                        {% if events|length != 0 %}
+                            {% for event in events %}
+                            <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4" id="userBooking">
+                                <img src="../..{{event.image}}" class="card-img-top" alt="event-img">
+                                <span class="status-bubble bg-{{event.status}}">
+                                    {% if event.status == 'soldOut' %}
+                                        SOLD OUT
+                                    {% else %}    
+                                        {{ event.status|upper}}
+                                    {% endif %}
+                                </span>
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                        <div class="col-auto text-center">
+                                            <h4><strong>{{ event.name }}</strong></h4>
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ event.date }}</h6>
+                                            <h6 class="card-subtitle mt-2 mb-1">
+                                                <!-- Display the times in a readable format -->
+                                                {{ event.start_time.strftime('%#I%p')|upper }} - {{ event.end_time.strftime('%#I%p')|upper }}
+                                            </h6>
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h6>
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ event.available_tickets }} Tickets Remaining</h6>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ event.short_description }}</h6>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="container mt-4 mb-4">
+                                <div class="text-center">
+                                    <h4>You have not created any events.</h4>
+                                    <h5>Click <a href="{{url_for('events.create')}}">here</a> to create an event.</h5>
                                 </div>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <h6 class="card-subtitle mt-2 mb-1">{{ event.date }}</h6>
-                                         <h6 class="card-subtitle mt-2 mb-1">
-                                            <!-- Display the times in a readable format -->
-                                            {{ event.start_time.strftime('%#I%p')|upper }} - {{ event.end_time.strftime('%#I%p')|upper }}
-                                        </h6>
-                                        <h6 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h6>
-                                        <h6 class="card-subtitle mt-2 mb-1">{{ event.available_tickets }} Tickets Remaining</h6>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <h6 class="card-subtitle mt-2 mb-1">{{ event.short_description }}</h6>
-                                    </div>
-                                </div>
-                            </div>  
-                        </a>
-                        {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
