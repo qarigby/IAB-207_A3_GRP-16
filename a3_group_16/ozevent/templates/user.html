@@ -7,16 +7,6 @@
     <title>OzEvent - {{heading}}</title>
 {% endblock %} 
 
-<!-- Link to stylesheet -->
-{% block css %}
-        <link rel="stylesheet" type="text/css" href="static/style/main.css">
-{% endblock %}
-
-<!-- Link to Logo -->
-{% block logo %}
-        <img src="static/img/brand_logo.png" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
-{% endblock %}
-
 <!-- Page Heading -->
 {% block header %}
         <div class="container mt-4 mb-3">
@@ -37,6 +27,7 @@
             </div>
         </div>
     </div>
+    
     {% if heading == 'Login' %}
     <div class="row justify-content-center mt-3">
         <div class="col-md-4 text-center">

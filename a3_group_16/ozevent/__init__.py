@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from werkzeug.exceptions import HTTPException
 
 db = SQLAlchemy()
 
@@ -49,9 +50,9 @@ def create_app():
     app.register_blueprint(auth.auth_bp)
 
    #  404 page not found error handling
-    @app.errorhandler(404) 
+    @app.errorhandler(HTTPException) 
     # inbuilt function which takes error as parameter 
     def not_found(e): 
-      return render_template("404.html", error=e)
+      return render_template("error.html", error=e)
     
     return app
