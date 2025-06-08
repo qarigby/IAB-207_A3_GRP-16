@@ -58,7 +58,7 @@ class Comment(db.Model):
 class Booking(db.Model):
     __tablename__ = "bookings"
     id = db.Column(db.Integer, primary_key=True)
-    order_reference = db.Column(db.String(10), index=True, nullable=False)
+    reference = db.Column(db.String(10), index=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)
 
     # Adding the foreign keys
