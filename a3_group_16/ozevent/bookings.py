@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import Order
+from .models import Booking
 from . import db 
 
 order_bp = Blueprint('order', __name__)

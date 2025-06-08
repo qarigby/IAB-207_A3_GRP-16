@@ -13,8 +13,8 @@ class User(db.Model, UserMixin):
 
     # Relation to Comments:
     comments = db.relationship('Comment', backref='user')
-    # Relation to Orders:
-    orders = db.relationship('Order', backref='user')
+    # Relation to Bookings:
+    bookings = db.relationship('Booking', backref='user')
     # Relation to Events:
     eents = db.relationship('Event', backref='user')
 
@@ -37,11 +37,11 @@ class Event(db.Model):
 
     # Relation to Comments:
     comments = db.relationship('Comment', backref='event')
-    # Relation to Orders:
-    orders = db.relationship('Order', backref='event')
+    # Relation to Bookings:
+    bookings = db.relationship('Booking', backref='event')
 
     # Adding the foreign key
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 # Comments table
 class Comment(db.Model):
@@ -54,9 +54,9 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
-# Orders table
-class Order(db.Model):
-    __tablename__ = "orders"
+# Bookings table
+class Booking(db.Model):
+    __tablename__ = "bookings"
     id = db.Column(db.Integer, primary_key=True)
     order_reference = db.Column(db.String(10), index=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)

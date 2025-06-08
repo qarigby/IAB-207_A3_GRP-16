@@ -103,3 +103,6 @@ class EventForm(FlaskForm):
             return False
 
         return True
+
+
+# tell users the password validation requriements in the registration form.

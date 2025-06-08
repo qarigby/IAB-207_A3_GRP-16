@@ -65,7 +65,7 @@ def create():
 @login_required
 def owned_events():
     # select the events that a user has created
-    events = db.session.scalars(db.select(Event).where(Event.user_id == current_user.id)).all()
+    events = db.session.scalars(db.select(Event).where(Event.owner_id == current_user.id)).all()
     return render_template('events/owned.html', events=events)
 
 # Allows user to modify an event they own
@@ -73,7 +73,7 @@ def owned_events():
 @login_required
 def manage(id):
     user_id = current_user.id
-    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.user_id == user_id))
+    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.owner_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
     # If the event does not exist
@@ -124,7 +124,7 @@ def manage(id):
 @login_required
 def cancel(id):
     user_id = current_user.id
-    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.user_id == user_id))
+    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.owner_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
     # If the event does not exist
