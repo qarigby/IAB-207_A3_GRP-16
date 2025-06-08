@@ -36,7 +36,7 @@ def create():
             description=form.description.data,
             image=db_fp,
             status="open",
-            user_id=current_user.id
+            owner_id=current_user.id
         )
 
         # Add the object to the db session
