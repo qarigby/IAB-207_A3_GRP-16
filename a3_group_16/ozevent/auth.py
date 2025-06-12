@@ -39,6 +39,7 @@ def login():
             nextp = request.args.get('next') # this gives the url from where the login page was accessed
             print(nextp)
             if nextp is None or not nextp.startswith('/'):
+                flash("Login Successful.")
                 return redirect(url_for('main.index'))
             return redirect(nextp)
         else:
@@ -80,6 +81,7 @@ def register():
             db.session.commit()
 
             #commit to the database and redirect to HTML page
+            flash("Registration Successful.")
             return redirect(url_for('auth.login'))
     
     else:
