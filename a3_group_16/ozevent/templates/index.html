@@ -1,165 +1,169 @@
 {% extends 'base.html' %}
 
-<!-- Page Title -->
 {% block title %}
     <title>OzEvent - Australia's Answer to Live Music</title>
-{% endblock %} 
-
-<!-- Carousel Element -->
-{% block header %}
-        <section>
-            <!-- Carousel -->
-            <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
-
-                <!-- Indicators -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                </div>
-
-                <!-- Slides -->
-                <div class="carousel-inner">
-                    <a class="carousel-item active" href="event-details.html">
-                        <img src="static/img/beatles_tribute.jpg" class="d-block w-100" alt="Beatles Tribute">
-                        <div class="carousel-caption">
-                            <h1>Exciting Tributes</h1>
-                            <p>Let It Be (United Kingdom)</p>
-                        </div>
-                    </a>
-                    <a class="carousel-item" href="event-details.html">
-                        <img src="static/img/acoustic_act.jpg" class="d-block w-100" alt="Acoustic Act">
-                        <div class="carousel-caption">
-                            <h1>Immersive Experiences</h1>
-                            <p>Seven Wonders (Spain)</p>
-                        </div>
-                    </a>
-                    <a class="carousel-item" href="event-details.html">
-                        <img src="static/img/eminem_concert.jpg" class="d-block w-100" alt="Rap Concert">
-                        <div class="carousel-caption">
-                            <h1>Global Artists</h1>
-                            <p>Eminem (United States)</p>
-                        </div>
-                    </a>
-                    <a class="carousel-item" href="event-details.html">
-                        <img src="static/img/metal_band.jpg" class="d-block w-100" alt="Metal Band">
-                        <div class="carousel-caption">
-                            <h1>Powerhouse Performers</h1>
-                            <p>Orphaned Land (Israel)</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>   
-            </div>
-        </section> 
 {% endblock %}
 
-
-<!-- Event Listings -->
-{% block content %}  
-        <section>
-            <!-- Event Cards -->
-            <div class="container mt-5 mb-5 px-3">
-                <div class="row g-5 justify-content-evenly">
-                    <!-- Let It Be -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/beatles_tribute.jpg" class="card-img-top" alt="Beatles Tribute">
-                            <span class="status-bubble bg-open">Open</span>
-                            <div class="card-body">
-                                <h5 class="card-title">Let It Be</h5>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Friday, May 2 • 8:00 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Fortitude Music Hall</h6>
-                                <p class="card-text">Experience the unique magic of The Beatles
-                                    with this incredible tribute act from the UK.</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Seven Wonders -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/acoustic_act.jpg" class="card-img-top" alt="Acoustic Act">
-                            <span class="status-bubble bg-open">Open</span>
-                            <div class="card-body">
-                                <h5 class="card-title">Seven Wonders</h5>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Sun, May 11 • 6:15 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Brisbane Powerhouse</h6>
-                                <p class="card-text">Treat yourself to relaxing ocean tones 
-                                    with this rock outfit from the coast of Spain.</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Orphaned Land -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/metal_band.jpg" class="card-img-top" alt="Metal Band">
-                            <span class="status-bubble bg-open">Open</span>
-                            <div class="card-body">
-                                <h5 class="card-title">Orphaned Land</h5>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Sat, June 7 • 8:45 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Brisbane Riverstage</h6>
-                                <p class="card-text">Hear the thunderous roar of modern
-                                prog metal with this award-winning Israeli band.</p>
-                            </div>
-                        </a>
-                    </div>
-                
-                    <!-- Atlanta Symphony Orchestra -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/live_orchestra.jpg" class="card-img-top" alt="Symphony Orchestra">
-                            <span class="status-bubble bg-soldOut">Sold Out</span>
-                            <div class="card-body">
-                                <h6 class="card-title">Atlanta Symphony Orchestra</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Mon, July 8 • 5:30 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Brisbane Entertainment Centre</h6>
-                                <p class="card-text">Experience the timeless brilliance of 
-                                classical music with the Atlanta Symphony Orchestra.</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Eminem -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/eminem_concert.jpg" class="card-img-top" alt="Live Rapper">
-                            <span class="status-bubble bg-cancelled">Cancelled</span>
-                            <div class="card-body">
-                                <h6 class="card-title">Eminem</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Fri, Aug 1 • 9:15 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Suncorp Stadium</h6>
-                                <p class="card-text">Feel the raw energy and wordful 
-                                mastery of Eminem, Detroit's very own lyrical miracle.</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Kurt Baker -->
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                        <a href="event-details.html" class="card h-100 w-100 p-1 text-decoration-none">
-                            <img src="static/img/kurt_baker.jpg" class="card-img-top" alt="Punk Rocker">
-                            <span class="status-bubble bg-inactive">Inactive</span>
-                            <div class="card-body">
-                                <h6 class="card-title">Kurt Baker</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Sat, Jan 25 • 6:30 PM</h6>
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted">Brisbane Convention Centre</h6>
-                                <p class="card-text">Catch the electrifying energy of Kurt Baker as he rocks the stage with infectious tunes.</p>
-                            </div>
-                        </a>
-                    </div>
+{% block header %}
+<section class="carousel-container">
+    <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+            <a class="carousel-item active" href="#">
+                <img src="{{ url_for('static', filename='img/beatles_tribute.jpg') }}" class="d-block w-100" alt="Beatles Tribute">
+                <div class="carousel-caption">
+                    <h1>Exciting Tributes</h1>
+                    <p>Let It Be (United Kingdom)</p>
                 </div>
+            </a>
+            <a class="carousel-item" href="#">
+                <img src="{{ url_for('static', filename='img/acoustic_act.jpg') }}" class="d-block w-100" alt="Acoustic Act">
+                <div class="carousel-caption">
+                    <h1>Immersive Experiences</h1>
+                    <p>Seven Wonders (Spain)</p>
+                </div>
+            </a>
+            <a class="carousel-item" href="#">
+                <img src="{{ url_for('static', filename='img/eminem_concert.jpg') }}" class="d-block w-100" alt="Rap Concert">
+                <div class="carousel-caption">
+                    <h1>Global Artists</h1>
+                    <p>Eminem (United States)</p>
+                </div>
+            </a>
+            <a class="carousel-item" href="#">
+                <img src="{{ url_for('static', filename='img/metal_band.jpg') }}" class="d-block w-100" alt="Metal Band">
+                <div class="carousel-caption">
+                    <h1>Powerhouse Performers</h1>
+                    <p>Orphaned Land (Israel)</p>
+                </div>
+            </a>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        <div class="position-absolute top-50 start-50 translate-middle text-center welcome-overlay">
+            <h2 class="text-white bg-dark bg-opacity-50 px-4 py-2 rounded">Welcome to OzEvent</h2>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="mt-4">
+    <div class="container d-flex justify-content-end mb-3">
+        <button id="darkModeToggle" class="btn btn-dark">🌙</button>
+    </div>
+
+    <div class="container">
+        <form method="GET" action="{{ url_for('main.index') }}" class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                <label for="genre" class="form-label">Filter by Genre:</label>
             </div>
-        </section>
+            <div class="col-auto">
+                <select name="genre" id="genre" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Categories</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-3 mb-5 px-3">
+        <h3 class="mb-4">Upcoming Events</h3>
+        <div class="row g-5 justify-content-evenly">
+            {% for event in events %}
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                <a href="{{ url_for('events.event_details', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
+                    <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top" alt="{{ event.title }}">
+                    <span class="status-bubble 
+                        {% if event.status == 'Open' %}bg-open
+                        {% elif event.status == 'Sold Out' %}bg-soldOut
+                        {% elif event.status == 'Cancelled' %}bg-cancelled
+                        {% elif event.status == 'Inactive' %}bg-inactive
+                        {% endif %}">{{ event.status }}</span>
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ event.title }}</h5>
+                        <h6 class="card-subtitle mt-2 mb-2 text-white">{{ event.date }} • {{ event.time }}</h6>
+                        <h6 class="card-subtitle mt-2 mb-2 text-white">{{ event.venue }}</h6>
+                        <p class="card-text text-white">{{ event.short_description }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+  html, body, .card, .navbar, .carousel-caption, .btn, .container, .form-select, .form-label {
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  }
+  .dark-mode {
+    background-color: #121212 !important;
+    color: #f0f0f0 !important;
+  }
+  .dark-mode .card,
+  .dark-mode .form-select,
+  .dark-mode .form-label,
+  .dark-mode .container,
+  .dark-mode .navbar,
+  .dark-mode .carousel-caption,
+  .dark-mode .btn {
+    background-color: transparent !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+  }
+  .dark-mode .card-body {
+    background-color: #1e1e1e !important;
+  }
+  .dark-mode .card-title,
+  .dark-mode .card-subtitle,
+  .dark-mode .card-text {
+    color: #f0f0f0 !important;
+  }
+  .welcome-overlay {
+    z-index: 10;
+  }
+</style>
+
+<script>
+    const toggleButton = document.getElementById('darkModeToggle');
+    const darkMode = localStorage.getItem('darkMode') === 'enabled';
+
+    const enableDarkMode = () => {
+        document.body.classList.add('dark-mode');
+        document.documentElement.classList.add('dark-mode');
+        toggleButton.textContent = '☀️';
+        localStorage.setItem('darkMode', 'enabled');
+    };
+
+    const disableDarkMode = () => {
+        document.body.classList.remove('dark-mode');
+        document.documentElement.classList.remove('dark-mode');
+        toggleButton.textContent = '🌙';
+        localStorage.setItem('darkMode', 'disabled');
+    };
+
+    if (darkMode) enableDarkMode();
+
+    toggleButton.addEventListener('click', () => {
+        if (document.body.classList.contains('dark-mode')) {
+            disableDarkMode();
+        } else {
+            enableDarkMode();
+        }
+    });
+</script>
 {% endblock %}
