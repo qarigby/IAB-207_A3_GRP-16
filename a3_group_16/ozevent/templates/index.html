@@ -51,9 +51,6 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-        <div class="position-absolute top-50 start-50 translate-middle text-center welcome-overlay">
-            <h2 class="text-white bg-dark bg-opacity-50 px-4 py-2 rounded">Welcome to OzEvent</h2>
-        </div>
     </div>
 </section>
 {% endblock %}
@@ -64,25 +61,25 @@
         <button id="darkModeToggle" class="btn btn-dark">🌙</button>
     </div>
 
-    <div class="container">
-        <form method="GET" action="{{ url_for('main.index') }}" class="row g-3 align-items-center mb-3">
-            <div class="col-auto">
-                <label for="genre" class="form-label">Filter by Genre:</label>
-            </div>
-            <div class="col-auto">
-                <select name="genre" id="genre" class="form-select" onchange="this.form.submit()">
+    <div class="container mt-3 mb-5 px-3" style="padding-top: 2rem;">
+        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Upcoming Events</h1>
+
+        <div class="container" style="padding-top: 2rem;">
+            <form method="GET" action="{{ url_for('main.index') }}" class="d-flex align-items-center mb-4 gap-2">
+                <label for="genre" class="fw-bold text-dark">Filter by Genre:</label>
+                <select name="genre" id="genre"
+                class="form-select rounded-pill px-3 py-2 shadow-sm border-0"
+                style="max-width: 200px; background-color: #ffcc3b;"
+                onchange="this.form.submit()">
                     <option value="">All Categories</option>
                     {% for genre in genres %}
-                        <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+                    <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
                     {% endfor %}
                 </select>
+            </form>
             </div>
-        </form>
-    </div>
-
-    <div class="container mt-3 mb-5 px-3">
-        <h3 class="mb-4">Upcoming Events</h3>
-        <div class="row g-5 justify-content-evenly">
+        
+        <div class="row g-5 justify-content-evenly" style="padding-top: 2rem; padding-bottom: 2rem;">
             {% for event in events %}
             <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                 <a href="{{ url_for('events.event_details', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
@@ -94,10 +91,10 @@
                         {% elif event.status == 'Inactive' %}bg-inactive
                         {% endif %}">{{ event.status }}</span>
                     <div class="card-body">
-                        <h5 class="card-title text-white">{{ event.title }}</h5>
-                        <h6 class="card-subtitle mt-2 mb-2 text-white">{{ event.date }} • {{ event.time }}</h6>
-                        <h6 class="card-subtitle mt-2 mb-2 text-white">{{ event.venue }}</h6>
-                        <p class="card-text text-white">{{ event.short_description }}</p>
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.date.strftime('%b %d, %Y') }} • {{ event.start_time.strftime('%I:%M %p') }}</h6>
+                        <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.venue }}</h6>
+                        <p class="card-text">{{ event.short_description }}</p>
                     </div>
                 </a>
             </div>
