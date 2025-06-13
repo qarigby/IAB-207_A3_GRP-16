@@ -62,7 +62,7 @@
                         </li>
                         <li class="nav-item ms-2 me-2"><a class="nav-link" href="{{ url_for('events.create') }}">Create Event</a></li>
                         <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('events.owned_events') }}">Manage Events</a></li>
-                        <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('order.history') }}">My Bookings</a></li>
+                        <li class="nav-item me-2"><a class="nav-link" href="{{ url_for('booking.bookings') }}">My Bookings</a></li>
                         <li class="nav-item d-none d-lg-block me-1"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign Out</a></li>
 
                         {% else %}
@@ -135,7 +135,7 @@
                         {% if current_user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('events.create') }}">Create Event</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('events.owned_events') }}">Manage Events</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('order.history') }}">My Bookings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('booking.bookings') }}">My Bookings</a></li>
                         <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign Out</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>

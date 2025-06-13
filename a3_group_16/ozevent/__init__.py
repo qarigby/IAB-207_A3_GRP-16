@@ -44,7 +44,7 @@ def create_app():
     app.register_blueprint(events.events_bp)
 
     from . import bookings
-    app.register_blueprint(bookings.order_bp)
+    app.register_blueprint(bookings.booking_bp)
 
     from . import auth
     app.register_blueprint(auth.auth_bp)

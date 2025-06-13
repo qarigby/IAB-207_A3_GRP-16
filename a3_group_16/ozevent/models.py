@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     # Relation to Bookings:
     bookings = db.relationship('Booking', backref='user')
     # Relation to Events:
-    eents = db.relationship('Event', backref='user')
+    events = db.relationship('Event', backref='user')
 
 # Events table
 class Event(db.Model):
@@ -48,7 +48,7 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400))
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     # Adding the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -60,6 +60,7 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reference = db.Column(db.String(10), index=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)
+    date_booked = db.Column(db.DateTime, default=datetime.now)
 
     # Adding the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
