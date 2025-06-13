@@ -149,18 +149,3 @@ def cancel(id):
 # Check over but i think this is done
 # Need to make sure that the successfull redirect navigates to the event's details page
 #       - Need to wait until dynamic event details pages are implemented
-#Allow user to view their booking_history
-@events_bp.route('/manage/bookings')
-@login_required
-def bookings():
-    user_id = current_user.id
-    from .models import Booking  # Booking is imported 
-    bookings = Booking.query.filter_by(userID=user_id).all()
-    return render_template('booking_history.html', bookings=bookings, user=current_user)
-    # If the user has no bookings
-    if not bookings:
-        flash("You have no bookings.")
-        return redirect(url_for('main.index')) 
- 
-
-

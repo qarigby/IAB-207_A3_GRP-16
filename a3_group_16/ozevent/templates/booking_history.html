@@ -1,39 +1,60 @@
-{% include "base.html" %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-{% block body %}
-    <div class="eventContentContainer">
-        <div class="eventHistoryUserContainer">
-            <img class="eventCommentUserIcon" src="./static/img/user.png">
-            <p class="eventCommentUserText" style="margin: 2px 0px 0px 0px; font-weight: 600;">{{ user.username }}</p>
-        </div>
-        <p class="eventBookingName" style="margin-bottom: 2vh;">Booking History:</p>
-        
-        <table class="bookingTable">
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    
-                    <th>Ticket Genre</th>
-                    <th>Ticket Price</th>
-                    <th>Num Tickets</th>
-                    <th>Booking Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for booking in bookings %}
-                <tr>
-                    <td>{{ booking.id }}</td>
-                    <td>{{ booking.event_id }}</td>
-                    <td>{{ booking.ticket_genre }}</td>
-                    <td>{{ booking.ticket_price }}</td>
-                    <td>{{ booking.num_tickets }}</td>
-                    <td>{{ booking.booking_date.strftime('%Y/%m/%d') }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<!-- Setting Page Title -->
+{% block title %}
+    <title>OzEvent - Recent Bookings</title>
+{% endblock %} 
+
+<!-- No Header Element for this Page -->
+
+<!-- Booking History Cards -->
+{% block content %}  
+        <section>
+            <!-- Booking Records -->
+            <div class="container mt-4 mb-3">
+                <div class="row g-5 justify-content-center">
+                    <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
+                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Recent Bookings</h1>
+
+                        <!-- Let It Be -->
+                        <a href="event-details.html" class="card text-decoration-none mb-4" id="userBooking">
+                            <img src="static/img/beatles_tribute.jpg" class="card-img-top" alt="Beatles Tribute">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h5 class="card-title">Let It Be (UK)</h5>
+                                        <h6 class="card-subtitle mt-2 mb-1">Friday, May 2, 2025 at 8:00 PM</h6>
+                                        <h6 class="card-subtitle mt-2 mb-1"> Fortitude Music Hall, Fortitude Valley, QLD</h6>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <h5 class="card-title">$57.83</h5>
+                                        <h6 class="card-subtitle mt-2 mb-1"><strong>#9008-8538-5721</strong></h6>
+                                        <h6 class="card-subtitle mt-2 mb-1"><strong>21/04/2025 16:36</strong></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Atlanta Symphony Orchestra -->
+                        <a href="event-details.html" class="card text-decoration-none mb-4" id="userBooking">
+                            <img src="static/img/live_orchestra.jpg" class="card-img-top" alt="Symphony Orchestra">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h5 class="card-title">Atlanta Symphony Orchestra (US)</h5>
+                                        <h6 class="card-subtitle mt-2 mb-1">Monday, July 8, 2025 at 5:30 PM</h6>
+                                        <h6 class="card-subtitle mt-2 mb-1">Brisbane Entertainment Centre, Boondall, QLD</h6>
+                                    </div>
+                                    <div class="col-4 text-lg-end">
+                                        <h5 class="card-title">$89.98</h5>
+                                        <h6 class="card-subtitle mt-2 mb-1"><strong>#9360-4921-4896</strong></h6>
+                                        <h6 class="card-subtitle mt-2 mb-1"><strong>18/03/2025 09:54</strong></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 {% endblock %}
-</html>
