@@ -60,6 +60,9 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reference = db.Column(db.String(10), index=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)
+    ticket_price = db.Column(db.String(60), nullable=False)
+    ticket_genre = db.Column(db.String(50), index=True, nullable=False)
+    booking_date = db.Column(db.DateTime, default=datetime.now())
 
     # Adding the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
