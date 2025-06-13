@@ -29,12 +29,6 @@
                     <img src="{{ url_for('static', filename='img/brand_logo.png') }}" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
                 </a>
 
-                <!-- Search Bar -->
-                <form class="searchBar d-none d-md-flex" role="search">
-                    <input class="form-control ms-4 me-1" type="search" placeholder="Find new music..." aria-label="Search">
-                    <button class="btn btn-outline-success me-2" type="submit">Search</button>
-                </form>
-
                  <!-- Desktop Menu -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto">
@@ -75,15 +69,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav">
-                        
-                        <!-- Search Bar -->
-                        <li>
-                            <form class="searchBar d-flex ms-3 mb-3" role="search">
-                                <input class="form-control me-1" type="search" placeholder="Find new music..." aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-                        </li>                        
+                    <ul class="navbar-nav">                 
                         
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Browse Events</a></li>
 

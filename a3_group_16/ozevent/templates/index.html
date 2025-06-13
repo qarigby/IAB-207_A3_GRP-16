@@ -64,7 +64,7 @@
     <div class="container mt-3 mb-5 px-3" style="padding-top: 2rem;">
         <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Upcoming Events</h1>
 
-        <div class="container" style="padding-top: 2rem;">
+        <!-- <div class="container" style="padding-top: 2rem;">
             <form method="GET" action="{{ url_for('main.index') }}" class="d-flex align-items-center mb-4 gap-2">
                 <label for="genre" class="fw-bold text-dark">Filter by Genre:</label>
                 <select name="genre" id="genre"
@@ -77,7 +77,47 @@
                     {% endfor %}
                 </select>
             </form>
+
+           
+            <form class="searchBar d-none d-md-flex" role="search">
+                <label for="search" class="fw-bold text-dark">Search Event:</label>
+                <input class="form-control ms-4 me-1" type="search" placeholder="Find new music..." aria-label="Search">
+                <button class="btn btn-outline-success me-2" type="submit">Search</button>
+            </form>
+        </div>   -->
+
+        <div class="container" style="padding-top: 2rem;">
+            <div class="row align-items-center" style="padding-left: 4rem;">
+                
+                <!-- Genre Filter Form -->
+                <div class="col-md-6">
+                    <form method="GET" action="{{ url_for('main.index') }}" class="d-flex align-items-center gap-2">
+                        <label for="genre" class="fw-bold text-dark mb-0">Filter by Genre:</label>
+                        <select name="genre" id="genre"
+                        class="form-select rounded-pill px-3 py-2 shadow-sm border-0"
+                        style="max-width: 200px; background-color: #ffcc3b;"
+                        onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        {% for genre in genres %}
+                        <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+                        {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
+                <!-- Search Bar Form -->
+                <div class="col-md-6">
+                    <form class="d-flex align-items-center gap-2 searchBar" role="search">
+                        <label for="search" class="fw-bold text-dark mb-0">Search Event:</label>
+                        <input class="form-control" type="search" placeholder="Find new music..." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+
             </div>
+        </div>
+
+
         
         <div class="row g-5 justify-content-evenly" style="padding-top: 2rem; padding-bottom: 2rem;">
             {% for event in events %}
