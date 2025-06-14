@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from werkzeug.exceptions import HTTPException
-import datetime
+from datetime import datetime
 
 # Create Database
 db = SQLAlchemy()
@@ -56,6 +56,6 @@ def create_app():
     # Context Processing (Templates)
     @app.context_processor
     def get_context():
-        year = datetime.datetime.today().year
+        year = datetime.today().year
         return dict(year=year)
     return app
