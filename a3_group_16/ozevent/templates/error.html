@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
 
-{% from "bootstrap5/form.html" import render_form %}
+{% from 'bootstrap5/form.html' import render_form %}
 
-<!-- Setting Page Title -->
+<!-- Page Title -->
 {% block title %}
-        <title>OzEvent - {{heading}}</title>
-{% endblock %} 
-
-{% block header %}
-        <div class="container mt-4 mb-3">
-            <div class="row g-5 justify-content-center">
-                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Error</h1>
-                </div>
-            </div>
-        </div>
+    <title>OzEvent - {{ heading }}</title>
 {% endblock %}
 
+<!-- Page Header -->
+{% block header %}
+    <div class="container mt-4 mb-3">
+        <div class="row g-5 justify-content-center">
+            <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
+                <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Error</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<!-- Error Notice -->
 {% block content %}
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8 text-center">
-                    <div class="p-4 mb-5">
-                        <p class="fs-3 fw-bold">Something went wrong!</p>
-                        <p class="fs-5 text-muted">{{ error }}</p>
-                    </div>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="p-4 mb-5">
+                    <p class="fs-3 fw-bold">Oh no, something went wrong!</p>
+                    <p class="fs-5 text-muted">{{ error }}</p>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

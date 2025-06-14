@@ -64,7 +64,7 @@
             <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Upcoming Events</h1>
 
             <div class="container" style="padding-top: 2rem;">
-                <div class="row align-items-center" style="padding-left: 4rem;">
+                <div class="row align-items-center" style="padding-left: 0;">
                     
                     <!-- Genre Filter Form -->
                     <div class="col-md-6">
@@ -83,10 +83,11 @@
 
                     <!-- Search Bar Form -->
                     <div class="col-md-6">
-                        <form class="d-flex align-items-center gap-2 searchBar" role="search">
+                        <form class="d-flex align-items-center gap-2 searchBar" role="search" action="{{ url_for('main.search') }}">
                             <label for="search" class="fw-bold text-dark mb-0">Search Event:</label>
-                            <input class="form-control" type="search" placeholder="Find new music..." aria-label="Search">
+                            <input class="form-control" type="search" name="search" placeholder="Find event..." aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
+                            <a href="{{ url_for('main.index') }}" class="btn btn-outline-success">Clear</a>
                         </form>
                     </div>
 
