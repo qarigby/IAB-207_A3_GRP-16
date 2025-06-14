@@ -32,11 +32,11 @@ def create_app():
     login_manager.init_app(app)
 
     # Create User Loader Function (user_id → User)
-    # Internal Import Prevents Circular References
+    # Internal import prevents circular references
     from .models import User
     @login_manager.user_loader
     def load_user(user_id):
-       return db.session.scalar(db.select(User).where(User.id==user_id))
+        return db.session.scalar(db.select(User).where(User.id==user_id))
 
     # Register Blueprints
     from .views import main_bp
@@ -51,12 +51,11 @@ def create_app():
     # Error Handling (404 & 500)
     @app.errorhandler(HTTPException)
     def handle_errors(error):
-       return render_template('error.html', error=error)
+        return render_template('error.html', error=error)
     
-    # Context Processor (Templates)
+    # Context Processing (Templates)
     @app.context_processor
     def get_context():
-      year = datetime.datetime.today().year
-      return dict(year=year)
-
+        year = datetime.datetime.today().year
+        return dict(year=year)
     return app
