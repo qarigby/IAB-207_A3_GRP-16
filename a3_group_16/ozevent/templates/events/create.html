@@ -79,16 +79,25 @@
                                     {{ form.end_time.label(class="form-label") }}
                                     {{ form.end_time(class="form-control") }}
                                 </div>
+                            </div> 
 
-
-                            <div class="form-group row justify-content-center">                         
+                            <div class="form-group row">                         
                                 <!-- Tickets Available -->
                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                     {{ form.available_tickets.label(class="form-label") }}
                                     {{ form.available_tickets(class="form-control") }}
                                 </div>
 
+                                <!-- Ticket Price -->
                                 <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{ form.ticket_price.label(class="form-label") }}
+                                    {{ form.ticket_price(class="form-control") }}
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-12">
                                     <!-- Image -->
                                     {{ form.image.label(class="form-label") }}
                                     {{ form.image(class="form-control") }}

@@ -6,9 +6,12 @@ from flask_login import UserMixin
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    firstname = db.Column(db.String(50), nullable=False)
+    surname = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    phone_number = db.Column(db.String(10), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
     # Relation to Comments:
@@ -30,6 +33,7 @@ class Event(db.Model):
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     available_tickets = db.Column(db.Integer, nullable=False)
+    ticket_price = db.Column(db.String(5), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(400), nullable=False)

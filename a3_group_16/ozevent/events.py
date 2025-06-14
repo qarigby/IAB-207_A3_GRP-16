@@ -37,6 +37,7 @@ def create():
             start_time=form.start_time.data,
             end_time=form.end_time.data,
             available_tickets=form.available_tickets.data,
+            ticket_price=form.ticket_price.data,
             short_description=form.short_description.data,
             description=form.description.data,
             image=db_fp,
@@ -89,6 +90,7 @@ def manage(id):
         event.start_time = form.start_time.data
         event.end_time = form.end_time.data
         event.available_tickets = form.available_tickets.data
+        event.ticket_price = form.ticket_price.data
         event.short_description = form.short_description.data
         event.description = form.description.data
         event.image = db_fp

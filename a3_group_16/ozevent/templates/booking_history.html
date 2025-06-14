@@ -18,8 +18,14 @@
 
                         {% if bookings|length != 0 %}
                             {% for booking in bookings %}
-                            <a href="event-details.html" class="card text-decoration-none mb-4" id="userBooking">
-                                <img src="static/img/beatles_tribute.jpg" class="card-img-top" alt="Beatles Tribute">
+                            <a href="{{ url_for('events.event_details', event_id=booking.event.id) }}" class="card text-decoration-none mb-4" id="userBooking">
+                                <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top">
+                                <span class="status-bubble 
+                                {% if event.status == 'Open' %}bg-open
+                                {% elif event.status == 'Sold Out' %}bg-soldOut
+                                {% elif event.status == 'Cancelled' %}bg-cancelled
+                                {% elif event.status == 'Inactive' %}bg-inactive
+                                {% endif %}">{{ event.status }}</span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-8">
