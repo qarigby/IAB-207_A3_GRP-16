@@ -37,11 +37,12 @@ class Event(db.Model):
     artist = db.Column(db.String(100), index=True) # Artist announcements may be delayed
     genre = db.Column(db.String(50), index=True, nullable=False)
     venue = db.Column(db.String(150), index=True, nullable=False)
+    location = db.Column(db.String(150), index=True, nullable=False)
     date = db.Column(db.Date, index=True, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     available_tickets = db.Column(db.Integer, nullable=False)
-    ticket_price = db.Column(db.String(5), nullable=False)
+    ticket_price = db.Column(db.Float(5), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(400), nullable=False, default='/static/img/default.png')
@@ -56,7 +57,7 @@ class Event(db.Model):
 
     # String Representation (Database)
     def __repr__(self):
-        return f"<Event id={self.id}, name='{self.name}', venue='{self.venue}', date={self.date}>"
+        return f"<Event id={self.id}, title='{self.title}', venue='{self.venue}', date={self.date}>"
 
 # Comments Table
 class Comment(db.Model):

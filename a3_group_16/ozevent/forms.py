@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateField, TimeField, IntegerField, SelectField
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateField, TimeField, IntegerField, SelectField, DecimalField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, ValidationError, NumberRange, Regexp
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 import re
@@ -59,16 +59,17 @@ genre_choices = [
 
 class EventForm(FlaskForm):
     title = StringField('Event Title', validators=[InputRequired('Please enter the event title'), Length(max=100, message='Input too long')])
-    artist = StringField('Artist Name(s)', validators=[InputRequired('Please enter the artist name(s)'), Length(max=100, message='Input too long')])
+    artist = StringField('Artist Name(s)', validators=[Length(max=100, message='Input too long')]) # Artists are optional
     genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre'), Length(max=50, message='Input too long')])
     venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input too long')])
-    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date')])
+    location = StringField('Location', validators=[InputRequired('Please enter the location'), Length(max=150, message='Input too long')])
+    date = DateField('Date', format='%d-%m-%y', validators=[InputRequired('Please enter a date')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
     available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available'), 
                                                                       NumberRange(min=1, message='Quantity must be greater than 1')])
-    ticket_price = StringField('Ticket Price ($)', validators=[InputRequired('Please enter the ticket price'), Length(max=5, message='Cannot be more than $99,999'), 
-                                                               Regexp(r'^\d+$', message='Must contain digits only')])
+    ticket_price = StringField('Ticket Price ($)', validators=[InputRequired('Please enter the ticket price'), 
+                                                               Length(max=7, message='Cannot be more than $99,999.99'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description'), 
                                                                        Length(max=255, message='Must be less than 255 characters long')])
     description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description')])
