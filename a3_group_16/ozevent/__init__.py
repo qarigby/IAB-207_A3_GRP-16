@@ -1,58 +1,61 @@
-# import flask - from 'package' import 'Class'
+# Import Flask - from 'package' import 'Class'
 from flask import Flask, render_template 
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 from werkzeug.exceptions import HTTPException
+from datetime import datetime
 
+# Create Database
 db = SQLAlchemy()
 
-# create a function that creates a web application
-# a web server will run this web application
+# Create Web App
 def create_app():
-  
-    app = Flask(__name__)  # this is the name of the module/package that is calling this app
-    # Should be set to false in a production environment
-    app.debug = True
-    app.secret_key = 'somesecretkey'
-    # set the app configuration data 
+    # Initialise Flask
+    app = Flask(__name__)
+    app.secret_key = 'uncrackable'
+    
+    # Configure/Initialise Database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ozevent.sqlite'
-    # initialise db with flask app
     db.init_app(app)
 
+    # Initialise Bootstrap (Form Styling)
     Bootstrap5(app)
+
+    # Initialise Bcrypt (Secure Hash)
+    Bcrypt(app)
     
-    # initialise the login manager
+    # Configure/Initialise Authentication
     login_manager = LoginManager()
-    
-    # set the name of the login function that lets user login
-    # in our case it is auth.login (blueprintname.viewfunction name)
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'auth.login' # blueprint.view_function
     login_manager.init_app(app)
 
-    # create a user loader function takes userid and returns User
-    # Importing inside the create_app function avoids circular references
+    # Create User Loader Function (user_id → User)
+    # Internal import prevents circular references
     from .models import User
     @login_manager.user_loader
     def load_user(user_id):
-       return db.session.scalar(db.select(User).where(User.id==user_id))
+        return db.session.scalar(db.select(User).where(User.id==user_id))
 
-    from . import views
-    app.register_blueprint(views.main_bp)
+    # Register Blueprints
+    from .views import main_bp
+    app.register_blueprint(main_bp)
+    from .events import events_bp
+    app.register_blueprint(events_bp)
+    from .bookings import booking_bp
+    app.register_blueprint(booking_bp)
+    from .auth import auth_bp
+    app.register_blueprint(auth_bp)
 
-    from . import events
-    app.register_blueprint(events.events_bp)
-
-    from . import bookings
-    app.register_blueprint(bookings.order_bp)
-
-    from . import auth
-    app.register_blueprint(auth.auth_bp)
-
-   #  404 page not found error handling
-    @app.errorhandler(HTTPException) 
-    # inbuilt function which takes error as parameter 
-    def not_found(e): 
-      return render_template("error.html", error=e)
+    # Error Handling (404 & 500)
+    @app.errorhandler(HTTPException)
+    def handle_errors(error):
+        return render_template('error.html', error=error)
     
+    # Context Processing (Templates)
+    @app.context_processor
+    def get_context():
+        year = datetime.today().year
+        return dict(year=year)
     return app

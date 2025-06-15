@@ -16,43 +16,40 @@
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
                         <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Recent Bookings</h1>
 
-                        <!-- Let It Be -->
-                        <a href="event-details.html" class="card text-decoration-none mb-4" id="userBooking">
-                            <img src="static/img/beatles_tribute.jpg" class="card-img-top" alt="Beatles Tribute">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <h5 class="card-title">Let It Be (UK)</h5>
-                                        <h6 class="card-subtitle mt-2 mb-1">Friday, May 2, 2025 at 8:00 PM</h6>
-                                        <h6 class="card-subtitle mt-2 mb-1"> Fortitude Music Hall, Fortitude Valley, QLD</h6>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <h5 class="card-title">$57.83</h5>
-                                        <h6 class="card-subtitle mt-2 mb-1"><strong>#9008-8538-5721</strong></h6>
-                                        <h6 class="card-subtitle mt-2 mb-1"><strong>21/04/2025 16:36</strong></h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- Atlanta Symphony Orchestra -->
-                        <a href="event-details.html" class="card text-decoration-none mb-4" id="userBooking">
-                            <img src="static/img/live_orchestra.jpg" class="card-img-top" alt="Symphony Orchestra">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <h5 class="card-title">Atlanta Symphony Orchestra (US)</h5>
-                                        <h6 class="card-subtitle mt-2 mb-1">Monday, July 8, 2025 at 5:30 PM</h6>
-                                        <h6 class="card-subtitle mt-2 mb-1">Brisbane Entertainment Centre, Boondall, QLD</h6>
-                                    </div>
-                                    <div class="col-4 text-lg-end">
-                                        <h5 class="card-title">$89.98</h5>
-                                        <h6 class="card-subtitle mt-2 mb-1"><strong>#9360-4921-4896</strong></h6>
-                                        <h6 class="card-subtitle mt-2 mb-1"><strong>18/03/2025 09:54</strong></h6>
+                        {% if bookings|length != 0 %}
+                            {% for booking in bookings %}
+                            <a href="{{ url_for('events.event_details', event_id=booking.event.id) }}" class="card text-decoration-none mb-4" id="userBooking">
+                                <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top">
+                                <span class="status-bubble 
+                                {% if event.status == 'Open' %}bg-open
+                                {% elif event.status == 'Sold Out' %}bg-soldOut
+                                {% elif event.status == 'Cancelled' %}bg-cancelled
+                                {% elif event.status == 'Inactive' %}bg-inactive
+                                {% endif %}">{{ event.status }}</span>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-title">{{ booking.event.name }}</h5> 
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ booking.event.date.strftime('%b %d, %Y') }} at {{ booking.event.start_time.strftime('%I:%M %p') }}</h6>
+                                            <h6 class="card-subtitle mt-2 mb-1">{{ booking.event.venue }}</h6>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <h5 class="card-title">Number of Tickets: {{ booking.num_tickets }}</h5>
+                                            <h6 class="card-subtitle mt-2 mb-1"><strong>Booking Reference: {{ booking.reference }}</strong></h6>
+                                            <h6 class="card-subtitle mt-2 mb-1"><strong>Booked on: {{ booking.date_booked.strftime('%b %d, %Y at %I:%M %p') }}</strong></h6>
+                                        </div>
                                     </div>
                                 </div>
+                            </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="container mt-4 mb-3">
+                                <div class="text-center">
+                                    <h4>You have no event bookings.</h4>
+                                    <h5>Click <a href="{{url_for('main.index')}}">here</a> to browse events.</h5>
+                                </div>
                             </div>
-                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 .DS_Store
 *.pyc
 *.db
-*.sql3
-*.sql
+*.sqlite
+*.sqlite3

@@ -57,7 +57,10 @@ def register():
             uname = register.username.data
             pwd = register.password.data
             email = register.email.data
-            name = register.name.data
+            fname = register.firstname.data
+            sname = register.surname.data
+            phone = register.phone_number.data
+            address = register.address.data
 
             #check if a user exists
             user = db.session.scalar(db.select(User).where(User.username==uname))
@@ -76,7 +79,7 @@ def register():
             pwd_hash = generate_password_hash(pwd)
 
             #create a new User model object
-            new_user = User(name=name, username=uname, password_hash=pwd_hash, email=email)
+            new_user = User(firstname=fname, surname=sname, username=uname, password_hash=pwd_hash, email=email, phone_number=phone, address=address)
             db.session.add(new_user)
             db.session.commit()
 
