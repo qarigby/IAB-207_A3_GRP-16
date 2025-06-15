@@ -11,9 +11,10 @@ Event.query.delete()
 # Add new sample events
 events = [
     Event(
-        name="Let It Be (UK)",
+        title="Let It Be (UK)",
         genre="rock",
         venue="Fortitude Valley Music Hall",
+        location="Fortitude Valley, Brisbane",
         date=date(2025, 5, 30),
         start_time=time(20, 0),
         end_time=time(22, 0),
@@ -26,9 +27,10 @@ events = [
         owner_id=1
     ),
     Event(
-        name="Seven Wonders",
+        title="Seven Wonders",
         genre="pop",
         venue="Brisbane Powerhouse",
+        location="New Farm, Brisbane",
         date=date(2025, 6, 10),
         start_time=time(18, 0),
         end_time=time(20, 0),
@@ -41,9 +43,10 @@ events = [
         owner_id=1
     ),
     Event(
-        name="Orphaned Land",
+        title="Orphaned Land",
         genre="metal",
         venue="Riverstage",
+        location="Botanic Gardens, Brisbane",
         date=date(2025, 6, 22),
         start_time=time(21, 0),
         end_time=time(23, 0),
@@ -56,9 +59,10 @@ events = [
         owner_id=1
     ),
     Event(
-        name="Eminem Live",
+        title="Eminem Live",
         genre="hip hop",
         venue="Suncorp Stadium",
+        location="Milton, Brisbane",
         date=date(2025, 8, 1),
         start_time=time(20, 0),
         end_time=time(22, 30),
@@ -71,9 +75,10 @@ events = [
         owner_id=1
     ),
     Event(
-        name="Atlanta Symphony",
+        title="Atlanta Symphony",
         genre="classical",
         venue="Entertainment Centre",
+        location="Boondall, Brisbane",
         date=date(2025, 7, 14),
         start_time=time(19, 30),
         end_time=time(21, 30),
@@ -86,9 +91,10 @@ events = [
         owner_id=1
     ),
     Event(
-        name="Kurt Baker",
+        title="Kurt Baker",
         genre="rock",
         venue="Brisbane Convention Centre",
+        location="Boondall, Brisbane",
         date=date(2025, 1, 25),
         start_time=time(18, 30),
         end_time=time(20, 00),
@@ -104,4 +110,4 @@ events = [
 
 db.session.add_all(events)
 db.session.commit()
-print("Seeded 5 demo events into the database.")
+print("Seeded 5 demo events into the database")
