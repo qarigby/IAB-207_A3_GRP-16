@@ -3,7 +3,7 @@ from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordFiel
 from wtforms.validators import InputRequired, Length, Email, EqualTo, ValidationError, NumberRange, Regexp
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 import re
-from datetime import date
+from datetime import date, datetime
 
 # Login Form
 class LoginForm(FlaskForm):
@@ -79,8 +79,9 @@ class EventForm(FlaskForm):
     
     # Field Validators
     def validate_date(self, field):
-        if field.data < date.today():
-            raise ValidationError('Date cannot be in the past')
+        pass
+        # if field.data < date.today():
+        #     raise ValidationError('Date cannot be in the past')
         
     def validate(self, extra_validators=None):
         # Run default validations first

@@ -53,6 +53,7 @@ def create():
             artist=form.artist.data,
             genre=form.genre.data,
             venue=form.venue.data,
+            location=form.location.data,
             date=form.date.data,
             start_time=form.start_time.data,
             end_time=form.end_time.data,
@@ -109,6 +110,7 @@ def manage(id):
         event.artist = form.artist.data
         event.genre = form.genre.data
         event.venue = form.venue.data
+        event.location = form.location.data
         event.date = form.date.data
         event.start_time = form.start_time.data
         event.end_time = form.end_time.data
