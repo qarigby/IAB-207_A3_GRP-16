@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
+{% from 'bootstrap5/form.html' import render_form %}
+
 <!-- Setting Page Title -->
 {% block title %}
-        <title>OzEvent</title>
-        <!-- Need to add dynamic event name to the title -->
-{% endblock %} 
+        <title>OzEvent - {{ heading }}</title>
+{% endblock %}
 
 <!-- Event Details -->
-{% block content %} 
+{% block content %}
         <section>
             <div class="container mt-5 mb-5">
                 <div class="row justify-content-center">
@@ -17,8 +18,8 @@
                             <!-- Cover Image -->
                             <div class="form-group row mb-4">
                                 <div class="col-12 text-center">
-                                    <img src="../../static/img/beatles_tribute.jpg" alt="Event Image" class="event-image">
-                                    <h1 class="form-title text-center">Let It Be (United Kingdom)</h1>
+                                    <img src="{{ event.image }}" alt="Event Image" class="event-image">
+                                    <h1 class="form-title text-center">{{ event.title }}</h1>
                                 </div>
                             </div>
 
@@ -26,13 +27,7 @@
                             <div class="form-group row">
                                 <div class="col-12">
                                     <div class="event-description text-center">
-                                        <p> 
-                                            Get a glimpse of The Beatles with Let It Be, a captivating theatre performance 
-                                            breathing new life into the timeless classics. Let It Be captures the authentic 
-                                            spirit of The Fab Four, taking audiences on a journey through time to the golden 
-                                            era of music. Sing along to their catchy hits and dance all night to this stunning 
-                                            new musical showcasing the legendary story of The Beatles.
-                                        </p>
+                                        <p>{{ event.description }}</p>
                                         <hr class="row-divider mb-4">
                                     </div>
                                 </div>
@@ -42,15 +37,15 @@
                             <div class="form-group row text-center" id="middleText">
                                 <div class="col-6 col-sm-4 mb-2">
                                     <h4 class="mb-3" id="middleHeading">Date</h4>
-                                    <p>Friday, May 2<br>Doors at 7:00 PM<br>Show at 8:00 PM</p>
+                                    <p>{{ event.date }}<br>Doors at {{ event.start_time }}<br>Finishes at {{ event.end_time }}</p>
                                 </div>
                                 <div class="col-6 col-sm-4 mb-2 column-divider">
                                     <h4 class="mb-3" id="middleHeading">Venue</h4>
-                                    <p>Fortitude Music Hall<br>Fortitude Valley<br>Brisbane QLD</p>
+                                    <p>{{ event.venue }}<br>{{ event.location }}</p>
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <h4 class="mb-3" id="middleHeading">Tickets</h4>
-                                    <p>General Admission<br>Reserved Seating<br>Backstage Passes</p>
+                                    <p>{{ event.available_tickets }} tickets remain!<br>${{ event.ticket_price }}</p>
                                 </div>
                                 <div>
                                     <hr class="row-divider mb-4">
@@ -74,18 +69,14 @@
                                     <div id="collapseComments" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="comment-section">
-                                                <div class="comment">
-                                                    <img src="../../static/img/pfp.jpg" alt="Geoff's Avatar" class="avatar">
-                                                    <p><b>Geoff Dunn</b><br>I hope they play Blackbird!</p>
-                                                </div>
-                                                <div class="comment">
-                                                    <img src="../../static/img/pfp.jpg" alt="Jamie's Avatar" class="avatar">
-                                                    <p><b>Jamie Stower</b><br>Saw this band play last year... I'm obsessed.</p>
-                                                </div>
-                                                <div class="comment">
-                                                    <img src="../../static/img/pfp.jpg" alt="Lynn's Avatar" class="avatar">
-                                                    <p><b>Lynn Adams</b><br>My friend Amy bought tickets for my birthday! I can't wait!!</p>
-                                                </div>
+                                                {% for comment in event.comments %}
+                                                    <div class="comment">
+                                                        <img src="static/img/pfp.jpg" alt="User Avatar" class="avatar">
+                                                        <p><b>{{ comment.user.username }} {{ comment.created_at.strftime('%b %d, %Y at %I:%M %p') }}</b><br>{{ comment.text }}</p>
+                                                    </div>
+                                                {% else %}
+                                                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +90,8 @@
                                     </h2>
                                     <div id="collapsePostComment" class="accordion-collapse collapse">
                                         <div class="accordion-body">
-                                            <form id="commentForm">
+                                            <form id="commentForm" method="POST" action="{{ url_for('events.comment', event_id=event.id) }}">
+                                                {{ form.hidden_tag() }}
                                                 <div>
                                                     <textarea class="form-control" id="commentTextArea" aria-label="Write your comment" placeholder="Write your comment..."></textarea>
                                                 </div>
