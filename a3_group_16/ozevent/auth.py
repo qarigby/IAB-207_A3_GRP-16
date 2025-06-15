@@ -6,10 +6,10 @@ from .forms import LoginForm, RegisterForm
 from . import db
 from ozevent.utils import logout_required
 
-# Create a blueprint - make sure all BPs have unique names
+# Define Authentication Blueprint
 auth_bp = Blueprint('auth', __name__)
 
-# Allows a user to login to their account
+# Register Route: Log In
 @auth_bp.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
@@ -19,15 +19,15 @@ def login():
 
     if login_form.validate_on_submit():
         # Assign fields from form to database object
-        user_name = login_form.username.data
+        username = login_form.username.data
         password = login_form.password.data
 
         # Match with the user in the system
-        user = db.session.scalar(db.select(User).where(User.username==user_name))
+        user = db.session.scalar(db.select(User).where(User.username==username))
 
         # If the user credentials do not match the db
         if user is None:
-            error = 'That username doesnt exist, please try again'
+            error = 'That username does not exist, please try again'
         
         # Checks password is correct
         elif not check_password_hash(user.password_hash, password): # takes the hash and cleartext password
@@ -39,58 +39,57 @@ def login():
             nextp = request.args.get('next') # this gives the url from where the login page was accessed
             print(nextp)
             if nextp is None or not nextp.startswith('/'):
-                flash("Login Successful.")
+                flash('Login successful')
                 return redirect(url_for('main.index'))
             return redirect(nextp)
         else:
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
 
-# Allows a user to register with the system
+# Register Route: Sign Up
 @auth_bp.route('/register', methods=['GET', 'POST'])
 @logout_required
 def register():
     register = RegisterForm()
     
     if (register.validate_on_submit()==True):
-            #get username, password and email from the form
+            # Get username, password and email from the form
             uname = register.username.data
             pwd = register.password.data
             email = register.email.data
             fname = register.firstname.data
             sname = register.surname.data
             phone = register.phone_number.data
-            address = register.address.data
+            address = register.street_address.data
 
-            #check if a user exists
+            # Check if user exists
             user = db.session.scalar(db.select(User).where(User.username==uname))
             email_exists = db.session.scalar(db.select(User).where(User.email==email))
 
-            if user:#this returns true when user is not None
+            if user: # This returns true when user is not None
                 flash('Username already exists, please try another')
                 return redirect(url_for('auth.register'))
             
             # If ther email already exists in the database
             elif email_exists:
-                flash('A user with that email already exists, please use another email, or log-in to an existing account.') 
+                flash('A user with that email already exists, please use another email or log in to an existing account') 
                 return redirect(url_for('auth.register'))
             
             # Storing the password as a hash
             pwd_hash = generate_password_hash(pwd)
 
-            #create a new User model object
-            new_user = User(firstname=fname, surname=sname, username=uname, password_hash=pwd_hash, email=email, phone_number=phone, address=address)
+            # Create new User model object
+            new_user = User(firstname=fname, surname=sname, username=uname, password_hash=pwd_hash, email=email, phone_number=phone, street_address=address)
             db.session.add(new_user)
             db.session.commit()
 
-            #commit to the database and redirect to HTML page
-            flash("Registration Successful.")
+            # Commit to database and redirect to HTML page
+            flash('Registration successful')
             return redirect(url_for('auth.login'))
-    
     else:
         return render_template('user.html', form=register, heading='Register')
     
-# Allows a user to logout of the system
+# Register Route: Log Out
 @auth_bp.route('/logout')
 @login_required
 def logout():
