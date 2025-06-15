@@ -5,10 +5,10 @@ from .forms import EventForm
 from .utils import check_upload_file
 from . import db 
 
-# ✅ Define blueprint BEFORE using it
 events_bp = Blueprint('events', __name__, url_prefix='/events')
 
-# ✅ Event details route for landing page dynamic links
+
+# This is what benny did for events details pages - not sure if you want to change
 @events_bp.route('/<int:event_id>')
 def event_details(event_id):
     event = db.session.get(Event, event_id)
@@ -16,7 +16,6 @@ def event_details(event_id):
         abort(404)
     return render_template('events/show.html', event=event)
 
-# Optional placeholder
 @events_bp.route('/')
 def show():
     return render_template('events/show.html')
