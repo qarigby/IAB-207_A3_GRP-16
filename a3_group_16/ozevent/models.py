@@ -8,13 +8,12 @@ class User(db.Model, UserMixin):
 
     # Table Columns (Attributes)
     id = db.Column(db.Integer, primary_key=True)
-
     firstname = db.Column(db.String(50), nullable=False)
     surname = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
     phone_number = db.Column(db.String(10), nullable=False)
-    address = db.Column(db.String(255), nullable=False)
+    street_address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
     # Relation to Comments:
@@ -34,7 +33,7 @@ class Event(db.Model):
 
     # Table Columns (Attributes)
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), index=True, nullable=False)
+    title = db.Column(db.String(100), index=True, nullable=False)
     artist = db.Column(db.String(100), index=True) # Artist announcements may be delayed
     genre = db.Column(db.String(50), index=True, nullable=False)
     venue = db.Column(db.String(150), index=True, nullable=False)
@@ -45,10 +44,8 @@ class Event(db.Model):
     ticket_price = db.Column(db.String(5), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    image = db.Column(db.String(400), nullable=False, default='/static/img/default.png') # Dont actually have this in the static folder
+    image = db.Column(db.String(400), nullable=False, default='/static/img/default.png')
     status = db.Column(db.String(50), index=True, nullable=False)
-
-
 
     # Table Relations
     comments = db.relationship('Comment', backref='event')
@@ -60,7 +57,6 @@ class Event(db.Model):
     # String Representation (Database)
     def __repr__(self):
         return f"<Event id={self.id}, name='{self.name}', venue='{self.venue}', date={self.date}>"
-
 
 # Comments Table
 class Comment(db.Model):
@@ -79,7 +75,6 @@ class Comment(db.Model):
     def __repr__(self):
         preview = (self.text[:20] + '...') if len(self.text) > 20 else self.text
         return f"<Comment id={self.id}, text='{preview}', user_id={self.user_id}, event_id={self.event_id}>"
-    
 
 # Bookings Table
 class Booking(db.Model):
