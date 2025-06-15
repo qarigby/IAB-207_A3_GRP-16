@@ -2,122 +2,129 @@
 
 {% from 'bootstrap5/form.html' import render_form %}
 
-<!-- Setting Page Title -->
+<!-- Set Page Title -->
 {% block title %}
-        <title>OzEvent - Create Event</title>
+        <title>OzEvent - {{ heading }}</title>
         <!-- Need to add dynamic event name to the title -->
 {% endblock %} 
 
 <!-- Event Creation Form -->
 {% block content %}
-        <section>
-            <div class="container mt-5 mb-4">
-                <div class="row justify-content-center">
-                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                        <form id="eventForm" method="POST" enctype="multipart/form-data">
-                            {{ form.hidden_tag() }}
-                            <h1 class="form-title pt-2 pb-4 text-center">Create Your Event</h1>
-                            <div class="form-group row">
-                                <div class="col-sm-5 col-md-5 col-lg-6">
-                                    <!-- Event Title -->
-                                    {{ form.name.label(class="form-label") }}
-                                    {{ form.name(class="form-control") }}
-                                </div>
-
-                                <!-- Genre -->
-                                <div class="col-sm-5 col-md-5 col-lg-6">
-                                    {{ form.genre.label(class="form-label") }}
-                                    {{ form.genre(class="form-control") }}
-                                </div>
-                            </div>
-                                
-                            <div class="form-group row">
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <!-- Artist Name -->
-                                    {{ form.artist.label(class="form-label") }}
-                                    {{ form.artist(class="form-control") }}
-                                </div>
-                                
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <!-- Venue -->
-                                    {{ form.venue.label(class="form-label") }}
-                                    {{ form.venue(class="form-control") }}
-                                </div>
+    <section>
+        <div class="container mt-5 mb-4">
+            <div class="row justify-content-center">
+                <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <form id="eventForm" method="POST" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+                        <h1 class="form-title pt-2 pb-4 text-center">Create Your Event</h1>
+                        <div class="form-group row">
+                            <div class="col-sm-5 col-md-5 col-lg-6">
+                                <!-- Event Title -->
+                                {{ form.title.label(class="form-label") }}
+                                {{ form.title(class="form-control") }}
                             </div>
 
-                            <div class="form-group row">
-                                <!-- Short Description -->
-                                <div class="col-12">
-                                    {{ form.short_description.label(class="form-label") }}
-                                    {{ form.short_description(class="form-control") }}
-                                </div>
+                            <!-- Genre -->
+                            <div class="col-sm-5 col-md-5 col-lg-6">
+                                {{ form.genre.label(class="form-label") }}
+                                {{ form.genre(class="form-control") }}
+                            </div>
+                        </div>
+                            
+                        <div class="form-group row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <!-- Artist Name -->
+                                {{ form.artist.label(class="form-label") }}
+                                {{ form.artist(class="form-control") }}
+                            </div>
+                            
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <!-- Venue -->
+                                {{ form.venue.label(class="form-label") }}
+                                {{ form.venue(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                <!-- Location -->
+                                {{ form.location.label(class="form-label") }}
+                                {{ form.location(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- Short Description -->
+                            <div class="col-12">
+                                {{ form.short_description.label(class="form-label") }}
+                                {{ form.short_description(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- Description -->
+                            <div class="col-12">
+                                {{ form.description.label(class="form-label") }}
+                                {{ form.description(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- Date -->
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                {{ form.date.label(class="form-label") }}
+                                {{ form.date(class="form-control") }}
                             </div>
 
-                            <div class="form-group row">
-                                <!-- Description -->
-                                <div class="col-12">
-                                    {{ form.description.label(class="form-label") }}
-                                    {{ form.description(class="form-control") }}
-                                </div>
+                            <!-- Start Time -->
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                {{ form.start_time.label(class="form-label") }}
+                                {{ form.start_time(class="form-control") }}
                             </div>
 
-                            <div class="form-group row">
-                                <!-- Date -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.date.label(class="form-label") }}
-                                    {{ form.date(class="form-control") }}
-                                </div>
+                            <!-- End Time -->
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                {{ form.end_time.label(class="form-label") }}
+                                {{ form.end_time(class="form-control") }}
+                            </div>
+                        </div> 
 
-                                <!-- Start Time -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.start_time.label(class="form-label") }}
-                                    {{ form.start_time(class="form-control") }}
-                                </div>
-
-                                <!-- End Time -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.end_time.label(class="form-label") }}
-                                    {{ form.end_time(class="form-control") }}
-                                </div>
-                            </div> 
-
-                            <div class="form-group row">                         
-                                <!-- Tickets Available -->
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.available_tickets.label(class="form-label") }}
-                                    {{ form.available_tickets(class="form-control") }}
-                                </div>
-
-                                <!-- Ticket Price -->
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.ticket_price.label(class="form-label") }}
-                                    {{ form.ticket_price(class="form-control") }}
-                                </div>
-                                
+                        <div class="form-group row">                         
+                            <!-- Tickets Available -->
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                {{ form.available_tickets.label(class="form-label") }}
+                                {{ form.available_tickets(class="form-control") }}
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <!-- Image -->
-                                    {{ form.image.label(class="form-label") }}
-                                    {{ form.image(class="form-control") }}
-                                </div>
+                            <!-- Ticket Price -->
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                {{ form.ticket_price.label(class="form-label") }}
+                                {{ form.ticket_price(class="form-control") }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <!-- Image -->
+                                {{ form.image.label(class="form-label") }}
+                                {{ form.image(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row pt-4 pb-3 justify-content-center">
+                            <!-- Clear Form Button -->
+                            <div class="col-12 col-md-4 mb-3">
+                                <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
                             </div>
 
-                            <div class="form-group row pt-4 pb-3 justify-content-center">
-                                <!-- Clear Form Button -->
-                                <div class="col-12 col-md-4 mb-3">
-                                    <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
-                                </div>
-
-                                <!-- Create Now Button -->
-                                <div class="col-12 col-md-4">
-                                    {{ form.submit(class="btn w-100", id="createNowBtn") }}
-                                </div>
+                            <!-- Create Now Button -->
+                            <div class="col-12 col-md-4">
+                                {{ form.submit(class="btn w-100", id="createNowBtn") }}
                             </div>
-                        </form>    
-                    </div>
+                        </div>
+                    </form>    
                 </div>
-            </div> 
-        </section>
+            </div>
+        </div> 
+    </section>
 {% endblock %}

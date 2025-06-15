@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<!-- Page Title -->
-    <title>OzEvent - Australia's Answer to Live Music</title>
+<!-- Set Page Title -->
+    <title>OzEvent - Australia's Answer For Live Music</title>
 {% endblock %}
 
 {% block header %}
@@ -99,7 +99,7 @@
             <div class="row g-5 justify-content-evenly" style="padding-top: 2rem; padding-bottom: 2rem;">
                 {% for event in events %}
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 event" data-genre="{{ event.genre }}">
-                    <a href="{{ url_for('events.event_details', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
+                    <a href="{{ url_for('events.show', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
                         <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top" alt="{{ event.title }}">
                         <span class="status-bubble 
                             {% if event.status == 'Open' %}bg-open
