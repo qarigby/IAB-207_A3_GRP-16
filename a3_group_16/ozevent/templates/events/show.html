@@ -17,9 +17,9 @@
 
                             <!-- Cover Image -->
                             <div class="form-group row mb-4">
-                                <div class="col-12 text-center">
-                                    <img src="{{ event.image }}" alt="Event Image" class="event-image">
-                                    <h1 class="form-title text-center">{{ event.title }}</h1>
+                                <div class="col-12 text-center position-relative">
+                                    <img src="{{ url_for('static', filename='img/' ~ event.image) }}" alt="Event Image" class="event-image img-fluid w-100">
+                                    <h1 class="form-title position-absolute top-50 start-50 translate-middle">{{ event.title }}</h1>
                                 </div>
                             </div>
 
@@ -37,7 +37,7 @@
                             <div class="form-group row text-center" id="middleText">
                                 <div class="col-6 col-sm-4 mb-2">
                                     <h4 class="mb-3" id="middleHeading">Date</h4>
-                                    <p>{{ event.date }}<br>Doors at {{ event.start_time }}<br>Finishes at {{ event.end_time }}</p>
+                                    <p>{{ event.date.strftime('%b %d, %Y') }}<br>Starts at {{ event.start_time.strftime('%I:%M %p') }}<br>Finishes at {{ event.end_time.strftime('%I:%M %p') }}</p>
                                 </div>
                                 <div class="col-6 col-sm-4 mb-2 column-divider">
                                     <h4 class="mb-3" id="middleHeading">Venue</h4>

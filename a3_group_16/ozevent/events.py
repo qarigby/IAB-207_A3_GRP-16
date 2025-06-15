@@ -22,14 +22,22 @@ def show(event_id):
 @login_required
 def comment(event_id):
     form = CommentForm()
-    event = db.session.scalar(db.select(Event).where(Event.id==event_id))
+    event = db.session.scalar(db.select(Event).where(Event.id == event_id))
+
     if form.validate_on_submit():
-        comment = Comment(text=form.text.data, event_id=event, user_id=current_user)
+        print("Form submitted and validated")
+        comment = Comment(
+            text=form.text.data,
+            event_id=event.id,
+            user_id=current_user.id
+        )
         db.session.add(comment)
         db.session.commit()
-        flash('Your comment was successfully posted.')
-        print(f"Comment posted: <'{form.text.data}'>")
-    return redirect(url_for('events.show', event_id=event_id))
+        flash('Your comment was successfully posted.')  
+
+    # If GET or validation fails, show the same page again
+    print("Form not validated or not a POST request")
+    return render_template("events/show.html", form=form, event=event)
 
 # Register Route: Create Event
 @events_bp.route('/create', methods=['GET', 'POST'])
