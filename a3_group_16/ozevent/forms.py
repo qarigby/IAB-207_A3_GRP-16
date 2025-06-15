@@ -77,7 +77,7 @@ class EventForm(FlaskForm):
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
     available_tickets = IntegerField('Number of Available Tickets', validators=[InputRequired('Please enter the number of available tickets'), NumberRange(min=1, message="Quantity must be greater than 1")])
-    ticket_price = StringField('Ticket Price ($)', validators=[InputRequired("Please enter the ticket price"), Length(max=5, message="Cannot be more than $99,999"), Regexp(r'^\d+$', message="Must contain digits only")])
+    ticket_price = StringField('Ticket Price ($)', validators=[InputRequired("Please enter the ticket price"), Length(max=5, message="Cannot be more than $99,999"), Regexp(r'^\d+(\.\d{1,2})?$', message="Must only contain digits or decimal point")])
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a short description'), Length(max=255, message="Must be less than 255 characters long")])
     description = TextAreaField('Description', validators=[InputRequired('Please enter a description of the event')])
     image = FileField('Cover Image', validators=[FileRequired(message='An image must be uploaded'), FileAllowed(ALLOWED_FILES, message='Only PNG or JPG files allowed')])

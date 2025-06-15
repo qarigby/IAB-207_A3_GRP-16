@@ -120,8 +120,8 @@ def cancel(id):
     if not user_event:
         abort(403)
 
-    if user_event.status == 'open':
-        user_event.status = 'cancelled'
+    if user_event.status == 'Open' or user_event.status == 'Sold Out':
+        user_event.status = 'Cancelled'
         db.session.commit()
         flash("Event cancelled successfully.")
     else:

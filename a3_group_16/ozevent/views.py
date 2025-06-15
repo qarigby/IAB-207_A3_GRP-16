@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .models import Event
 from . import db
@@ -9,7 +10,13 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     # Get events from db
+    dt_now = datetime.now().date()
     events = Event.query.all()
+
+    for event in events:
+        if event.date < dt_now and event.status != 'Inactive':
+            event.status = 'Inactive'
+            db.session.commit()
 
     # Get distinct genres for the dropdown
     genres = db.session.query(Event.genre).distinct().all()
