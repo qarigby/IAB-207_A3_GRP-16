@@ -10,21 +10,23 @@ def logout_required(f):
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
             flash("You're already logged in.")
-            return redirect(url_for('main.index')) # redirect the user back to the home page if logged in
+            return redirect(url_for('main.index')) # Redirect user back to home page if logged in
         return f(*args, **kwargs)
     return decorated_function
 
-# Checks event creation form was provided a valid file
+# Check event creation form was provided a valid file
 def check_upload_file(form):
-  # get file data from form  
-  fp = form.image.data
-  filename = fp.filename
-  # get the current path of the module file… store image file relative to this path  
-  BASE_PATH = os.path.dirname(__file__)
-  # upload file location – directory of this file/static/image
-  upload_path = os.path.join(BASE_PATH,'static/img',secure_filename(filename))
-  # store relative path in DB as image location in HTML is relative
-  db_upload_path = '/static/img/' + secure_filename(filename)
-  # save the file and return the db upload path  
-  fp.save(upload_path)
-  return db_upload_path
+    img_file = form.image.data
+    if img_file:
+        # Sanitise filename for security
+        filename = secure_filename(img_file.filename)
+        # Get current path of module file
+        base_path = os.path.dirname(__file__)
+        # Upload file location – new directory
+        upload_path = os.path.join(base_path, 'static/img', filename)
+        # Store relative path in database as img location in HTML is relative
+        db_upload_path = '/static/img/' + filename
+        # Save file & return path
+        img_file.save(upload_path)
+        return db_upload_path
+    return None
