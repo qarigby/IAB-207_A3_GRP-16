@@ -1,5 +1,7 @@
+# Ignore files from being committed to the repository
 .DS_Store
 *.pyc
 *.db
+*.sql
 *.sqlite
 *.sqlite3

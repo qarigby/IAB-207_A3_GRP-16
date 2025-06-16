@@ -7,8 +7,9 @@ app = create_app()
 app.app_context().push()
 
 # Optional: clear old logs
-Event.query.delete()
-User.query.delete()
+db.session.query(Event).delete()
+db.session.query(User).delete()
+db.session.commit()
 
 # Add new sample events
 events = [
@@ -22,9 +23,9 @@ events = [
         end_time=time(22, 0),
         status="Open",
         available_tickets=200,
-        ticket_price=200,
+        ticket_price=90,
         short_description="Experience the unique magic of The Beatles with this incredible tribute act from the UK.",
-        description="Join us for a magical evening of timeless classics performed by the UK's best Beatles tribute band.",
+        description="Step into a world of nostalgia and musical brilliance as Let It Be (UK) brings the unforgettable sound of The Beatles to life. This acclaimed tribute act from the UK delivers a captivating performance, recreating the iconic harmonies, energy, and charisma that made The Beatles legendary. Sing along to timeless classics, relive the golden era of rock, and immerse yourself in a night filled with the spirit and magic of the Fab Four. Perfect for fans of all ages, this show promises an authentic and exhilarating Beatles experience.",
         image="beatles_tribute.jpg",
         owner_id=1
     ),
@@ -33,14 +34,14 @@ events = [
         genre="Pop",
         venue="Brisbane Powerhouse",
         location="New Farm, Brisbane",
-        date=date(2025, 6, 10),
+        date=date(2025, 7, 10),
         start_time=time(18, 0),
         end_time=time(20, 0),
         status="Open",
         available_tickets=150,
         ticket_price=110,
         short_description="Treat yourself to relaxing ocean tones with this rock outfit from the coast of Spain.",
-        description="Experience the harmonies and hits of Fleetwood Mac with this spectacular Spanish tribute band.",
+        description="Let the soothing sounds of Seven Wonders transport you to the sun-kissed shores of Spain. This talented rock group blends oceanic melodies with pop sensibilities, creating a relaxing yet invigorating musical journey. Enjoy a night of smooth vocals, intricate guitar work, and captivating rhythms that evoke the beauty and tranquility of the coast. Whether you're a fan of pop, rock, or simply great live music, Seven Wonders promises an unforgettable evening of musical escape.",
         image="acoustic_act.jpg",
         owner_id=1
     ),
@@ -49,30 +50,30 @@ events = [
         genre="Metal",
         venue="Riverstage",
         location="Botanic Gardens, Brisbane",
-        date=date(2025, 6, 22),
+        date=date(2025, 8, 22),
         start_time=time(21, 0),
         end_time=time(23, 0),
         status="Open",
         available_tickets=500,
-        ticket_price=50,
+        ticket_price=70,
         short_description="Hear the thunderous roar of modern prog metal with this award-winning Israeli band.",
-        description="Middle Eastern melodies and metal riffs collide in this unique live performance from Orphaned Land.",
+        description="Prepare for a powerful night as Orphaned Land, Israel's award-winning progressive metal band, takes the stage. Fusing thunderous metal riffs with Middle Eastern melodies, their music is a unique blend of cultures and sounds. Experience the intensity, passion, and technical mastery that have earned them a global following. This is more than just a concert—it's a musical journey that breaks boundaries and unites fans through the universal language of metal.",
         image="metal_band.jpg",
         owner_id=1
     ),
     Event(
-        title="Eminem Live",
+        title="Eminem",
         genre="Hip Hop",
         venue="Suncorp Stadium",
         location="Milton, Brisbane",
-        date=date(2025, 8, 1),
+        date=date(2025, 9, 1),
         start_time=time(20, 0),
         end_time=time(22, 30),
         status="Cancelled",
         available_tickets=1000,
-        ticket_price=250,
+        ticket_price=180,
         short_description="Feel the raw energy and wordful mastery of Eminem, Detroit's very own lyrical miracle.",
-        description="Eminem was scheduled to deliver a high-energy set with iconic tracks. This event has since been cancelled.",
+        description="Eminem, Detroit's legendary wordsmith, was set to electrify Suncorp Stadium with his signature blend of raw energy, rapid-fire lyrics, and unforgettable stage presence. Fans anticipated a night packed with chart-topping hits, emotional storytelling, and the kind of intensity only Eminem can deliver. Although this event has been cancelled, the excitement and anticipation surrounding his performance remain a testament to his enduring impact on hip hop and music lovers worldwide.",
         image="eminem_concert.jpg",
         owner_id=1
     ),
@@ -86,9 +87,9 @@ events = [
         end_time=time(21, 30),
         status="Sold Out",
         available_tickets=300,
-        ticket_price=75,
+        ticket_price=100,
         short_description="Experience the timeless brilliance of classical music with the Atlanta Symphony Orchestra.",
-        description="An enchanting evening of symphonic masterpieces performed by the world-renowned Atlanta Symphony Orchestra.",
+        description="Join the world-renowned Atlanta Symphony Orchestra for an enchanting evening of classical masterpieces. Let the orchestra's exquisite musicianship and passion for music sweep you away as they perform works by the greatest composers in history. From stirring symphonies to delicate chamber pieces, this sold-out concert promises a night of elegance, emotion, and unforgettable artistry. Perfect for classical aficionados and newcomers alike, this is a musical event not to be missed.",
         image="live_orchestra.jpg",
         owner_id=1
     ),
@@ -104,7 +105,7 @@ events = [
         available_tickets=150,
         ticket_price=80,
         short_description="Catch the electrifying energy of Kurt Baker as he rocks the stage with infectious tunes.",
-        description="Experience the high-voltage thrill of Kurt Baker live in concert, where every performance crackles with raw energy and unstoppable rhythm. Known for his infectious blend of power pop, punk, and rock 'n' roll, Kurt lights up the stage with catchy hooks, driving beats, and a magnetic presence that pulls the crowd into the heart of the show. Whether you're a longtime fan or a newcomer to his sound, get ready to dance, sing, and lose yourself in a night of pure, electrifying fun.",
+        description="Get ready for a high-voltage night as Kurt Baker brings his infectious energy and catchy rock tunes to the stage. Known for his dynamic performances and blend of power pop, punk, and classic rock, Kurt delivers a show packed with driving beats, sing-along choruses, and a magnetic stage presence. Whether you're a longtime fan or new to his music, this concert promises a fun-filled, electrifying experience that will have you dancing and singing all night long.",
         image="kurt_baker.jpg",
         owner_id=1
     ),
@@ -136,16 +137,26 @@ users = [
         firstname="Leroy",
         surname="Jenkins",
         username="leroy.jenkins",
-        email="leejenkster@gmail.com",
+        email="leejenkster@bigpond.com",
         profile_pic="leroy_jenkins.jpg",
         phone_number="0423456789",
         street_address="789 Oak Street",
         password_hash=generate_password_hash("leroy123!"),
     ),
+    User(
+        firstname="Quinn",
+        surname="Rigby",
+        username="quinn.rigby",
+        email="quinn.rigby@outlook.com",
+        profile_pic=None, # Despises profile pictures, should = default
+        phone_number="0456789123",
+        street_address="321 Pine Street",
+        password_hash=generate_password_hash("quinn123!"),
+    )
 ]
 
 db.session.add_all(events)
 db.session.add_all(users)
 db.session.commit()
 
-print("Seeded 6 new demo events and 3 new users into the database")
+print("Seeded 6 new events and 4 new users into the database")
