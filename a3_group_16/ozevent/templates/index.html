@@ -98,6 +98,7 @@
             <!-- Event cards -->
             <div class="row g-5 justify-content-evenly" style="padding-top: 2rem; padding-bottom: 2rem;">
                 {% for event in events %}
+                    <!-- Only display currently available events -->
                     {% if event.status == 'Open' %}
                     <div class="col-12 col-sm-6 col-md-6 col-lg-4 event" data-genre="{{ event.genre }}">
                         <a href="{{ url_for('events.show', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
