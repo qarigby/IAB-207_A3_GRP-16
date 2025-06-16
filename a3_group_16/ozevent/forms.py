@@ -73,7 +73,7 @@ class EventForm(FlaskForm):
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
     available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available'), 
                                                                       NumberRange(min=1, message='Quantity must be greater than 1')])
-    ticket_price = StringField('Ticket Price ($)', validators=[InputRequired('Please enter the ticket price'), 
+    ticket_price = StringField('Ticket Price', validators=[InputRequired('Please enter the ticket price'), 
                                                                Length(max=7, message='Cannot be more than $99,999.99'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description'),
                                                                        Length(max=255, message='Must be less than 255 characters long')])
