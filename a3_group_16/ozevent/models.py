@@ -1,5 +1,6 @@
 from . import db
 from sqlalchemy.sql import func
+from sqlalchemy import Numeric
 from flask_login import UserMixin
 
 # Users Table
@@ -43,7 +44,7 @@ class Event(db.Model):
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     available_tickets = db.Column(db.Integer, nullable=False)
-    ticket_price = db.Column(db.Float(5), nullable=False)
+    ticket_price = db.Column(Numeric(7, 2), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(400), nullable=False, default='/static/img/default_event.png')
