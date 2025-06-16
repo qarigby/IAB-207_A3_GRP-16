@@ -4,7 +4,7 @@ from flask_login import login_user, login_required, logout_user
 from .models import User
 from .forms import LoginForm, RegisterForm
 from . import db
-from ozevent.utils import logout_required
+from .utils import logout_required, check_upload_file
 
 # Define Authentication Blueprint
 auth_bp = Blueprint('auth', __name__)
@@ -52,13 +52,15 @@ def login():
 def register():
     register = RegisterForm()
     
-    if (register.validate_on_submit()==True):
+    if register.validate_on_submit():
+            db_file_path = check_upload_file(register)
             # Get username, password and email from the form
             uname = register.username.data
             pwd = register.password.data
             email = register.email.data
             fname = register.firstname.data
             sname = register.surname.data
+            pfp = db_file_path
             phone = register.phone_number.data
             address = register.street_address.data
 
@@ -79,15 +81,15 @@ def register():
             pwd_hash = generate_password_hash(pwd)
 
             # Create new User model object
-            new_user = User(firstname=fname, surname=sname, username=uname, password_hash=pwd_hash, email=email, phone_number=phone, street_address=address)
+            new_user = User(username=uname, password_hash=pwd_hash, email=email, firstname=fname, surname=sname, profile_pic=pfp, phone_number=phone, street_address=address)
             db.session.add(new_user)
             db.session.commit()
 
             # Commit to database and redirect to HTML page
-            flash('Registration successful')
+            flash(f"Registration successful, please log in to your account {uname}.")
             return redirect(url_for('auth.login'))
-    else:
-        return render_template('user.html', form=register, heading='Register')
+    # If the form is not validated
+    return render_template('user.html', form=register, heading='Register')
     
 # Register Route: Log Out
 @auth_bp.route('/logout')

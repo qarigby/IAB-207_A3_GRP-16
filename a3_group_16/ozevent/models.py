@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    profile_pic = db.Column(db.String(400), nullable=False, default='/static/img/default_profile.png')
     phone_number = db.Column(db.String(10), nullable=False)
     street_address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
@@ -45,7 +46,7 @@ class Event(db.Model):
     ticket_price = db.Column(db.Float(5), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    image = db.Column(db.String(400), nullable=False, default='default.png')
+    image = db.Column(db.String(400), nullable=False, default='/static/img/default_event.png')
     status = db.Column(db.String(50), index=True, nullable=False)
 
     # Table Relations

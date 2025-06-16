@@ -7,6 +7,8 @@ from datetime import date, datetime
 from . import db
 from .models import Event
 
+file_format = ['png', 'jpg', 'jpeg', 'webp'] # File types allowed for image upload
+
 # Login Form
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired('Please enter your username')])
@@ -22,6 +24,7 @@ class RegisterForm(FlaskForm):
     phone_number = StringField('Phone Number', validators=[InputRequired('Please enter a phone number'), 
                                                            Length(min=10, max=10, message='Phone number must be 10 digits'), 
                                                            Regexp(r'^\d+$', message='Phone number must contain digits only')])
+    image = FileField('Profile Picture', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
     street_address = TextAreaField('Street Address', validators=[InputRequired('Please enter a street address'), Length(max=255, message='Input too long')])
     password = PasswordField('Password', validators=[InputRequired('Please enter a password.'), Length(min=8, message='Password must be at least 8 characters long')])
     confirm = PasswordField('Confirm Password', validators=[EqualTo('password', message='Passwords must match.')]) # Password Confirmation
@@ -72,10 +75,9 @@ class EventForm(FlaskForm):
                                                                       NumberRange(min=1, message='Quantity must be greater than 1')])
     ticket_price = StringField('Ticket Price ($)', validators=[InputRequired('Please enter the ticket price'), 
                                                                Length(max=7, message='Cannot be more than $99,999.99'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
-    short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description'), 
+    short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description'),
                                                                        Length(max=255, message='Must be less than 255 characters long')])
     description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description')])
-    file_format = ['png', 'jpg', 'jpeg', 'webp'] # File types allowed for image upload
     image = FileField('Cover Image', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
     submit = SubmitField('Create')
 
