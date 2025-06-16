@@ -22,6 +22,9 @@ def check_upload_file(form):
     if img_file:
         # get file data from form  
         fp = form.image.data
+        # If no file is added (during event modification)
+        if type(fp) is str:
+            return None
         filename = fp.filename
         # upload file location – directory of this file/static/image
         upload_path = os.path.join(BASE_PATH,'static/img',secure_filename(filename))

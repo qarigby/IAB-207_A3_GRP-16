@@ -19,6 +19,14 @@
                             <div class="form-group row mb-4">
                                 <div class="col-12 text-center position-relative">
                                     <img src="{{ url_for('static', filename='img/' ~ event.image) }}" alt="Event Image" class="event-image img-fluid w-100">
+                                    <span class="status-bubble 
+                                        {% if event.status == 'Open' %}bg-open
+                                        {% elif event.status == 'Sold Out' %}bg-soldOut
+                                        {% elif event.status == 'Cancelled' %}bg-cancelled
+                                        {% elif event.status == 'Inactive' %}bg-inactive
+                                        {% endif %}"
+                                        style="margin-right: 1rem;">{{ event.status }}
+                                    </span>
                                     <h1 class="form-title position-absolute top-50 start-50 translate-middle display-1">{{ event.title }}</h1>
                                 </div>
                             </div>
@@ -45,7 +53,13 @@
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <h4 class="mb-3" id="middleHeading">Tickets</h4>
-                                    <p>{{ event.available_tickets }} tickets remain!<br>${{ event.ticket_price }}</p>
+                                    {% if event.available_tickets > 1 %}
+                                        <p>{{ event.available_tickets }} Tickets Remain!<br>${{ event.ticket_price }}</p>
+                                    {% elif event.available_tickets == 1 %}
+                                        <p>{{ event.available_tickets }} Ticket Remains!<br>${{ event.ticket_price }}</p>
+                                    {% else %}
+                                        <p>{{ event.available_tickets }} Tickets Remain <br>Event is Sold Out</p>
+                                    {% endif %}
                                 </div>
                                 <div>
                                     <hr class="row-divider mb-4">
@@ -53,11 +67,13 @@
                             </div>
 
                             <!-- Buy Tickets Button -->
-                            <div class="form-group row text-center mb-4">
-                                <div class="col-12">
-                                    <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Buy Tickets</button>
+                            {% if event.status == "Open" %}
+                                <div class="form-group row text-center mb-4">
+                                    <div class="col-12">
+                                        <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Buy Tickets</button>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         
                             <!-- View Comments -->
                             <div class="accordion">

@@ -78,6 +78,10 @@ class EventForm(FlaskForm):
     file_format = ['png', 'jpg', 'jpeg', 'webp'] # File types allowed for image upload
     image = FileField('Cover Image', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
     submit = SubmitField('Create')
+
+    def __init__(self, create_event=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._create_event = create_event
     
     # Field Validators
     def validate_date(self, field):
@@ -101,16 +105,24 @@ class EventForm(FlaskForm):
             self.end_time.errors.append('End time must be after start time')
             return False
         
-        # Ensuring event is not a duplicate
-        existing = db.session.scalar(
-            db.select(Event).where(
-                Event.title == self.title.data,
-                Event.artist == self.artist.data,
-                Event.date == self.date.data,
-                Event.start_time == self.start_time.data,
+        # Altering validators for modifying events
+        if self._create_event: 
+            # Ensuring event is not a duplicate
+            existing = db.session.scalar(
+                db.select(Event).where(
+                    Event.title == self.title.data,
+                    Event.artist == self.artist.data,
+                    Event.date == self.date.data,
+                    Event.start_time == self.start_time.data,
+                )
             )
-        )
-        if existing:
-            self.title.errors.append('An event with this title, artist(s), date, and start time already exists')
-            return False
+            if existing:
+                self.title.errors.append('An event with this title, artist(s), date, and start time already exists')
+                return False
+            
+            # Removing minimum number validator so owner can remove all available tickets (triggering the event to sell out)
+            self.available_tickets.validators = [
+                validator for validator in self.available_tickets.validators
+                if not isinstance(validator, NumberRange)
+            ]
         return True

@@ -43,7 +43,7 @@ def comment(event_id):
 @events_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-    form = EventForm()
+    form = EventForm(create_event=True)
 
     # Pass checks & create event instance
     if form.validate_on_submit():
@@ -94,18 +94,31 @@ def owned_events():
 @login_required
 def manage(id):
     user_id = current_user.id
-    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.owner_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
+    # If the event doesnt exist
     if not event:
         abort(404)
-    if not user_event:
+    # If the user does not own the event
+    if event.owner_id != user_id:
         abort(403)
 
-    form = EventForm(obj=user_event)
+    form = EventForm(obj=event, create_event=False)
 
     if form.validate_on_submit():
         db_file_path = check_upload_file(form)
+
+        # If the number of available tickets was updated
+        if form.available_tickets.data > event.available_tickets:
+            event.status = "Open"
+
+        # If the event is sold out - the number of tickets should not be reduced
+        if event.status == "Sold Out":
+            if form.available_tickets.data < event.available_tickets:
+                flash("As the event is sold out, the number of tickets cannot be reduced.")
+                return render_template('events/manage.html', event=event, form=form)
+
+        # Setting modified fields
         event.title = form.title.data
         event.artist = form.artist.data
         event.genre = form.genre.data
@@ -118,12 +131,21 @@ def manage(id):
         event.ticket_price = form.ticket_price.data
         event.short_description = form.short_description.data
         event.description = form.description.data
-        event.image = db_file_path
 
+        # If the number of tickets is set to 0
+        if form.available_tickets.data == 0:
+            event.status = "Sold Out"
+
+        # If the user did not provide a new event image
+        if db_file_path != None:
+            event.image = db_file_path
+
+        # Commit the modifications
         db.session.commit()
         flash('Event updated successfully')
-        return redirect(url_for('events.owned_events'))
+        return redirect(url_for('events.show', event_id=event.id))
 
+    # If the form is not valid (extra validators)
     if form.errors:
         all_errors = ", ".join(
             err_msg
@@ -131,23 +153,22 @@ def manage(id):
             for err_msg in field_errors
         )
         flash(f"Cannot create event: {all_errors}")
-    return render_template('events/manage.html', event=user_event, form=form)
+    return render_template('events/manage.html', event=event, form=form)
 
 # Register Route: Cancel Event
 @events_bp.route('/manage/event-<id>/cancel')
 @login_required
 def cancel(id):
     user_id = current_user.id
-    user_event = db.session.scalar(db.select(Event).where(Event.id == id, Event.owner_id == user_id))
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
     if not event:
         abort(404)
-    if not user_event:
+    if event.owner_id != user_id:
         abort(403)
 
-    if user_event.status == 'Open' or user_event.status == 'Sold Out':
-        user_event.status = 'Cancelled'
+    if event.status == 'Open' or event.status == 'Sold Out':
+        event.status = 'Cancelled'
         db.session.commit()
         flash('Event cancelled successfully')
     else:
