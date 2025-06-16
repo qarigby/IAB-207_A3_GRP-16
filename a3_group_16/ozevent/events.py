@@ -65,6 +65,7 @@ def create():
             status='Open',
             owner_id=current_user.id
         )
+        
         db.session.add(event)
         db.session.commit()
         flash('Successfully created new event', 'success')
@@ -77,7 +78,7 @@ def create():
             for field_errors in form.errors.values()
             for err_msg in field_errors
         )
-        flash(f"Cannot create event: {all_errors}.")
+        flash(f"Cannot create event: {all_errors}")
     return render_template('events/create.html', form=form)
 
 # Register Route: Manage All Events

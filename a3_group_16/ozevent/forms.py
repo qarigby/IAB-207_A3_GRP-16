@@ -4,6 +4,8 @@ from wtforms.validators import InputRequired, Length, Email, EqualTo, Validation
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 import re
 from datetime import date, datetime
+from . import db
+from .models import Event
 
 # Login Form
 class LoginForm(FlaskForm):
@@ -97,5 +99,18 @@ class EventForm(FlaskForm):
             return False
         elif start > end:
             self.end_time.errors.append('End time must be after start time')
+            return False
+        
+        # Ensuring event is not a duplicate
+        existing = db.session.scalar(
+            db.select(Event).where(
+                Event.title == self.title.data,
+                Event.artist == self.artist.data,
+                Event.date == self.date.data,
+                Event.start_time == self.start_time.data,
+            )
+        )
+        if existing:
+            self.title.errors.append('An event with this title, artist(s), date, and start time already exists')
             return False
         return True
