@@ -63,7 +63,7 @@ class EventForm(FlaskForm):
     genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre'), Length(max=50, message='Input too long')])
     venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input too long')])
     location = StringField('Location', validators=[InputRequired('Please enter the location'), Length(max=150, message='Input too long')])
-    date = DateField('Date', format='%d-%m-%y', validators=[InputRequired('Please enter a date')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
     available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available'), 
@@ -79,9 +79,8 @@ class EventForm(FlaskForm):
     
     # Field Validators
     def validate_date(self, field):
-        pass
-        # if field.data < date.today():
-        #     raise ValidationError('Date cannot be in the past')
+        if field.data and field.data < date.today():
+            raise ValidationError('Date cannot be in the past')
         
     def validate(self, extra_validators=None):
         # Run default validations first

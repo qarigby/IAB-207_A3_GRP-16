@@ -17,16 +17,17 @@ def logout_required(f):
 # Check event creation form was provided a valid file
 def check_upload_file(form):
     img_file = form.image.data
+    # get the current path of the module file… store image file relative to this path  
+    BASE_PATH = os.path.dirname(__file__)
     if img_file:
-        # Sanitise filename for security
-        filename = secure_filename(img_file.filename)
-        # Get current path of module file
-        base_path = os.path.dirname(__file__)
-        # Upload file location – new directory
-        upload_path = os.path.join(base_path, 'static/img', filename)
-        # Store relative path in database as img location in HTML is relative
-        db_upload_path = '/static/img/' + filename
-        # Save file & return path
-        img_file.save(upload_path)
-        return db_upload_path
+        # get file data from form  
+        fp = form.image.data
+        filename = fp.filename
+        # upload file location – directory of this file/static/image
+        upload_path = os.path.join(BASE_PATH,'static/img',secure_filename(filename))
+        # store relative path in DB as image location in HTML is relative
+        db_upload_path = secure_filename(filename)
+        # save the file and return the db upload path  
+        fp.save(upload_path)
+        return db_upload_path   
     return None

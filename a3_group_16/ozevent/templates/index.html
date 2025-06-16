@@ -98,23 +98,25 @@
             <!-- Event cards -->
             <div class="row g-5 justify-content-evenly" style="padding-top: 2rem; padding-bottom: 2rem;">
                 {% for event in events %}
-                <div class="col-12 col-sm-6 col-md-6 col-lg-4 event" data-genre="{{ event.genre }}">
-                    <a href="{{ url_for('events.show', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
-                        <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top" alt="{{ event.title }}">
-                        <span class="status-bubble 
-                            {% if event.status == 'Open' %}bg-open
-                            {% elif event.status == 'Sold Out' %}bg-soldOut
-                            {% elif event.status == 'Cancelled' %}bg-cancelled
-                            {% elif event.status == 'Inactive' %}bg-inactive
-                            {% endif %}">{{ event.status }}</span>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ event.name }}</h5>
-                            <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.date.strftime('%b %d, %Y') }} • {{ event.start_time.strftime('%I:%M %p') }}</h6>
-                            <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.venue }}</h6>
-                            <p class="card-text">{{ event.short_description }}</p>
-                        </div>
-                    </a>
-                </div>
+                    {% if event.status == 'Open' %}
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 event" data-genre="{{ event.genre }}">
+                        <a href="{{ url_for('events.show', event_id=event.id) }}" class="card h-100 w-100 p-1 text-decoration-none">
+                            <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top" alt="{{ event.title }}">
+                            <span class="status-bubble 
+                                {% if event.status == 'Open' %}bg-open
+                                {% elif event.status == 'Sold Out' %}bg-soldOut
+                                {% elif event.status == 'Cancelled' %}bg-cancelled
+                                {% elif event.status == 'Inactive' %}bg-inactive
+                                {% endif %}">{{ event.status }}</span>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.name }}</h5>
+                                <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.date.strftime('%b %d, %Y') }} • {{ event.start_time.strftime('%I:%M %p') }}</h6>
+                                <h6 class="card-subtitle mt-2 mb-2 text-muted">{{ event.venue }}</h6>
+                                <p class="card-text">{{ event.short_description }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

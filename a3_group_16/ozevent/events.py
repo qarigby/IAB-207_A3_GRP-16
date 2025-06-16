@@ -62,14 +62,13 @@ def create():
             short_description=form.short_description.data,
             description=form.description.data,
             image=db_file_path,
-            status='open',
+            status='Open',
             owner_id=current_user.id
         )
         db.session.add(event)
         db.session.commit()
         flash('Successfully created new event', 'success')
-        print(f"Event created: <title='{event.title}', date={event.date}>")
-        return redirect(url_for('events.show', id=event.id))
+        return redirect(url_for('events.show', event_id=event.id))
 
     # Error Validation
     if form.errors:

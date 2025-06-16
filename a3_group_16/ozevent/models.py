@@ -45,7 +45,7 @@ class Event(db.Model):
     ticket_price = db.Column(db.Float(5), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    image = db.Column(db.String(400), nullable=False, default='/static/img/default.png')
+    image = db.Column(db.String(400), nullable=False, default='default.png')
     status = db.Column(db.String(50), index=True, nullable=False)
 
     # Table Relations
