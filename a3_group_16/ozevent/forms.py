@@ -7,7 +7,8 @@ from datetime import date, datetime
 from . import db
 from .models import Event
 
-file_format = ['png', 'jpg', 'jpeg', 'webp'] # File types allowed for image upload
+# Image Uploads (User Profile/Events)
+file_format = ['png', 'jpg', 'jpeg', 'webp'] # File types allowed
 
 # Login Form
 class LoginForm(FlaskForm):
@@ -17,15 +18,15 @@ class LoginForm(FlaskForm):
 
 # Registration Form
 class RegisterForm(FlaskForm):
-    firstname = StringField('First Name', validators=[InputRequired('Please enter your first name'), Length(max=50, message='Input too long')])
-    surname = StringField('Surname', validators=[InputRequired('Please enter your surname'), Length(max=50, message='Input too long')])
-    username = StringField('Username', validators=[InputRequired('Please enter a username'), Length(max=100, message='Input too long')])
-    email = StringField('Email Address', validators=[Email('Please enter a valid email'), Length(max=100, message='Input too long')])
+    firstname = StringField('First Name', validators=[InputRequired('Please enter your first name'), Length(max=50, message='Input exceeds maximum length')])
+    surname = StringField('Surname', validators=[InputRequired('Please enter your surname'), Length(max=50, message='Input exceeds maximum length')])
+    username = StringField('Username', validators=[InputRequired('Please enter a username'), Length(max=100, message='Input exceeds maximum length')])
+    email = StringField('Email Address', validators=[Email('Please enter a valid email'), Length(max=100, message='Input exceeds maximum length')])
     phone_number = StringField('Phone Number', validators=[InputRequired('Please enter a phone number'), 
                                                            Length(min=10, max=10, message='Phone number must be 10 digits'), 
                                                            Regexp(r'^\d+$', message='Phone number must contain digits only')])
     image = FileField('Profile Picture', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
-    street_address = TextAreaField('Street Address', validators=[InputRequired('Please enter a street address'), Length(max=255, message='Input too long')])
+    street_address = TextAreaField('Street Address', validators=[InputRequired('Please enter a street address'), Length(max=255, message='Input exceeds maximum length')])
     password = PasswordField('Password', validators=[InputRequired('Please enter a password.'), Length(min=8, message='Password must be at least 8 characters long')])
     confirm = PasswordField('Confirm Password', validators=[EqualTo('password', message='Passwords must match.')]) # Password Confirmation
     submit = SubmitField('Register')
@@ -42,12 +43,7 @@ class RegisterForm(FlaskForm):
         if not re.search(r"\d", password):
             raise ValidationError("Password must include at least one number")
 
-# Comment Posting Form
-class CommentForm(FlaskForm):
-    text = TextAreaField('Post a comment', [InputRequired('Please enter your comment'), Length(max=400, message="Input too long")])
-    submit = SubmitField('Post')
-
-# Event Creation Form
+# Genre Choices (Event Creation)
 genre_choices = [
     ('', 'Select a genre'),  # Placeholder
     ('rock', 'Rock'),
@@ -62,13 +58,14 @@ genre_choices = [
     ('classical', 'Classical')
     ]
 
+# Event Creation Form
 class EventForm(FlaskForm):
-    title = StringField('Event Title', validators=[InputRequired('Please enter the event title'), Length(max=100, message='Input too long')])
-    artist = StringField('Artist Name(s)', validators=[Length(max=100, message='Input too long')]) # Artists are optional
-    genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre'), Length(max=50, message='Input too long')])
-    venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input too long')])
-    location = StringField('Location', validators=[InputRequired('Please enter the location'), Length(max=150, message='Input too long')])
-    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date')])
+    title = StringField('Event Title', validators=[InputRequired('Please enter the event title'), Length(max=100, message='Input exceeds maximum length')])
+    artist = StringField('Artist Name(s)', validators=[Length(max=100, message='Input exceeds maximum length')]) # Artists are optional
+    genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre'), Length(max=50, message='Input exceeds maximum length')])
+    venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input exceeds maximum length')])
+    location = StringField('Location', validators=[InputRequired('Please enter the location'), Length(max=150, message='Input exceeds maximum length')])
+    date = DateField('Date', format='%d-%m-%y', validators=[InputRequired('Please enter a date')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
     available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available'), 
@@ -128,3 +125,17 @@ class EventForm(FlaskForm):
                 if not isinstance(validator, NumberRange)
             ]
         return True
+        return True
+
+# Event Booking Form
+class BookingForm(FlaskForm):
+    ticket_type = SelectField('Ticket Type', validators=[InputRequired('Please select a type of ticket')],
+        choices=[('general', 'General Admission'), ('reserved', 'Reserved Seating'), ('vip', 'VIP')])
+    num_tickets = IntegerField('Ticket(s)', validators=[InputRequired('Please enter the number of tickets'), 
+                                                     NumberRange(min=1, message='Must be at least 1')])
+    submit = SubmitField('Buy Now')
+
+# Event Comment Form
+class CommentForm(FlaskForm):
+    text = TextAreaField('Post a comment', [InputRequired('Please enter your comment'), Length(min=1, max=400, message='Input must be between 1 and 400 characters')])
+    submit = SubmitField('Post')

@@ -87,6 +87,7 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ref_code = db.Column(db.String(10), index=True, unique=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)
+    ticket_type = db.Column(db.String(50), nullable=False)
     date_booked = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
     # Foreign Keys

@@ -1,9 +1,9 @@
 from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
-from .models import Event, Comment
-from .forms import EventForm, CommentForm
+from .models import Event, Comment, User
+from .forms import EventForm, CommentForm, BookingForm
 from .utils import check_upload_file
-from . import db 
+from . import db
 
 # Define Events Blueprint
 events_bp = Blueprint('events', __name__, url_prefix='/events')
@@ -14,30 +14,62 @@ def show(event_id):
     event = db.session.scalar(db.select(Event).where(Event.id==event_id))
     if not event:
         abort(404) # Triggers @app.errorhandler
-    form = CommentForm()
-    return render_template('events/show.html', event=event, form=form, heading=event.title)
+    comment_form = CommentForm()
+    booking_form = BookingForm()
+    return render_template('events/show.html', event=event, comment_form=comment_form, booking_form=booking_form)
+
+# # Register Route: Book Event
+# @events_bp.route('/<event_id>/book', methods=['GET', 'POST'])
+# @login_required
+# def book(event_id):
+#     event = db.session.scalar(db.select(Event).where(Event.id==event_id))
+#     if not event:
+#         abort(404)
+#     if event.status != 'Open':
+#         flash('This event is not currently open for bookings.')
+#         return redirect(url_for('events.show', event_id=event_id))
+#     form = BookingForm()
+#     if form.validate_on_submit():
+#         print('Booking form submitted and validated')
+#         # Check if there are enough tickets available
+#         if event.available_tickets < form.tickets.data:
+#             flash('Not enough tickets available for this booking.')
+#             return redirect(url_for('events.show', event_id=event_id))
+
+#         # Create a booking instance
+#         booking = BookingForm(
+#             user_id=current_user.id,
+#             event_id=event.id,
+#             tickets=form.tickets.data,
+#             total_price=event.ticket_price * form.tickets.data
+#         )
+#         db.session.add(booking)
+        
+#         # Update the event's available tickets
+#         event.available_tickets -= form.tickets.data
+#         if event.available_tickets == 0:
+#             event.status = 'Sold Out'
+        
+#         db.session.commit()
+#         flash('Your booking was successful!')
+#         print(f"Booking created: <user_id={current_user.id}, event_id={event.id}, tickets={form.tickets.data}>")
+#         return redirect(url_for('events.show', event=event))
 
 # Register Route: Post Comments on Event
 @events_bp.route('/<event_id>/comment', methods=['GET', 'POST'])
 @login_required
 def comment(event_id):
     form = CommentForm()
-    event = db.session.scalar(db.select(Event).where(Event.id == event_id))
+    event = db.session.scalar(db.select(Event).where(Event.id==event_id))
 
     if form.validate_on_submit():
-        print("Form submitted and validated")
-        comment = Comment(
-            text=form.text.data,
-            event_id=event.id,
-            user_id=current_user.id
-        )
+        comment = Comment(text=form.text.data, event=event, user=current_user)
         db.session.add(comment)
         db.session.commit()
-        flash('Your comment was successfully posted.')  
-
-    # If GET or validation fails, show the same page again
-    print("Form not validated or not a POST request")
-    return render_template("events/show.html", form=form, event=event)
+        flash('Your comment was successfully posted.')
+        print(f"Comment posted: <text='{comment.text}', username={comment.user.username}>")
+        return redirect(url_for('events.show', event_id=event_id))
+    return render_template('events/show.html', comment_form=form, id=event_id)
 
 # Register Route: Create Event
 @events_bp.route('/create', methods=['GET', 'POST'])
