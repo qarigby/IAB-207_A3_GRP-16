@@ -65,11 +65,10 @@ class EventForm(FlaskForm):
     genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre'), Length(max=50, message='Input exceeds maximum length')])
     venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input exceeds maximum length')])
     location = StringField('Location', validators=[InputRequired('Please enter the location'), Length(max=150, message='Input exceeds maximum length')])
-    date = DateField('Date', format='%d-%m-%y', validators=[InputRequired('Please enter a date')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time')])
-    available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available'), 
-                                                                      NumberRange(min=1, message='Quantity must be greater than 1')])
+    available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available')])
     ticket_price = StringField('Ticket Price', validators=[InputRequired('Please enter the ticket price'), 
                                                                Length(max=7, message='Cannot be more than $99,999.99'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description'),
@@ -81,6 +80,10 @@ class EventForm(FlaskForm):
     def __init__(self, create_event=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._create_event = create_event
+
+        # available_tickets cannot be set to 0 during event creation
+        if self._create_event:
+            self.available_tickets.validators = [InputRequired('Please enter the number of tickets available'), NumberRange(min=1, message='Available ticket quantity must be greater than 1')]
     
     # Field Validators
     def validate_date(self, field):
@@ -104,7 +107,6 @@ class EventForm(FlaskForm):
             self.end_time.errors.append('End time must be after start time')
             return False
         
-        # Altering validators for modifying events
         if self._create_event: 
             # Ensuring event is not a duplicate
             existing = db.session.scalar(
@@ -118,13 +120,6 @@ class EventForm(FlaskForm):
             if existing:
                 self.title.errors.append('An event with this title, artist(s), date, and start time already exists')
                 return False
-            
-            # Removing minimum number validator so owner can remove all available tickets (triggering the event to sell out)
-            self.available_tickets.validators = [
-                validator for validator in self.available_tickets.validators
-                if not isinstance(validator, NumberRange)
-            ]
-        return True
         return True
 
 # Event Booking Form

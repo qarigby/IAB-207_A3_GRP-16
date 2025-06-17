@@ -1,5 +1,6 @@
 from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
+from sqlalchemy import asc
 from .models import Event, Comment, User
 from .forms import EventForm, CommentForm, BookingForm
 from .utils import check_upload_file
@@ -118,7 +119,7 @@ def create():
 @login_required
 def owned_events():
     # Select events created by the user
-    events = db.session.scalars(db.select(Event).where(Event.owner_id == current_user.id)).all()
+    events = db.session.scalars(db.select(Event).where(Event.owner_id == current_user.id).order_by(Event.date, Event.start_time)).all()
     return render_template('events/owned.html', events=events)
 
 # Register Route: Manage Specific Event
@@ -128,6 +129,7 @@ def manage(id):
     user_id = current_user.id
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
+
     # If the event doesnt exist
     if not event:
         abort(404)
@@ -135,14 +137,16 @@ def manage(id):
     if event.owner_id != user_id:
         abort(403)
 
-    form = EventForm(obj=event, create_event=False)
+    
+    form = EventForm(modify_event=True, obj=event)
 
     if form.validate_on_submit():
         db_file_path = check_upload_file(form)
 
         # If the number of available tickets was updated
         if form.available_tickets.data > event.available_tickets:
-            event.status = "Open"
+            if event.status == "Sold Out":
+                event.status = "Open"
 
         # If the event is sold out - the number of tickets should not be reduced
         if event.status == "Sold Out":
@@ -163,6 +167,8 @@ def manage(id):
         event.ticket_price = form.ticket_price.data
         event.short_description = form.short_description.data
         event.description = form.description.data
+
+        print(form.available_tickets.data)
 
         # If the number of tickets is set to 0
         if form.available_tickets.data == 0:
