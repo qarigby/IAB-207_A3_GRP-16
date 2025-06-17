@@ -30,13 +30,6 @@
                                     <h1 class="form-title position-absolute top-50 start-50 translate-middle display-1">{{ event.title }}</h1>
                                 </div>
                             </div>
-                        <!-- Cover Image -->
-                        <div class="form-group row mb-4">
-                            <div class="col-12 text-center position-relative">
-                                <img src="{{ url_for('static', filename='img/' ~ event.image) }}" alt="Event Image" class="event-image img-fluid w-100">
-                                <h1 class="form-title position-absolute top-50 start-50 translate-middle">{{ event.title }}</h1>
-                            </div>
-                        </div>
 
                             <!-- Event Description -->
                             <div class="form-group row">
@@ -72,34 +65,6 @@
                                     <hr class="row-divider mb-4">
                                 </div>
                             </div>
-                        <!-- Event Description -->
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <div class="event-description text-center">
-                                    <p>{{ event.description }}</p>
-                                    <hr class="row-divider mb-4">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Event Details -->
-                        <div class="form-group row text-center" id="middleText">
-                            <div class="col-6 col-sm-4 mb-2">
-                                <h4 class="mb-3" id="middleHeading">Date</h4>
-                                <p>{{ event.date.strftime('%b %d, %Y') }}<br>Starts at {{ event.start_time.strftime('%I:%M %p') }}<br>Finishes at {{ event.end_time.strftime('%I:%M %p') }}</p>
-                            </div>
-                            <div class="col-6 col-sm-4 mb-2 column-divider">
-                                <h4 class="mb-3" id="middleHeading">Venue</h4>
-                                <p>{{ event.venue }}<br>{{ event.location }}</p>
-                            </div>
-                            <div class="col-12 col-sm-4">
-                                <h4 class="mb-3" id="middleHeading">Tickets</h4>
-                                <p>{{ event.available_tickets }} tickets remain!<br>${{ event.ticket_price }}</p>
-                            </div>
-                            <div>
-                                <hr class="row-divider mb-4">
-                            </div>
-                        </div>
 
                             <!-- Buy Tickets Button -->
                             {% if event.status == "Open" %}
@@ -132,35 +97,6 @@
                                         </div>
                                     </div>
                                 </div>
-                        <!-- Buy Tickets Button -->
-                        <div class="form-group row text-center mb-4">
-                            <div class="col-12">
-                                <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Buy Tickets</button>
-                            </div>
-                        </div>
-                    
-                        <!-- View Comments -->
-                        <div class="accordion">
-                            <div class="accordion-item mb-2">
-                                <h2 class="accordion-header" aria-labelledby="viewCommentsHeading">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">View Comments</button>
-                                </h2>
-                                <div id="collapseComments" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <div class="comment-section">
-                                            {% for comment in event.comments %}
-                                                <div class="comment">
-                                                    <img src="{{ comment.user.profile_pic }}" alt="User Avatar" class="avatar">
-                                                    <p><b>{{ comment.user.username }} {{ comment.created_at.strftime('%b %d, %Y at %I:%M %p') }}</b><br>{{ comment.text }}</p>
-                                                </div>
-                                            {% else %}
-                                                <p class="text-muted">No comments yet. Be the first to comment!</p>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Post Comments -->
                             <div class="accordion-item">
@@ -214,7 +150,7 @@
                         <!-- Avoid closing Accordion to preserve rounded formatting -->
             
                         <!-- Ticket Booking Modal -->
-                        <!-- <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -241,10 +177,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
                         <!-- Post Comment Modal -->
-                        <!-- <div class="modal fade" id="postCommentModal" tabindex="-1" aria-labelledby="postCommentModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="postCommentModal" tabindex="-1" aria-labelledby="postCommentModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
