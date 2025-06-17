@@ -33,16 +33,14 @@ def search():
     if search_term:
         # Query database for similarities
         search_query = f"%{search_term}%"
-        event = db.session.scalars(db.select(Event).where(
+        events = db.session.scalars(db.select(Event).where(
             or_(
                 Event.title.ilike(search_query), # case-insensitive
                 Event.description.ilike(search_query),
                 Event.artist.ilike(search_query),
                 Event.genre.ilike(search_query),
                 Event.venue.ilike(search_query)
-            ))).first()
-        if event:
-            # Return results
-            return redirect(url_for('event.show', id=event.id))
-        flash(f"Sorry, we couldn't find any results for '{search_term}'.")
+            ))).all()
+        # Return results
+        return render_template('index.html', events=events, search_term=search_term)
     return redirect(url_for('main.index'))

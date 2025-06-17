@@ -135,12 +135,10 @@ body {
     width: clamp(0px, 60%, 350px);
     color: black;
     border: 2px solid #FFA305;
-    transition: width 0.3s ease;
 }
 
 .searchBar .form-control:hover,
 .searchBar .form-control:focus {
-    width: 350px;
     box-shadow: none;
 }
 
@@ -531,4 +529,12 @@ background: #4CBB17;
     font-family: inherit;
     color: #FFDEAD;
     border-top: 3px solid #FFA305;
+}
+
+/* Resize the genre filter and search bar */
+@media (max-width: 991px) {
+  .responsive-form-group {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
