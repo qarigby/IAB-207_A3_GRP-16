@@ -14,7 +14,7 @@ db.session.commit()
 # Add new sample events
 events = [
     Event(
-        title="Let It Be (UK)",
+        title="Let It Be",
         genre="Rock",
         venue="Fortitude Valley Music Hall",
         location="Fortitude Valley, Brisbane",
