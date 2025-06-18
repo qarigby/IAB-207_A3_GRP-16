@@ -15,69 +15,88 @@
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
                         <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Recent Bookings</h1>
-
-                        {% if bookings|length != 0 %}
-                            {% for booking in bookings %}
-                            <div class="card text-decoration-none mb-4">
-                                <img src="{{ url_for('static', filename='img/' ~ booking.event.image) }}" class="card-img-top">
-                                <span class="status-bubble 
-                                {% if booking.event.status == 'Open' %}bg-open
-                                {% elif booking.event.status == 'Sold Out' %}bg-soldOut
-                                {% elif booking.event.status == 'Cancelled' %}bg-cancelled
-                                {% elif booking.event.status == 'Inactive' %}bg-inactive
-                                {% endif %}">{{ booking.event.status }}</span>
-                                <div class="card-body">
-                                    <div class="row justify-content-center">
-                                            <div class="col-auto text-center">
-                                                <h3><strong>{{ booking.event.title }}</strong></h3>
-                                            </div>
-                                        </div>
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <h5 class="card-subtitle mt-2 mb-1">{{ booking.event.date.strftime('%b %d, %Y') }} at {{ booking.event.start_time.strftime('%I:%M %p') }}</h5>
-                                            <h5 class="card-subtitle mt-2 mb-1">{{ booking.event.venue }}</h5>
-                                            <h5 class="card-subtitle mt-2 mb-1">Booked on: {{ booking.date_booked.strftime('%b %d, %Y at %I:%M %p') }}</h5>
-                                        </div>
-                                        <div class="col-4 text-end">
-                                            <h5 class="card-title">Number of Tickets: {{ booking.num_tickets }}</h5>
-                                            <h6 class="card-title">Booking Reference: {{ booking.ref_code }}</h6>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-center mt-4 mb-2">
-                                        <div class="w-100 text-center">
-                                            <button type="button" class="btn me-3" id="discardEventBtn" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Booking</button>
-                                            <a href="{{ url_for('events.show', event_id=booking.event.id) }}" class="btn ms-3" id="saveDraftBtn">View Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Post Comment Modal -->
-                            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title text-center w-100" id="cancelModalLabel">Cancel Event Booking</h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            Are you sure you want to cancel your booking of {{booking.num_tickets}} tickets for {{booking.event.title}} on {{booking.event.date.strftime('%b %d, %Y')}}
-                                        </div>
-                                        <div class="modal-footer justify-content-center mb-4">
-                                            <button type="button" class="btn me-3" id="saveDraftBtn" data-bs-dismiss="modal">Back</button>
-                                            <a href="{{ url_for('booking.cancel', booking_id=booking.id)}}" class="btn ms-3" id="discardEventBtn">Cancel Booking</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        {% else %}
+                        {% if not booking_exist %}
                             <div class="container mt-4 mb-3">
                                 <div class="text-center">
                                     <h4>You have no event bookings.</h4>
                                     <h5>Click <a href="{{url_for('main.index')}}">here</a> to browse events.</h5>
                                 </div>
                             </div>
+                        
+                        {% else %}
+                            <ul class="nav nav-pills justify-content-center mb-5 custom-pills" id="bookingTabs">
+                                {% for tab in ['All', 'Open', 'Sold Out', 'Inactive', 'Cancelled'] %}
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if active_status == tab %}active{% endif %}" 
+                                        href="{{ url_for('booking.bookings', status=tab.lower()) }}">
+                                            {{ tab }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            {% if bookings|length != 0 %}
+                                {% for booking in bookings %}
+                                <div class="card text-decoration-none mb-4">
+                                    <img src="{{ url_for('static', filename='img/' ~ booking.event.image) }}" class="card-img-top">
+                                    <span class="status-bubble 
+                                    {% if booking.event.status == 'Open' %}bg-open
+                                    {% elif booking.event.status == 'Sold Out' %}bg-soldOut
+                                    {% elif booking.event.status == 'Cancelled' %}bg-cancelled
+                                    {% elif booking.event.status == 'Inactive' %}bg-inactive
+                                    {% endif %}">{{ booking.event.status }}</span>
+                                    <div class="card-body">
+                                        <div class="row justify-content-center">
+                                                <div class="col-auto text-center">
+                                                    <h3><strong>{{ booking.event.title }}</strong></h3>
+                                                </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <h5 class="card-subtitle mt-2 mb-1">{{ booking.event.date.strftime('%b %d, %Y') }} at {{ booking.event.start_time.strftime('%I:%M %p') }}</h5>
+                                                <h5 class="card-subtitle mt-2 mb-1">{{ booking.event.venue }}</h5>
+                                                <h5 class="card-subtitle mt-2 mb-1">Booked on: {{ booking.date_booked.strftime('%b %d, %Y at %I:%M %p') }}</h5>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <h5 class="card-title">Number of Tickets: {{ booking.num_tickets }}</h5>
+                                                <h6 class="card-title">Booking Reference: {{ booking.ref_code }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center mt-4 mb-2">
+                                            <div class="w-100 text-center">
+                                                <button type="button" class="btn me-3" id="discardEventBtn" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Booking</button>
+                                                <a href="{{ url_for('events.show', event_id=booking.event.id) }}" class="btn ms-3" id="saveDraftBtn">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Booking Cancellation Modal -->
+                                <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title text-center w-100" id="cancelModalLabel">Cancel Event Booking</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                Are you sure you want to cancel your booking of {{booking.num_tickets}} tickets for {{booking.event.title}} on {{booking.event.date.strftime('%b %d, %Y')}}
+                                            </div>
+                                            <div class="modal-footer justify-content-center mb-4">
+                                                <button type="button" class="btn me-3" id="saveDraftBtn" data-bs-dismiss="modal">Back</button>
+                                                <a href="{{ url_for('booking.cancel', booking_id=booking.event_id)}}" class="btn ms-3" id="discardEventBtn">Cancel Booking</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="container mt-4 mb-5">
+                                    <div class="text-center">
+                                        <h4>You have no bookings for {{active_status.lower()}} events.</h4>
+                                    </div>
+                                </div>                            
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

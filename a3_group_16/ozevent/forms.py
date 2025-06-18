@@ -46,17 +46,17 @@ class RegisterForm(FlaskForm):
 # Genre Choices (Event Creation)
 genre_choices = [
     ('', 'Select a genre'),  # Placeholder
-    ('rock', 'Rock'),
-    ('hip-hop', 'Hip-Hop'),
-    ('pop', 'Pop'),
-    ('edm', 'EDM'),
-    ('r&b', 'R & B'),
-    ('latin', 'Latin'),
-    ('k-pop', 'K-Pop'),
-    ('country', 'Country'),
-    ('jazz', 'Jazz'),
-    ('classical', 'Classical')
-    ]
+    ('Rock', 'Rock'),
+    ('Hip-Hop', 'Hip-Hop'),
+    ('Pop', 'Pop'),
+    ('EDM', 'EDM'),
+    ('R & B', 'R & B'),
+    ('Latin', 'Latin'),
+    ('K-Pop', 'K-Pop'),
+    ('Country', 'Country'),
+    ('Jazz', 'Jazz'),
+    ('Classical', 'Classical')
+]
 
 # Event Creation Form
 class EventForm(FlaskForm):

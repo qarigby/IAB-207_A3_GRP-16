@@ -36,13 +36,13 @@
                             <div class="form-group row">
                                 <div class="col-sm-5 col-md-5 col-lg-6">
                                     <!-- Event Title -->
-                                    {{ form.title.label(class="form-label") }}
+                                    {{ form.title.label(class="form-label") }}<strong>*</strong>
                                     {{ form.title(class="form-control") }}
                                 </div>
 
                                 <!-- Genre -->
                                 <div class="col-sm-5 col-md-5 col-lg-6">
-                                    {{ form.genre.label(class="form-label") }}
+                                    {{ form.genre.label(class="form-label") }}<strong>*</strong>
                                     {{ form.genre(class="form-control") }}
                                 </div>
                             </div>
@@ -56,13 +56,13 @@
                             
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <!-- Venue -->
-                                {{ form.venue.label(class="form-label") }}
+                                {{ form.venue.label(class="form-label") }}<strong>*</strong>
                                 {{ form.venue(class="form-control") }}
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <!-- Location -->
-                                {{ form.location.label(class="form-label") }}
+                                {{ form.location.label(class="form-label") }}<strong>*</strong>
                                 {{ form.location(class="form-control") }}
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                             <div class="form-group row">
                                 <!-- Short Description -->
                                 <div class="col-12">
-                                    {{ form.short_description.label(class="form-label") }}
+                                    {{ form.short_description.label(class="form-label") }}<strong>*</strong>
                                     {{ form.short_description(class="form-control") }}
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                             <div class="form-group row">
                                 <!-- Description -->
                                 <div class="col-12">
-                                    {{ form.description.label(class="form-label") }}
+                                    {{ form.description.label(class="form-label") }}<strong>*</strong>
                                     {{ form.description(class="form-control") }}
                                 </div>
                             </div>
@@ -86,19 +86,19 @@
                             <div class="form-group row">
                                 <!-- Date -->
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.date.label(class="form-label") }}
+                                    {{ form.date.label(class="form-label") }}<strong>*</strong>
                                     {{ form.date(class="form-control") }}
                                 </div>
 
                                 <!-- Start Time -->
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.start_time.label(class="form-label") }}
+                                    {{ form.start_time.label(class="form-label") }}<strong>*</strong>
                                     {{ form.start_time(class="form-control") }}
                                 </div>
 
                                 <!-- End Time -->
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                    {{ form.end_time.label(class="form-label") }}
+                                    {{ form.end_time.label(class="form-label") }}<strong>*</strong>
                                     {{ form.end_time(class="form-control") }}
                                 </div>
                             </div> 
@@ -106,13 +106,13 @@
                             <div class="form-group row">                         
                                 <!-- Tickets Available -->
                                 <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.available_tickets.label(class="form-label") }}
+                                    {{ form.available_tickets.label(class="form-label") }}<strong>*</strong>
                                     {{ form.available_tickets(class="form-control") }}
                                 </div>
 
                                 <!-- Ticket Price -->
                                 <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.ticket_price.label(class="form-label") }}
+                                    {{ form.ticket_price.label(class="form-label") }}<strong>*</strong>
                                     {{ form.ticket_price(class="form-control") }}
                                 </div>
                                 
@@ -123,6 +123,15 @@
                                     <!-- Image -->
                                     {{ form.image.label(class="form-label") }}
                                     {{ form.image(class="form-control") }}
+                                </div>
+                            </div>
+
+                            <!-- Mandatory Fields Disclaimer -->
+                            <div class="form-group row mt-3">
+                                <div class="col-12 text-center">
+                                    <small class="fst-italic">
+                                        <strong>*</strong> Fields marked with an asterisk are mandatory.
+                                    </small>
                                 </div>
                             </div>
 

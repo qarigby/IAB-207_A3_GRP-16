@@ -20,7 +20,7 @@ def index():
             db.session.commit()
 
     # Get distinct genres for the dropdown
-    genres = db.session.query(Event.genre).distinct().all()
+    genres = db.session.query(Event.genre).filter(Event.status == "Open").distinct().all()
     genres = [g[0] for g in genres]
 
     return render_template('index.html', events=events, genres=genres)

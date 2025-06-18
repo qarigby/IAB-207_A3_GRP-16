@@ -2,6 +2,7 @@ from flask import Blueprint, abort, flash, render_template, request, redirect, u
 from flask_login import current_user, login_required
 from .models import Booking, Event
 from . import db 
+from sqlalchemy.orm import joinedload
 
 booking_bp = Blueprint('booking', __name__)
 
@@ -9,8 +10,35 @@ booking_bp = Blueprint('booking', __name__)
 @booking_bp.route('/bookings')
 @login_required
 def bookings():
-    bookings = db.session.scalars(db.select(Booking).where(Booking.user_id == current_user.id)).all()
-    return render_template('booking_history.html', bookings=bookings)
+    # Checks if the user has a booking
+    booking_exist = db.session.scalar(db.select(Booking).where(Booking.user_id == current_user.id))
+
+    # Get the requested status
+    status = request.args.get("status", "all").capitalize()
+
+    # Format sold-out status correctly
+    if status == "Sold out":
+        status = "Sold Out"
+
+    # No filtering applied
+    if status == "All":
+        bookings = db.session.scalars(
+            db.select(Booking)
+            .join(Booking.event)
+            .options(joinedload(Booking.event))  # load event data to avoid N+1 issues
+            .where(Booking.user_id == current_user.id)
+            .order_by(Event.date, Event.start_time) 
+        ).all()
+    # Filtering applied
+    else:
+        bookings = db.session.scalars(
+            db.select(Booking)
+            .join(Booking.event)
+            .options(joinedload(Booking.event))
+            .where(Booking.user_id == current_user.id, Event.status == status)
+            .order_by(Event.date, Event.start_time) 
+        ).all()
+    return render_template('booking_history.html', bookings=bookings, active_status=status, booking_exist=booking_exist)
 
 # Cancelling a booking
 @booking_bp.route('/bookings/cancel-<booking_id>')
@@ -31,10 +59,10 @@ def cancel(booking_id):
 
     # If the event was sold out - it now isnt 
     if event.status == "Sold Out":
-        event.status == "Open"
+        event.status = "Open"
     
     # if the event is open (can't cancel bookings for inactive or cancelled events)
-    if event.status == 'Open':
+    if event.status == 'Open' or event.staus == "Sold Out":
         db.session.delete(booking) #delete the booking from db
         db.session.commit()
         flash('Booking cancelled successfully.')
