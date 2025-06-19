@@ -43,8 +43,6 @@ class Event(db.Model):
     date = db.Column(db.Date, index=True, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
-    available_tickets = db.Column(db.Integer, nullable=False)
-    ticket_price = db.Column(Numeric(7, 2), nullable=False)
     short_description = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(400), nullable=False, default='default_event.png')
@@ -53,6 +51,7 @@ class Event(db.Model):
     # Table Relations
     comments = db.relationship('Comment', backref='event')
     bookings = db.relationship('Booking', backref='event')
+    tickets = db.relationship('Ticket', backref='event')
 
     # Foreign Key
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -87,13 +86,33 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ref_code = db.Column(db.String(10), index=True, unique=True, nullable=False)
     num_tickets = db.Column(db.Integer, nullable=False)
-    ticket_type = db.Column(db.String(50), nullable=False)
     date_booked = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
     # Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    ticket_id = db.Column(db.Integer, db.ForeignKey('ticket.id'), nullable=False)
+
+    # Table Relations
+    ticket = db.relationship('Ticket', backref='bookings')
 
     # String Representation (Database)
     def __repr__(self):
-        return f"<Booking id={self.id}, reference='{self.ref_code}', user_id={self.user_id}, event_id={self.event_id}>"
+        return f"<Booking id={self.id}, reference='{self.ref_code}', user_id={self.user_id}, event_id={self.event_id}, ticket_id={self.ticket_id}, num_tickets={self.num_tickets}>>"
+    
+# Tickets Table
+class Ticket(db.Model):
+    __tablename__ = 'ticket'
+
+    # Columns
+    id = db.Column(db.Integer, primary_key=True)
+    ticket_type = db.Column(db.String(50), nullable=False)
+    available_tickets = db.Column(db.Integer, nullable=False)
+    ticket_price = db.Column(Numeric(7, 2), nullable=False)
+
+    # Foreign Keys
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+
+    # String Representation (Database)
+    def __repr__(self):
+        return f"<Ticket id={self.id}, ticket_type='{self.ticket_type}', available_tickets={self.available_tickets}, ticket_price={self.ticket_price}>"

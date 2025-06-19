@@ -1,8 +1,8 @@
 from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 from sqlalchemy import asc
-from .models import Event, Comment, User
-from .forms import EventForm, CommentForm, BookingForm
+from .models import Event, Comment, Ticket, User
+from .forms import EventForm, CommentForm, BookingForm, TicketForm
 from .utils import check_upload_file
 from . import db
 
@@ -76,9 +76,9 @@ def comment(event_id):
 @events_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-    form = EventForm(create_event=True)
+    form = EventForm(create_event=True) #create_event = true ensures correct form validators
 
-    # Pass checks & create event instance
+    # create event
     if form.validate_on_submit():
         db_file_path = check_upload_file(form)
         event = Event(
@@ -90,28 +90,42 @@ def create():
             date=form.date.data,
             start_time=form.start_time.data,
             end_time=form.end_time.data,
-            available_tickets=form.available_tickets.data,
-            ticket_price=form.ticket_price.data,
             short_description=form.short_description.data,
             description=form.description.data,
             image=db_file_path,
             status='Open',
             owner_id=current_user.id
         )
-        
+        # Commit before adding ticket information so event_id exists
         db.session.add(event)
         db.session.commit()
-        flash('Successfully created new event', 'success')
+
+        # Add ticket types
+        for ticket_form in form.tickets:
+            ticket = Ticket(
+                ticket_type=ticket_form.ticket_type.data,
+                ticket_price=ticket_form.ticket_price.data,
+                available_tickets=ticket_form.available_tickets.data,
+                event_id=event.id
+            )
+            db.session.add(ticket)
+        db.session.commit()
+        flash('Successfully created new event')
         return redirect(url_for('events.show', event_id=event.id))
 
-    # Error Validation
+    # Error Validation - Flatten and flash all errors
     if form.errors:
-        all_errors = ", ".join(
-            err_msg
-            for field_errors in form.errors.values()
-            for err_msg in field_errors
-        )
-        flash(f"Cannot create event: {all_errors}")
+        all_errors = []
+        for field, errors in form.errors.items():
+            if isinstance(errors, list):
+                for err in errors:
+                    if isinstance(err, dict):
+                        for subfield, suberrors in err.items():
+                            for suberr in suberrors:
+                                all_errors.append(f"{subfield}: {suberr}")
+                    else:
+                        all_errors.append(f"{field}: {err}")
+        flash("Form errors: " + ", ".join(all_errors))
     return render_template('events/create.html', form=form)
 
 # Register Route: Manage All Events
@@ -129,7 +143,6 @@ def manage(id):
     user_id = current_user.id
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
-
     # If the event doesnt exist
     if not event:
         abort(404)
@@ -137,22 +150,52 @@ def manage(id):
     if event.owner_id != user_id:
         abort(403)
 
-    
-    form = EventForm(modify_event=True, obj=event)
+    form = EventForm(obj=event)
 
     if form.validate_on_submit():
-        db_file_path = check_upload_file(form)
+        """HANDLING TICKET UPDATES"""
+        # Sum of existing ticket quantities (from DB)
+        existing_total = sum(t.available_tickets for t in event.tickets)
+        # Sum of submitted ticket quantities (from form)
+        submitted_total = sum(t.form.available_tickets.data for t in form.tickets)
 
+        existing_tickets = list(event.tickets)
+        submitted_tickets = form.tickets.entries
+
+        # Update existing tickets or create new ones
+        for i, form_ticket in enumerate(submitted_tickets):
+            data = form_ticket.form
+            if i < len (existing_tickets):
+                # Update existing ticket
+                existing_tickets[i].ticket_type = data.ticket_type.data
+                existing_tickets[i].available_tickets = data.available_tickets.data
+                existing_tickets[i].ticket_price = data.ticket_price.data
+            else:
+                # Add new ticket
+                new_ticket = Ticket(
+                    ticket_type = data.ticket_type.data,
+                    available_tickets = data.available_tickets.data,
+                    ticket_price = data.ticket_price.data,
+                    event_id = event.id
+                )
+                db.session.add(new_ticket)
+        
+        # Removing ticket types
+        if len(existing_tickets) > len(submitted_tickets):
+            for ticket in existing_tickets[len(submitted_tickets):]:
+                db.session.delete(ticket)
+
+        """HANDLING EVENT STATUS"""
         # If the number of available tickets was updated
-        if form.available_tickets.data > event.available_tickets:
-            if event.status == "Sold Out":
+        if (event.status == "Sold Out") and (submitted_total > existing_total):
                 event.status = "Open"
+            
+        # If the number of tickets is set to 0
+        if submitted_total == 0:
+            event.status = "Sold Out"
 
-        # If the event is sold out - the number of tickets should not be reduced
-        if event.status == "Sold Out":
-            if form.available_tickets.data < event.available_tickets:
-                flash("As the event is sold out, the number of tickets cannot be reduced.")
-                return render_template('events/manage.html', event=event, form=form)
+        """HANDLING EVENT DETAILS"""
+        db_file_path = check_upload_file(form)
 
         # Setting modified fields
         event.title = form.title.data
@@ -163,16 +206,8 @@ def manage(id):
         event.date = form.date.data
         event.start_time = form.start_time.data
         event.end_time = form.end_time.data
-        event.available_tickets = form.available_tickets.data
-        event.ticket_price = form.ticket_price.data
         event.short_description = form.short_description.data
         event.description = form.description.data
-
-        print(form.available_tickets.data)
-
-        # If the number of tickets is set to 0
-        if form.available_tickets.data == 0:
-            event.status = "Sold Out"
 
         # If the user did not provide a new event image
         if db_file_path != None:
@@ -183,14 +218,19 @@ def manage(id):
         flash('Event updated successfully')
         return redirect(url_for('events.show', event_id=event.id))
 
-    # If the form is not valid (extra validators)
+    # Error Validation - Flatten and flash all errors
     if form.errors:
-        all_errors = ", ".join(
-            err_msg
-            for field_errors in form.errors.values()
-            for err_msg in field_errors
-        )
-        flash(f"Cannot create event: {all_errors}")
+        all_errors = []
+        for field, errors in form.errors.items():
+            if isinstance(errors, list):
+                for err in errors:
+                    if isinstance(err, dict):
+                        for subfield, suberrors in err.items():
+                            for suberr in suberrors:
+                                all_errors.append(f"{subfield}: {suberr}")
+                    else:
+                        all_errors.append(f"{field}: {err}")
+        flash("Form errors: " + ", ".join(all_errors))
     return render_template('events/manage.html', event=event, form=form)
 
 # Register Route: Cancel Event
@@ -212,3 +252,9 @@ def cancel(id):
     else:
         flash('Unable to cancel event. Your event is either in the past or has previously been cancelled.')
     return redirect(url_for('events.owned_events'))
+
+# Adds ticket type to event creation & management forms
+@events_bp.route('/get-ticket-form/<int:index>')
+def get_ticket_form(index):
+    form = TicketForm(prefix=f'tickets-{index}')
+    return render_template('events/extra_ticket_type.html', ticket_form=form)

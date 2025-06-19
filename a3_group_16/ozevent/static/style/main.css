@@ -259,6 +259,15 @@ body {
     letter-spacing: 3px;
 }
 
+.form-subtitle {
+    font-size: clamp(2rem, 3vw, 2rem);
+    font-weight: bold;
+    color: #FFDEAD;
+    white-space: nowrap;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    letter-spacing: 3px;
+}
+
 .form-group .form-select,
 .form-group .form-textarea,
 .form-group .form-control:not(.input-group .form-control) {
@@ -570,4 +579,33 @@ background: #4CBB17;
     color: #000;
     font-weight: 500;
     box-shadow: 0 0 8px rgba(0,0,0,0.08);
+}
+
+#remove-ticket {
+    background: #F28C82;
+    border: 2px solid #FF2400;
+}
+
+#remove-ticket:hover{
+    background: #E34234;
+    color: white;
+}
+
+#add-ticket {
+    background: grey;
+    border: 2px solid black;
+}
+
+#add-ticket:hover {
+    background: darkgray;
+    color: black;
+}
+
+#remove-ticket,
+#add-ticket {
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.5s ease;
 }
