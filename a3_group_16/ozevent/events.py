@@ -118,13 +118,13 @@ def create():
         all_errors = []
         for field, errors in form.errors.items():
             if isinstance(errors, list):
-                for err in errors:
-                    if isinstance(err, dict):
-                        for subfield, suberrors in err.items():
-                            for suberr in suberrors:
-                                all_errors.append(f"{subfield}: {suberr}")
+                for error in errors:
+                    if isinstance(error, dict):
+                        for subfield, suberrors in error.items():
+                            for sub_error in suberrors:
+                                all_errors.append(f"{subfield}: {sub_error}")
                     else:
-                        all_errors.append(f"{field}: {err}")
+                        all_errors.append(f"{field}: {error}")
         flash("Form errors: " + ", ".join(all_errors))
     return render_template('events/create.html', form=form)
 
@@ -223,13 +223,13 @@ def manage(id):
         all_errors = []
         for field, errors in form.errors.items():
             if isinstance(errors, list):
-                for err in errors:
-                    if isinstance(err, dict):
-                        for subfield, suberrors in err.items():
-                            for suberr in suberrors:
-                                all_errors.append(f"{subfield}: {suberr}")
+                for error in errors:
+                    if isinstance(error, dict):
+                        for subfield, suberrors in error.items():
+                            for sub_error in suberrors:
+                                all_errors.append(f"{subfield}: {sub_error}")
                     else:
-                        all_errors.append(f"{field}: {err}")
+                        all_errors.append(f"{field}: {error}")
         flash("Form errors: " + ", ".join(all_errors))
     return render_template('events/manage.html', event=event, form=form)
 
