@@ -46,37 +46,46 @@ class RegisterForm(FlaskForm):
 # Genre Choices (Event Creation)
 genre_choices = [
     ('', 'Select a genre'),  # Placeholder
-    ('Rock', 'Rock'),
-    ('Hip-Hop', 'Hip-Hop'),
-    ('Pop', 'Pop'),
-    ('EDM', 'EDM'),
-    ('R & B', 'R & B'),
-    ('Latin', 'Latin'),
-    ('K-Pop', 'K-Pop'),
-    ('Country', 'Country'),
-    ('Jazz', 'Jazz'),
-    ('Classical', 'Classical')
-]
+    ('alternative', 'Alternative'),
+    ('blues', 'Blues'),
+    ('classical', 'Classical'),
+    ('country', 'Country'),
+    ('drum & bass', 'Drum & Bass'),
+    ('edm', 'EDM'),
+    ('folk', 'Folk'),
+    ('hip-hop', 'Hip-Hop'),
+    ('jazz', 'Jazz'),
+    ('latin', 'Latin'),
+    ('metal', 'Metal'),
+    ('opera', 'Opera'),
+    ('pop', 'Pop'),
+    ('reggae', 'Reggae'),
+    ('r&b', 'R&B'),
+    ('rock', 'Rock'),
+    ('soul', 'Soul'),
+    ('other', 'Other')
+    ]
 
 # Event Creation Form
 class EventForm(FlaskForm):
     title = StringField('Event Title', validators=[InputRequired('Please enter the event title.'), Length(max=100, message='Input exceeds maximum length.')])
-    artist = StringField('Artist Name(s)', validators=[Length(max=100, message='Input exceeds maximum length.')]) # Artists are optional
+    artist = TextAreaField('Artist(s)', validators=[Length(max=100, message='Input exceeds maximum length.')]) # Artists are optional
     genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre.'), Length(max=50, message='Input exceeds maximum length.')])
-    venue = StringField('Venue', validators=[InputRequired('Please enter the venue'), Length(max=150, message='Input exceeds maximum length.')])
+    custom_genre = StringField('Other Genre', validators=[InputRequired(message='Please enter the genre.'), Length(max=50, message='Input exceeds maximum length.')]) # For users who select 'Other' as genre
+    venue = StringField('Venue', validators=[InputRequired('Please enter the venue.'), Length(max=150, message='Input exceeds maximum length.')])
     location = StringField('Location', validators=[InputRequired('Please enter the location.'), Length(max=150, message='Input exceeds maximum length.')])
-    date = DateField('Date', format='%d-%m-%y', validators=[InputRequired('Please enter a date.')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date.')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time.')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time.')])
-    available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available.'), 
+    available_tickets = IntegerField('Tickets Available', validators=[InputRequired('Please enter the number of tickets available.'), 
                                                                       NumberRange(min=1, message='Quantity must be greater than 1.')])
     ticket_price = StringField('Ticket Price', validators=[InputRequired('Please enter the ticket price.'), 
                                                                Length(max=7, message='Cannot be more than $99,999.99.'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description.'),
                                                                        Length(max=255, message='Cannot exceed 255 characters.')])
-    description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description.')])
+    description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description.'), Length(max=1000, message='Cannot exceed 1000 characters.')])
     image = FileField('Cover Image', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
-    submit = SubmitField('Create')
+    submit = SubmitField('Create Event')
 
     def __init__(self, create_event=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -119,8 +128,14 @@ class EventForm(FlaskForm):
                 )
             )
             if existing:
-                self.title.errors.append('An event with this title, artist(s), date, and start time already exists.')
+                self.title.errors.append('An event with this title, artist(s), date and start time already exists.')
                 return False
+            
+            # Removing minimum number validator so owner can remove all available tickets (triggering the event to sell out)
+            self.available_tickets.validators = [
+                validator for validator in self.available_tickets.validators
+                if not isinstance(validator, NumberRange)
+            ]
         return True
 
 # Event Booking Form
