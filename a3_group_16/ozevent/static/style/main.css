@@ -8,6 +8,9 @@ body {
 .navbar {
     background: #8B4513;
     border-bottom: 3px solid #FFA305;
+    min-height: 78px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .navbar-brand img {
@@ -377,11 +380,6 @@ background: #4CBB17;
     margin-bottom: 2em;
 }
 
-.comment p {
-    margin: 0;
-    font-weight: normal;
-}
-
 #eventForm .form-title {
     font-size: clamp(1.5rem, 2.5vw, 3rem);
     position: absolute;
@@ -398,6 +396,9 @@ background: #4CBB17;
 #eventForm .event-description {
     font-size: clamp(1rem, 1.3vw, 1.6rem);
     font-style: italic;
+    word-break: break-word;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 #middleText {
@@ -444,18 +445,15 @@ background: #4CBB17;
     border: 2px solid #FFA305;
     background: #FFDEAD;
     border-radius: 30px;
+    word-break: break-word;
+    max-width: 100%;
+    overflow-wrap: break-word;
     overflow: hidden;
 }
 
 .accordion-collapse {
-    max-height: 10;
-    overflow: hidden;
     border-radius: 30px;
     transition: max-height 0.5s ease-out;
-}
-
-.accordion-collapse.show {
-    max-height: 260px;
 }
 
 .accordion-button {

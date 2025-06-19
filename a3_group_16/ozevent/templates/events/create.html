@@ -5,45 +5,63 @@
 <!-- Set Page Title -->
 {% block title %}
         <title>OzEvent - {{ heading }}</title>
-{% endblock %} 
+{% endblock %}
 
 <!-- Event Creation Form -->
 {% block content %}
     <section>
         <div class="container mt-5 mb-4">
             <div class="row justify-content-center">
-                <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                    <form id="eventForm" method="POST" enctype="multipart/form-data">
+                <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7">
+                    <form id="eventCreationForm" method="POST" enctype="multipart/form-data" novalidate>
                         {{ form.hidden_tag() }}
-                        <h1 class="form-title pt-2 pb-4 text-center">Create Your Event</h1>
+                        <h1 class="form-title pt-2 pb-4 text-center">Create An Event</h1>
                         <div class="form-group row">
-                            <div class="col-sm-5 col-md-5 col-lg-6">
+                            <div class="col-12">
                                 <!-- Event Title -->
                                 {{ form.title.label(class="form-label") }}<strong>*</strong>
                                 {{ form.title(class="form-control") }}
                             </div>
+                        </div>    
 
-                            <!-- Genre -->
-                            <div class="col-sm-5 col-md-5 col-lg-6">
-                                {{ form.genre.label(class="form-label") }}<strong>*</strong>
-                                {{ form.genre(class="form-control") }}
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <!-- Artist(s) -->
+                                {{ form.artist.label(class="form-label") }}<strong>*</strong>
+                                {{ form.artist(class="form-control", id="extraSmallTextArea") }}
                             </div>
                         </div>
                             
                         <div class="form-group row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- Artist Name -->
-                                {{ form.artist.label(class="form-label") }}
-                                {{ form.artist(class="form-control") }}
+                            <div class="col-sm-5">
+                                <!-- Genre -->
+                                {{ form.genre.label(class="form-label") }}<strong>*</strong>
+                                {{ form.genre(class="form-control", id="genre") }}
                             </div>
                             
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-sm-7">
+                                <!-- Cover Image -->
+                                {{ form.image.label(class="form-label") }}
+                                {{ form.image(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12" id="customGenreField">
+                                <!-- Custom Genre -->
+                                {{ form.custom_genre.label(class="form-label") }}
+                                {{ form.custom_genre(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
                                 <!-- Venue -->
                                 {{ form.venue.label(class="form-label") }}<strong>*</strong>
                                 {{ form.venue(class="form-control") }}
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-md-6">
                                 <!-- Location -->
                                 {{ form.location.label(class="form-label") }}<strong>*</strong>
                                 {{ form.location(class="form-control") }}
@@ -54,7 +72,7 @@
                             <!-- Short Description -->
                             <div class="col-12">
                                 {{ form.short_description.label(class="form-label") }}<strong>*</strong>
-                                {{ form.short_description(class="form-control") }}
+                                {{ form.short_description(class="form-control", id="smallTextArea") }}
                             </div>
                         </div>
 
@@ -62,50 +80,46 @@
                             <!-- Description -->
                             <div class="col-12">
                                 {{ form.description.label(class="form-label") }}<strong>*</strong>
-                                {{ form.description(class="form-control") }}
+                                {{ form.description(class="form-control", id="largeTextArea") }}
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <!-- Date -->
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-md-4">
                                 {{ form.date.label(class="form-label") }}<strong>*</strong>
                                 {{ form.date(class="form-control") }}
                             </div>
 
                             <!-- Start Time -->
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-6 col-md-4">
                                 {{ form.start_time.label(class="form-label") }}<strong>*</strong>
                                 {{ form.start_time(class="form-control") }}
                             </div>
 
                             <!-- End Time -->
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-6 col-md-4">
                                 {{ form.end_time.label(class="form-label") }}<strong>*</strong>
                                 {{ form.end_time(class="form-control") }}
                             </div>
                         </div> 
 
-                        <div class="form-group row">                         
-                            <!-- Tickets Available -->
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                {{ form.available_tickets.label(class="form-label") }}<strong>*</strong>
-                                {{ form.available_tickets(class="form-control") }}
-                            </div>
+                        <div class="form-group row">
+                            <!-- Ticket Type -->
+                            <div class="col-md-4">
+                                
+                            </div> 
 
                             <!-- Ticket Price -->
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-6 col-md-4">
                                 {{ form.ticket_price.label(class="form-label") }}<strong>*</strong>
                                 {{ form.ticket_price(class="form-control") }}
                             </div>
-                            
-                        </div>
 
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <!-- Image -->
-                                {{ form.image.label(class="form-label") }}
-                                {{ form.image(class="form-control") }}
+                            <!-- Tickets Available -->
+                            <div class="col-6 col-md-4">
+                                {{ form.available_tickets.label(class="form-label") }}
+                                {{ form.available_tickets(class="form-control") }}
                             </div>
                         </div>
 
@@ -118,14 +132,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group row pt-4 pb-3 justify-content-center">
+                        <div class="form-group row pt-4 pb-3">
                             <!-- Clear Form Button -->
-                            <div class="col-12 col-md-4 mb-3">
+                            <div class="col-6 d-flex justify-content-center">
                                 <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
                             </div>
 
                             <!-- Create Now Button -->
-                            <div class="col-12 col-md-4">
+                            <div class="col-6 d-flex justify-content-center">
                                 {{ form.submit(class="btn w-100", id="createNowBtn") }}
                             </div>
                         </div>
@@ -134,4 +148,21 @@
             </div>
         </div> 
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var genreSelect = document.getElementById("genre");
+            var customGenreField = document.getElementById("customGenreField");
+            function toggleCustomGenre() {
+                if (genreSelect.value == "other") {
+                    customGenreField.style.display = "block";
+                } else {
+                    customGenreField.style.display = "none";
+                }
+            }
+            if (genreSelect) {
+                genreSelect.addEventListener("change", toggleCustomGenre);
+                toggleCustomGenre(); // Call on page load to set correct state
+            }
+        });
+    </script>
 {% endblock %}

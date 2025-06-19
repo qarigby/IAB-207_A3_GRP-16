@@ -35,7 +35,7 @@ def check_upload_file(form):
 
         # Store relative path in database for use in HTML templates
         db_upload_path = '/static/img/' + filename
-
+        
         # Save uploaded file & return relative path
         img_file.save(upload_path)
         return db_upload_path
