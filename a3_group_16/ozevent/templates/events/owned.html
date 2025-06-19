@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-8">
-                                                <h5 class="card-subtitle mt-2 mb-1">{{ event.date.strftime('%b %d, %Y') }} at {{ event.start_time.strftime('%#I%p')|upper }} - {{event.end_time.strftime('%#I%p')|upper}}</h5>
+                                                <h5 class="card-subtitle mt-2 mb-1">{{ event.date.strftime('%b %d, %Y') }} at {{ event.start_time.strftime('%#I:%M%p')|upper }} - {{ event.end_time.strftime('%#I:%M%p')|upper }}</h5>
                                                 <h5 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h5>
                                                 <h5 class="card-subtitle mt-2 mb-1">Available Tickets: 
                                                     {% for ticket in event.tickets %}
