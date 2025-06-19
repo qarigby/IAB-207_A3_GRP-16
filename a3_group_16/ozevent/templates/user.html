@@ -22,32 +22,10 @@
     {% if heading == 'Login' %}
     <div class="container mt-5 mb-4">
         <div class="row justify-content-center">
-            <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <form id="LoginForm" method="POST" enctype="multipart/form-data">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group row mt-2">
-                        <!-- Short Description -->
-                        <div class="col-12">
-                            {{ form.username.label(class="form-label") }}
-                            {{ form.username(class="form-control") }}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <!-- Description -->
-                        <div class="col-12">
-                            {{ form.password.label(class="form-label") }}
-                            {{ form.password(class="form-control") }}
-                        </div>
-                    </div>
-
-                    <div class="form-group row pt-4 pb-3 justify-content-center">
-                        <!-- Submit button -->
-                        <div class="col-12 col-md-4">
-                            {{ form.submit(class="btn w-100", id="createNowBtn") }}
-                        </div>
-                    </div>
-                </form>    
+            <div class="event-form col-md-6">
+                <div>
+                    {{ render_form(form, novalidate=True) }}
+                </div>
             </div>
         </div>
         

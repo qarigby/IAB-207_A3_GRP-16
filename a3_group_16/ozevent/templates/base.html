@@ -33,7 +33,7 @@
                     <img src="{{ url_for('static', filename='img/brand_logo.png') }}" alt="OzEvent Logo" class="d-inline-block align-text-top img-fluid">
                 </a>
 
-                 <!-- Desktop Menu -->
+                <!-- Desktop Menu -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto">
                                            
@@ -89,16 +89,16 @@
         <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="logoutModalLabel">Confirm Sign Out</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header bg-warning">
+                        <h4 class="modal-title text-center w-100" id="logoutModalLabel">Confirm Sign Out</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        Are you sure you want to sign out?
+                    <div class="modal-body text-center">
+                        Are you sure you want to sign out, {{ current_user.firstname }}?
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <a class="btn btn-danger" href="{{ url_for('auth.logout') }}">Sign Out</a>
+                    <div class="modal-footer justify-content-center mb-4">
+                        <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                        <a href="{{ url_for('auth.logout') }}" class="btn ms-3" id="signOutBtn">Sign Out</a>
                     </div>
                 </div>
             </div>
@@ -111,19 +111,19 @@
                 {% if messages %}
                     <!-- Modal -->
                     <div class="modal fade" id="flashModal" tabindex="-1" aria-labelledby="flashModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header bg-warning">
-                                    <h5 class="modal-title" id="flashModalLabel">Notice</h5>
+                                    <h4 class="modal-title text-center w-100" id="flashModalLabel">Notice</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body text-center mt-3">
                                     {% for message in messages %}
                                         <p>{{ message }}</p>
                                     {% endfor %}
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <div class="modal-footer justify-content-center mb-4">
+                                    <button type="button" class="btn" id="proceedBtn" data-bs-dismiss="modal">Proceed</button>
                                 </div>
                             </div>
                         </div>
