@@ -22,47 +22,21 @@ body {
     transition: transform 0.3s ease;
 }
 
-.navbar-nav,
-.offcanvas,
-.offcanvas .dropdown-menu {
-    font-family: inherit;
+#navbarSupportedContent {
+    align-items: center;
 }
 
-.navbar-nav .dropdown-menu {
-    background: #8B4513;
-    border: none;
-}
-
-.navbar-nav .nav-link,
-.navbar-nav .dropdown-toggle,
-.navbar-nav .dropdown-menu .dropdown-item {
+.navbar-nav .nav-link {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
     font-weight: 600;
     color: #FFDEAD;
     white-space: nowrap;
     line-height: 2.5;
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 1.5rem;
     transition: all 0.3s ease;
 }
 
-.navbar-nav .dropdown-toggle:focus,
-.navbar-nav .dropdown-toggle.show {
-    color: #FFD700;
-    background: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-    letter-spacing: 0.5px;
-}
-
-.navbar-nav .dropdown-toggle:not(.show) {
-    color: #FFDEAD;
-    text-shadow: none;
-    transform: none;
-    letter-spacing: normal;
-}
-
-.navbar-nav .nav-link:hover,
-.navbar-nav .dropdown-menu .dropdown-item:hover {
+.navbar-nav .nav-link:hover {
     color: #FFD700;
     background: transparent;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -76,25 +50,29 @@ body {
     width: 70% !important;
 }
 
-.offcanvas .nav-link,
-.offcanvas .dropdown-toggle,
-.offcanvas .dropdown-menu .dropdown-item {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #FFDEAD;
-    white-space: nowrap;
-    line-height: 2.5;
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
+.offcanvas-body {
+    background: #FFDEAD;
 }
 
-.offcanvas .nav-link:hover,
-.offcanvas .dropdown-menu .dropdown-item:hover {
-    color: #FFD700;
-    background: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-    letter-spacing: 0.5px;
+.offcanvas-divider {
+    border-bottom: 3px solid #FFA305;
+    width: 100%;
+    margin-top: 0rem;
+}
+
+#offcanvasNavItems .nav-link {
+    font-size: 1.2rem;
+    padding: 0.25rem 0.75rem;
+    color: #8B4513;
+}
+
+#offcanvasNavItems .nav-link:hover {
+    color: #FFC300;
+    transform: scale(1.05);
+    text-shadow:
+        1px 1px 4px rgba(0, 0, 0, 0.5),
+        2px 2px 6px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-toggler {
@@ -276,8 +254,11 @@ body {
 
 .form-group .btn,
 #postCommentBtn,
+#confirmPostCommentBtn,
 #buyTicketsBtn,
-#cancelBtn {
+#signOutBtn,
+#cancelBtn,
+#proceedBtn {
     color: #8B4513;
     padding: 10px 20px;
     font-size: 1rem;
@@ -287,22 +268,24 @@ body {
     transition: all 0.5s ease;
 }
 
-#discardEventBtn {
+#discardEventBtn,
+#signOutBtn {
     background: #F28C82;
     border: 2px solid #FF2400;
 }
 
-#discardEventBtn:hover {
+#discardEventBtn:hover,
+#signOutBtn:hover {
     background: #E34234;
     color: white;
 }
 
-#saveDraftBtn {
+#proceedBtn {
     background: #90BFF9;
     border: 2px solid #6082B6;
 }
 
-#saveDraftBtn:hover {
+#proceedBtn:hover {
     background: #6495ED;
     color: white;
 }
@@ -357,13 +340,15 @@ body {
     font-size: clamp(10px, 2.5vw, 17px);
 }
 
-#postCommentBtn {
+#postCommentBtn,
+#confirmPostCommentBtn {
     background: #90BFF9;
     font-weight: 500px;
     border: 2px solid #6082B6;
 }
 
-#postCommentBtn:hover {
+#postCommentBtn:hover,
+#confirmPostCommentBtn:hover {
     background: #6495ED;
     color: white;
 }
@@ -397,7 +382,7 @@ background: #4CBB17;
     font-weight: normal;
 }
 
-#bookingForm .form-title {
+#eventForm .form-title {
     font-size: clamp(1.5rem, 2.5vw, 3rem);
     position: absolute;
     top: 40%;
@@ -410,7 +395,7 @@ background: #4CBB17;
         0 0 20px rgba(0, 0, 0, 0.8);
 }
 
-#bookingForm .event-description {
+#eventForm .event-description {
     font-size: clamp(1rem, 1.3vw, 1.6rem);
     font-style: italic;
 }
@@ -509,15 +494,57 @@ background: #4CBB17;
     object-fit: cover;
 }
 
-#commentTextArea {
-    height: 40px;
-    border: 2px solid #FFA305;
+#extraSmallTextArea {
+    height: 30px;
+    border: 2x black;
     transition: height 0.3s ease;
 }
 
-#commentTextArea:hover,
-#commentTextArea:focus {
+#extraSmallTextArea:hover,
+#extraSmallTextArea:focus {
+    height: 60px;
+}
+
+#smallTextArea {
+    height: 40px;
+    border: 2x black;
+    transition: height 0.3s ease;
+}
+
+#smallTextArea:hover,
+#smallTextArea:focus {
     height: 100px;
+}
+
+#largeTextArea {
+    height: 60px;
+    border: 2x black;
+    transition: height 0.3s ease;
+}
+
+#largeTextArea:hover,
+#largeTextArea:focus {
+    height: 180px;
+}
+
+#customGenreField {
+    display: none;
+}
+
+#welcomeUser {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    color: #8B4513;
+    white-space: nowrap;
+    line-height: 2.5;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(90deg, #FFD700 25%, #FFDEAD 100%);
+    border-radius: 20px;
+    border: 2px solid #FFD700;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
 .comment-section {
