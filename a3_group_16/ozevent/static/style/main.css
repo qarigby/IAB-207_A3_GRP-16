@@ -282,6 +282,12 @@ body {
     transition: all 0.5s ease;
 }
 
+#addTicketBtn,
+#removeTicketBtn {
+    height: 60px;
+    width: 160px;
+}
+
 #saveDraftBtn,
 #addTicketBtn {
     background: #90BFF9;
