@@ -103,27 +103,48 @@
                                 </div>
                             </div> 
 
-                            <div class="form-group row">                         
-                                <!-- Tickets Available -->
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.available_tickets.label(class="form-label") }}<strong>*</strong>
-                                    {{ form.available_tickets(class="form-control") }}
-                                </div>
-
-                                <!-- Ticket Price -->
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    {{ form.ticket_price.label(class="form-label") }}<strong>*</strong>
-                                    {{ form.ticket_price(class="form-control") }}
-                                </div>
-                                
-                            </div>
-
                             <div class="form-group row">
                                 <div class="col-12">
                                     <!-- Image -->
                                     {{ form.image.label(class="form-label") }}
                                     {{ form.image(class="form-control") }}
                                 </div>
+                            </div>
+
+                            <!-- Allowing for multiple ticket types per event -->
+                            <div id="ticket-table">
+                                {% for ticket_form in form.tickets %}
+                                <div class="form-group row ticket-row">
+                                    <!-- Ticket Type -->
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                        {{ ticket_form.ticket_type.label(class="form-label") }}<strong>*</strong>
+                                        {{ ticket_form.ticket_type(class="form-control") }}
+                                    </div>
+
+                                    <!-- Available Tickets  -->
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                        {{ ticket_form.available_tickets.label(class="form-label") }}<strong>*</strong>
+                                        {{ ticket_form.available_tickets(class="form-control") }}
+                                    </div>
+
+                                    <!-- Ticket Price -->
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                        {{ ticket_form.ticket_price.label(class="form-label") }}<strong>*</strong>
+                                        {{ ticket_form.ticket_price(class="form-control") }}
+                                    </div>
+                                </div> 
+                                {% endfor %}
+                            </div>
+
+                            <!-- Add and remove ticket types -->
+                            <div class="form-group row justify-content-center pb-4">
+                                <div class="col-12 col-md-4 mb-3">
+                                    <button type="button" class="btn w-100" id="remove-ticket">Remove Ticket Type</button>
+                                </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <button type="button" class="btn w-100" id="add-ticket">Add Ticket Type</button>
+                                </div>                            
                             </div>
 
                             <!-- Mandatory Fields Disclaimer -->
@@ -154,7 +175,6 @@
         <div class="container mt-4 mb-3" style="padding-bottom: 2rem;">
             <div class="text-center">
                 <h4>This event cannot be edited.</h4>
-                <h5>Click <a href="{{url_for('events.owned_events')}}">here</a> to view the list of manageable events.</h5>
             </div>
         </div>
 
@@ -168,7 +188,7 @@
         
 
         <!-- Cancel Event Button -->
-        {% if event.status == "Open" %}
+        {% if event.status == "Open" or event.status == "Sold Out"%}
         <section>
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
@@ -214,6 +234,9 @@
         <script>
             const form = document.getElementById("eventForm");
             const submit = document.getElementById("createNowBtn");
+            const container = document.getElementById('ticket-table');
+            const addButton = document.getElementById('add-ticket');
+            const removeButton = document.getElementById('remove-ticket');
 
             submit.classList.add('disabled');
 
@@ -222,6 +245,9 @@
             form.querySelectorAll('input, select, textarea').forEach(field => {
                 initialValues[field.name] = field.value;
             });
+
+            // Store the initial number of ticket types
+            let initialRowCount = container.querySelectorAll('.form-group.row').length;
 
             // Function to check for changes
             function checkForChanges() {
@@ -232,6 +258,12 @@
                     changed = true;
                 }
                 });
+
+                // Check row count
+                const currentRowCount = container.querySelectorAll('.form-group.row').length;
+                if (currentRowCount !== initialRowCount) {
+                    changed = true;
+                }
 
                 // update styling
                 if (changed) {
@@ -245,6 +277,41 @@
             form.querySelectorAll('input, select, textarea').forEach(field => {
                 field.addEventListener('input', checkForChanges);
             });
+
+            // Also listen for DOM changes inside the ticket table
+            const observer = new MutationObserver(checkForChanges);
+            observer.observe(container, { childList: true, subtree: true });
+
+            // Disable button if there is only 1 ticket type
+            function updateRemoveButtonState() {
+                const ticketRows = container.querySelectorAll('.ticket-row');
+                removeButton.disabled = ticketRows.length <= 1;
+            }
+
+            // Add another ticket type
+            document.getElementById('add-ticket').addEventListener('click', function() {
+                let index = container.querySelectorAll('.form-group.row').length;
+
+                // Fetch a blank template from a hidden field or template string
+                fetch(`/events/get-ticket-form/${index}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        container.insertAdjacentHTML('beforeend', html);
+                        updateRemoveButtonState();
+                    });
+            });
+
+            // Rempove last ticket type
+            document.getElementById('remove-ticket').addEventListener('click', function () {
+                let ticketRows = container.querySelectorAll('.ticket-row');
+
+                if (ticketRows.length > 1) {
+                    ticketRows[ticketRows.length - 1].remove();
+                    updateRemoveButtonState();
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', updateRemoveButtonState);
         </script>
 
 

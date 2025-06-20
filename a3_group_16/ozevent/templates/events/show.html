@@ -53,13 +53,15 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <h4 class="mb-3" id="middleHeading">Tickets</h4>
-                                {% if event.available_tickets > 1 %}
-                                    <p>{{ event.available_tickets }} Tickets Remain!<br>${{ event.ticket_price }}</p>
-                                {% elif event.available_tickets == 1 %}
-                                    <p>Only {{ event.available_tickets }} Ticket Remains!<br>${{ event.ticket_price }}</p>
-                                {% else %}
-                                    <p>{{ event.available_tickets }} Tickets Remain <br>Event is Sold Out</p>
-                                {% endif %}
+                                {% for ticket in event.tickets %}
+                                    {% if ticket.available_tickets > 1 %}
+                                        <p>{{ ticket.available_tickets }} Tickets Remain!<br>${{ ticket.ticket_price }}</p>
+                                    {% elif ticket.available_tickets == 1 %}
+                                        <p>{{ ticket.available_tickets }} Ticket Remains!<br>${{ ticket.ticket_price }}</p>
+                                    {% else %}
+                                        <p>{{ ticket.available_tickets }} Tickets Remain <br>Event is Sold Out</p>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div>
                                 <hr class="row-divider mb-4">

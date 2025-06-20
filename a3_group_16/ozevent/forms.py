@@ -1,4 +1,5 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
+from wtforms import FieldList, FormField
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, DateField, TimeField, IntegerField, SelectField, DecimalField
 from wtforms.validators import InputRequired, DataRequired, Length, Email, EqualTo, ValidationError, NumberRange, Regexp
 from flask_wtf.file import FileRequired, FileField, FileAllowed
@@ -66,6 +67,12 @@ genre_choices = [
     ('other', 'Other')
     ]
 
+# Ticket Form
+class TicketForm(Form):
+    ticket_type = StringField('Ticket Type', validators=[InputRequired('Ticket Type must be provided'), Length(max=50, message='Input exceeds maximum length')])
+    available_tickets = IntegerField('Available Tickets', validators=[InputRequired("Please enter the number of tickets available")])
+    ticket_price = DecimalField('Price ($)', validators=[InputRequired("Please enter ticket price"), NumberRange(min=0)])       
+
 # Event Creation Form
 class EventForm(FlaskForm):
     title = StringField('Event Title', validators=[InputRequired('Please enter the event title.'), Length(max=100, message='Input exceeds maximum length.')])
@@ -77,13 +84,12 @@ class EventForm(FlaskForm):
     date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date.')])
     start_time = TimeField('Start Time', format='%H:%M', validators=[InputRequired('Please enter a start time.')])
     end_time = TimeField('End Time', format='%H:%M', validators=[InputRequired('Please enter an end time.')])
-    available_tickets = IntegerField('Tickets Available', validators=[InputRequired('Please enter the number of tickets available.'), 
-                                                                      NumberRange(min=1, message='Quantity must be greater than 1.')])
-    ticket_price = StringField('Ticket Price', validators=[InputRequired('Please enter the ticket price.'), 
-                                                               Length(max=7, message='Cannot be more than $99,999.99.'), Regexp(r'^\d{1,5}(\.\d{1,2})?$')])
+    tickets = FieldList(FormField(TicketForm), min_entries=1)
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description.'),
                                                                        Length(max=255, message='Cannot exceed 255 characters.')])
     description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description.'), Length(max=1000, message='Cannot exceed 1000 characters.')])
+
+    description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description')])
     image = FileField('Cover Image', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
     submit = SubmitField('Create Event')
 
@@ -93,7 +99,8 @@ class EventForm(FlaskForm):
 
         # available_tickets cannot be set to 0 during event creation
         if self._create_event:
-            self.available_tickets.validators = [InputRequired('Please enter the number of tickets available.'), NumberRange(min=1, message='Available ticket quantity must be greater than 1.')]
+            for ticket_form in self.tickets:
+                ticket_form.form.available_tickets.validators = [InputRequired('Please enter the number of tickets available.'), NumberRange(min=1, message='Available ticket quantity must be greater than 1.')]
     
     # Field Validators
     def validate_date(self, field):

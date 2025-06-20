@@ -104,23 +104,43 @@
                             </div>
                         </div> 
 
-                        <div class="form-group row">
-                            <!-- Ticket Type -->
-                            <div class="col-md-4">
-                                
+                        <!-- Ticketing Section -->
+                        <h3 class="form-subtitle pt-3 pb-4 text-center">Ticketing</h3>
+
+                        <!-- Allowing for multiple ticket types per event -->
+                        <div id="ticket-table">
+                            {% for ticket_form in form.tickets %}
+                            <div class="form-group row ticket-row">
+                                <!-- Ticket Type -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ ticket_form.ticket_type.label(class="form-label") }}<strong>*</strong>
+                                    {{ ticket_form.ticket_type(class="form-control") }}
+                                </div>
+
+                                <!-- Available Tickets  -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ ticket_form.available_tickets.label(class="form-label") }}<strong>*</strong>
+                                    {{ ticket_form.available_tickets(class="form-control") }}
+                                </div>
+
+                                <!-- Ticket Price -->
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    {{ ticket_form.ticket_price.label(class="form-label") }}<strong>*</strong>
+                                    {{ ticket_form.ticket_price(class="form-control") }}
+                                </div>
                             </div> 
+                            {% endfor %}
+                        </div>
 
-                            <!-- Ticket Price -->
-                            <div class="col-6 col-md-4">
-                                {{ form.ticket_price.label(class="form-label") }}<strong>*</strong>
-                                {{ form.ticket_price(class="form-control") }}
+                        <!-- Add and remove ticket types -->
+                        <div class="form-group row justify-content-center pb-4">
+                            <div class="col-12 col-md-4 mb-3">
+                                <button type="button" class="btn w-100" id="remove-ticket">Remove Ticket Type</button>
                             </div>
 
-                            <!-- Tickets Available -->
-                            <div class="col-6 col-md-4">
-                                {{ form.available_tickets.label(class="form-label") }}
-                                {{ form.available_tickets(class="form-control") }}
-                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <button type="button" class="btn w-100" id="add-ticket">Add Ticket Type</button>
+                            </div>                            
                         </div>
 
                         <!-- Mandatory Fields Disclaimer -->
@@ -146,9 +166,13 @@
                     </form>    
                 </div>
             </div>
-        </div> 
+        </div>  
     </section>
     <script>
+        const container = document.getElementById('ticket-table');
+        const addButton = document.getElementById('add-ticket');
+        const removeButton = document.getElementById('remove-ticket');
+
         document.addEventListener('DOMContentLoaded', function() {
             var genreSelect = document.getElementById("genre");
             var customGenreField = document.getElementById("customGenreField");
@@ -164,5 +188,36 @@
                 toggleCustomGenre(); // Call on page load to set correct state
             }
         });
+
+        // Disable button if there is only 1 ticket type
+        function updateRemoveButtonState() {
+            const ticketRows = container.querySelectorAll('.ticket-row');
+            removeButton.disabled = ticketRows.length <= 1;
+        }
+
+        // Add another ticket type
+        document.getElementById('add-ticket').addEventListener('click', function() {
+            let index = container.querySelectorAll('.form-group.row').length;
+
+            // Fetch a blank template from a hidden field or template string
+            fetch(`get-ticket-form/${index}`)
+                .then(res => res.text())
+                .then(html => {
+                    container.insertAdjacentHTML('beforeend', html);
+                    updateRemoveButtonState();
+                });
+        });
+
+        // Rempove last ticket type
+        document.getElementById('remove-ticket').addEventListener('click', function () {
+            let ticketRows = container.querySelectorAll('.ticket-row');
+
+            if (ticketRows.length > 1) {
+                ticketRows[ticketRows.length - 1].remove();
+                updateRemoveButtonState();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', updateRemoveButtonState);
     </script>
 {% endblock %}
