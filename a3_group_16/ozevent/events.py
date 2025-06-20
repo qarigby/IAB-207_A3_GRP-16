@@ -173,7 +173,7 @@ def manage(id):
         event.short_description = event_form.short_description.data
         event.description = event_form.description.data
 
-        print(form.available_tickets.data)
+        print(event_form.available_tickets.data)
 
         # If the number of tickets is set to 0
         if event_form.available_tickets.data == 0:
