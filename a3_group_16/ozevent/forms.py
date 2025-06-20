@@ -78,7 +78,7 @@ class EventForm(FlaskForm):
     title = StringField('Event Title', validators=[InputRequired('Please enter the event title.'), Length(max=100, message='Input exceeds maximum length.')])
     artist = TextAreaField('Artist(s)', validators=[Length(max=100, message='Input exceeds maximum length.')]) # Artists are optional
     genre = SelectField('Genre', choices=genre_choices, validators=[InputRequired(message='Please select a genre.'), Length(max=50, message='Input exceeds maximum length.')])
-    custom_genre = StringField('Other Genre', validators=[InputRequired(message='Please enter the genre.'), Length(max=50, message='Input exceeds maximum length.')]) # For users who select 'Other' as genre
+    custom_genre = StringField('Other Genre', validators=[Length(max=50, message='Input exceeds maximum length.')]) # For users who select 'Other' as genre
     venue = StringField('Venue', validators=[InputRequired('Please enter the venue.'), Length(max=150, message='Input exceeds maximum length.')])
     location = StringField('Location', validators=[InputRequired('Please enter the location.'), Length(max=150, message='Input exceeds maximum length.')])
     date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired('Please enter a date.')])
@@ -103,6 +103,10 @@ class EventForm(FlaskForm):
                 ticket_form.form.available_tickets.validators = [InputRequired('Please enter the number of tickets available.'), NumberRange(min=1, message='Available ticket quantity must be greater than 1.')]
     
     # Field Validators
+    def validate_custom_genre(self, field):
+        if self.genre.data == 'Other' and not field.data.strip():
+            raise ValidationError('Please enter the genre.')
+
     def validate_date(self, field):
         if field.data and field.data < date.today():
             raise ValidationError('Date cannot be in the past.')
@@ -137,12 +141,6 @@ class EventForm(FlaskForm):
             if existing:
                 self.title.errors.append('An event with this title, artist(s), date and start time already exists.')
                 return False
-            
-            # Removing minimum number validator so owner can remove all available tickets (triggering the event to sell out)
-            self.available_tickets.validators = [
-                validator for validator in self.available_tickets.validators
-                if not isinstance(validator, NumberRange)
-            ]
         return True
 
 # Event Booking Form

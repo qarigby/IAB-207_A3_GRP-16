@@ -158,12 +158,12 @@ def create():
                 ticket_type=ticket_form.ticket_type.data,
                 ticket_price=ticket_form.ticket_price.data,
                 available_tickets=ticket_form.available_tickets.data,
-                event_id=event_form.id
+                event_id=new_event.id
             )
             db.session.add(ticket)
         db.session.commit()
         flash('Successfully created new event')
-        return redirect(url_for('events.show', event_id=event_form.id))
+        return redirect(url_for('events.show', event_id=new_event.id))
 
     # Error Validation - flash the first error
     if event_form.errors:

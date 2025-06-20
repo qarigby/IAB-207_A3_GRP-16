@@ -29,7 +29,7 @@
                             {% for event in events %}
                             <div class="event">
                                 <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4">
-                                    <img src="{{ url_for('static', filename='img/' ~ event.image) }}" class="card-img-top" alt="event-img" />
+                                    <img src="{{ event.image }}" class="card-img-top" alt="event-img" />
                                     <span class="status-bubble 
                                         {% if event.status == 'Open' %}bg-open
                                         {% elif event.status == 'Sold Out' %}bg-soldOut
