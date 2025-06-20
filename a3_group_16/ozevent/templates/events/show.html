@@ -97,6 +97,11 @@
                                                         <span class="text-muted small">{{ comment.created_at.strftime('%b %d, %Y at %I:%M %p') }}</span>
                                                     </div>
                                                     <div>{{ comment.text }}</div>
+                                                    {% if current_user.id == comment.user.id %}
+                                                        <form method="POST" action="{{ url_for('events.delete_comment', event_id=event.id, comment_id=comment.id) }}" class="mt-2">
+                                                            <button type="submit" class="btn btn-sm btn-danger">Delete Comment</button>
+                                                        </form>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         {% else %}

@@ -67,7 +67,7 @@ def book(event_id):
         db.session.commit()
         flash(f"Your booking was successful. The reference number for this booking is {ref_code}")
         return redirect(url_for('events.show', event_id=event.id))
-    return(url_for('events.show', event_id=event_id, booking_form=booking_form  ))
+    return(redirect(url_for('events.show', event_id=event_id, booking_form=booking_form)))
 
 # Register Route: Post Comments on Event
 @events_bp.route('/<event_id>/comment', methods=['GET', 'POST'])
@@ -86,6 +86,33 @@ def comment(event_id):
         return redirect(url_for('events.show', event_id=event_id))
     # If method is GET or form is invalid
     return render_template('events/show.html', comment_form=comment_form, event=event)
+
+
+# Delete Comment Route: Allows a user to delete their comment
+@events_bp.route('/<event_id>/comments/<comment_id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_comment(event_id, comment_id):
+    event = db.session.get(Event, event_id)
+    comment = db.session.get(Comment, comment_id)
+
+    # If the event doesnt exist:
+    if not event:
+        abort(404)
+    # If the comment doesnt exist:
+    if not comment:
+        abort(404)
+    # If the user is not the author of the comment
+    if current_user.id != comment.user_id:
+        abort(403)
+
+    # Delete the comment
+    db.session.delete(comment)
+    db.session.commit()
+
+    flash("Comment deleted successfully.")
+    return(redirect(url_for('events.show', event_id=event.id)))
+
+    
 
 # Register Route: Create Event
 @events_bp.route('/create', methods=['GET', 'POST'])

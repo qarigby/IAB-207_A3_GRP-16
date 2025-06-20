@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, unique=True, nullable=False)
-    profile_pic = db.Column(db.String(400), nullable=False, default='default_profile.png')
+    profile_pic = db.Column(db.String(400), nullable=False, default='/static/img/default_profile_picture.png')
     phone_number = db.Column(db.String(10), nullable=False)
     street_address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)

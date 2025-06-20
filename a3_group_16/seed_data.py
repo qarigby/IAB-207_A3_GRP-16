@@ -1,7 +1,7 @@
 from datetime import date, time
 from flask_bcrypt import generate_password_hash
 from ozevent import create_app, db
-from ozevent.models import Event, Ticket, User
+from ozevent.models import Booking, Event, Ticket, User
 
 app = create_app()
 app.app_context().push()
@@ -9,6 +9,7 @@ app.app_context().push()
 # Optional: clear old logs
 db.session.query(Event).delete()
 db.session.query(Ticket).delete()
+db.session.query(Booking).delete()
 db.session.query(User).delete()
 db.session.commit()
 
