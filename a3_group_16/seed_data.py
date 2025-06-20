@@ -179,4 +179,4 @@ db.session.add_all(tickets)
 db.session.add_all(users)
 db.session.commit()
 
-print("Seeded 6 new events, 4 new users and 11 new tickets into the database")
+print("Seeded 6 new events, 4 new users and 11 new tickets into the database.")
