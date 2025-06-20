@@ -10,12 +10,11 @@
     <section class="content-spacing">
         <div class="container mt-5 mb-3">
             <div class="row g-5 justify-content-center">
-                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8 position-relative">
-                    <!-- Back button -->
-                    <a href="{{url_for('events.owned_events')}}" class="btn btn-secondary position-absolute top-50 translate-middle-y" style="left: 75px;">Back</a>
-                    
-                    <!-- Centered title -->
-                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Event Manager</h1>
+                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-7 position-relative">
+                    <div class="form-title pill-format mt-2 mb-3 text-center w-100 d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn ms-5" id="proceedBtn">Back</button>
+                        <span class="flex-grow-1">Event Manager</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,7 +29,7 @@
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
                     <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7">
-                        <form id="eventCreationForm" method="POST" enctype="multipart/form-data" novalidate="novalidate">
+                        <form id="eventCreationForm" method="POST" enctype="multipart/form-data">
                             {{ form.hidden_tag() }}
                             <div class="form-group row">
                                 <div class="col-12">
@@ -171,9 +170,9 @@
                                     <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
                                 </div>
 
-                                <!-- Create Now Button -->
+                                <!-- Update Event Button -->
                                 <div class="col-sm-6 mb-4 d-flex justify-content-center">
-                                    {{ form.submit(class="btn w-100", id="createNowBtn") }}
+                                    <button type="Submit" class="btn w-100" id="createNowBtn">Update Event</button>
                                 </div>
                             </div>
                         </form>    
@@ -181,23 +180,23 @@
                 </div>
             </div>
         {% else %}
-        <div class="container mt-4 mb-3" style="padding-bottom: 2rem;">
-            <div class="text-center">
-                <h4>This event cannot be edited.</h4>
+            <div class="container mt-4 mb-3" style="padding-bottom: 2rem;">
+                <div class="text-center">
+                    <h4>This event cannot be edited.</h4>
+                </div>
             </div>
-        </div>
 
-        <div class="container mt-4 mb-3" style="padding-bottom: 2rem;">
-            <div class="text-center">
-                <h4>Click <a href="{{url_for('events.show', event_id=event.id)}}">here</a> to view event details.</h4>
+            <div class="container mt-4 mb-3" style="padding-bottom: 2rem;">
+                <div class="text-center">
+                    <h4>Click <a href="{{url_for('events.show', event_id=event.id)}}">here</a> to view event details.</h4>
+                </div>
             </div>
-        </div>
         {% endif %}
     </section>
 
     <!-- Cancel Event Button -->
-    {% if event.status == "Open" or event.status == "Sold Out"%}
-        <section>
+    <section>
+        {% if event.status == "Open" or event.status == "Sold Out"%}
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
                     <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -207,7 +206,7 @@
                                 <a href="{{ url_for('events.cancel', id=event.id) }}" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#cancelModal" 
-                                class="btn w-100 btn-danger " 
+                                class="btn w-100" 
                                 id="discardEventBtn">
                                     Cancel
                                 </a>
@@ -216,23 +215,23 @@
                     </div>
                 </div>
             </div>
-        </section>
-    {% endif %}
+        {% endif %}
+    </section>
 
     <!-- Cancel Event Modal -->
     <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cancelModalLabel">Confirm Event Cancellation</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-center w-100" id="cancelModalLabel">Confirm Event Cancellation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-center">
                     Are you sure you want to cancel this event?
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                    <a class="btn btn-danger" href="{{ url_for('events.cancel', id=event.id) }}">Cancel Event</a>
+                <div class="modal-footer justify-content-center mb-4">
+                    <button type="button" class="btn me-3 w-25" id="cancelBtn" data-bs-dismiss="modal">Back</button>
+                    <a href="{{ url_for('events.cancel', id=event.id) }}" class="btn ms-3" id="cancelEventBtn">Cancel Event</a>
                 </div>
             </div>
         </div>
@@ -240,85 +239,120 @@
 
     <!-- JS for detecting form changes -->
     <script>
-        const form = document.getElementById("eventForm");
-        const submit = document.getElementById("createNowBtn");
-        const container = document.getElementById('ticket-table');
-        const addButton = document.getElementById('addTicketBtn');
-        const removeButton = document.getElementById('removeTicketBtn');
-
-        submit.classList.add('disabled');
-
-        // Store the initial values of all form fields
-        const initialValues = {};
-        form.querySelectorAll('input, select, textarea').forEach(field => {
-            initialValues[field.name] = field.value;
+        document.addEventListener('DOMContentLoaded', function() {
+            var genreSelect = document.getElementById("genre");
+            var customGenreField = document.getElementById("customGenreField");
+            function toggleCustomGenre() {
+                if (genreSelect.value == "Other") {
+                    customGenreField.style.display = "block";
+                } else {
+                    customGenreField.style.display = "none";
+                }
+            }
+            if (genreSelect) {
+                genreSelect.addEventListener("change", toggleCustomGenre);
+                toggleCustomGenre(); // Call on page load to set correct state
+            }
         });
 
-        // Store the initial number of ticket types
-        let initialRowCount = container.querySelectorAll('.form-group.row').length;
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('eventCreationForm');
+            const submit = document.getElementById('createNowBtn');
+            const container = document.getElementById('ticket-table');
+            const addButton = document.getElementById('addTicketBtn');
+            const removeButton = document.getElementById('removeTicketBtn');
+            const proceedBtn = document.getElementById('proceedBtn');
 
-        // Function to check for changes
-        function checkForChanges() {
-            let changed = false;
+            if (submit) submit.classList.add('disabled');
 
-            form.querySelectorAll('input, select, textarea').forEach(field => {
-            if (field.value !== initialValues[field.name]) {
-                changed = true;
-            }
-            });
-
-            // Check row count
-            const currentRowCount = container.querySelectorAll('.form-group.row').length;
-            if (currentRowCount !== initialRowCount) {
-                changed = true;
-            }
-
-            // update styling
-            if (changed) {
-            submit.classList.remove('disabled');
-            } else {
-            submit.classList.add('disabled');
-            }
-        }
-
-        // Listen to changes on all fields
-        form.querySelectorAll('input, select, textarea').forEach(field => {
-            field.addEventListener('input', checkForChanges);
-        });
-
-        // Also listen for DOM changes inside the ticket table
-        const observer = new MutationObserver(checkForChanges);
-        observer.observe(container, { childList: true, subtree: true });
-
-        // Disable button if there is only 1 ticket type
-        function updateRemoveButtonState() {
-            const ticketRows = container.querySelectorAll('.ticket-row');
-            removeButton.disabled = ticketRows.length <= 1;
-        }
-
-        // Add another ticket type
-        document.getElementById('addTicketBtn').addEventListener('click', function() {
-            let index = container.querySelectorAll('.form-group.row').length;
-
-            // Fetch a blank template from a hidden field or template string
-            fetch(`/events/get-ticket-form/${index}`)
-                .then(res => res.text())
-                .then(html => {
-                    container.insertAdjacentHTML('beforeend', html);
-                    updateRemoveButtonState();
+            // Store the initial values of all form fields
+            const initialValues = {};
+            if (form) {
+                form.querySelectorAll('input, select, textarea').forEach(field => {
+                    initialValues[field.name] = field.value;
                 });
-        });
+            }
 
-        // Rempove last ticket type
-        document.getElementById('removeTicketBtn').addEventListener('click', function () {
-            let ticketRows = container.querySelectorAll('.ticket-row');
+            // Store the initial number of ticket types
+            let initialRowCount = container ? container.querySelectorAll('.form-group.row').length : 0;
 
-            if (ticketRows.length > 1) {
-                ticketRows[ticketRows.length - 1].remove();
-                updateRemoveButtonState();
+            // Function to check for changes
+            function checkForChanges() {
+                let changed = false;
+                if (form) {
+                    form.querySelectorAll('input, select, textarea').forEach(field => {
+                        if (field.value !== initialValues[field.name]) {
+                            changed = true;
+                        }
+                    });
+                }
+                // Check row count
+                const currentRowCount = container ? container.querySelectorAll('.form-group.row').length : 0;
+                if (currentRowCount !== initialRowCount) {
+                    changed = true;
+                }
+                // update styling
+                if (submit) {
+                    if (changed) {
+                        submit.classList.remove('disabled');
+                    } else {
+                        submit.classList.add('disabled');
+                    }
+                }
+            }
+
+            // Listen to changes on all fields
+            if (form) {
+                form.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.addEventListener('input', checkForChanges);
+                });
+            }
+
+            // Also listen for DOM changes inside the ticket table
+            if (container) {
+                const observer = new MutationObserver(checkForChanges);
+                observer.observe(container, { childList: true, subtree: true });
+            }
+
+            // Disable button if there is only 1 ticket type
+            function updateRemoveButtonState() {
+                if (!container || !removeButton) return;
+                const ticketRows = container.querySelectorAll('.ticket-row');
+                removeButton.disabled = ticketRows.length <= 1;
+            }
+
+            // Add another ticket type
+            if (addButton && container) {
+                addButton.addEventListener('click', function() {
+                    let index = container.querySelectorAll('.form-group.row').length;
+                    fetch(`/events/get-ticket-form/${index}`)
+                        .then(res => res.text())
+                        .then(html => {
+                            container.insertAdjacentHTML('beforeend', html);
+                            updateRemoveButtonState();
+                        });
+                });
+            }
+
+            // Remove last ticket type
+            if (removeButton && container) {
+                removeButton.addEventListener('click', function () {
+                    let ticketRows = container.querySelectorAll('.ticket-row');
+                    if (ticketRows.length > 1) {
+                        ticketRows[ticketRows.length - 1].remove();
+                        updateRemoveButtonState();
+                    }
+                });
+            }
+
+            updateRemoveButtonState();
+
+            // Proceed (Back) button
+            if (proceedBtn) {
+                proceedBtn.onclick = function() {
+                    window.location.href = "{{ url_for('events.owned_events') }}";
+                };
             }
         });
-
-        document.addEventListener('DOMContentLoaded', updateRemoveButtonState);
     </script>
 {% endblock %}
