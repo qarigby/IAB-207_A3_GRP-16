@@ -7,11 +7,11 @@
 
 <!-- Header -->
 {% block header %}
-        <section>
+        <section class="content-spacing">
             <div class="container mt-4 mb-3">
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Manage Events</h1>
+                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Events</h1>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
 <!-- Main Content -->
 {% block content %}
         <section>
-            <div class="container mt-4 mb-3">
+            <div class="container mt-4 mb-4">
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
                         {% if events|length != 0 %}

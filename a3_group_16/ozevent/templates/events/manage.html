@@ -7,71 +7,88 @@
 
 <!-- Header -->
 {% block header %}
-        <section>
-            <div class="container mt-4 mb-3">
-                <div class="row g-5 justify-content-center">
-                    <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8 position-relative">
-                        <!-- Back button -->
-                        <a href="{{url_for('events.owned_events')}}" class="btn btn-secondary position-absolute top-50 translate-middle-y" style="left: 75px;">Back</a>
-                        
-                        <!-- Centered title -->
-                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Manage</h1>
-                    </div>
+    <section class="content-spacing">
+        <div class="container mt-5 mb-3">
+            <div class="row g-5 justify-content-center">
+                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8 position-relative">
+                    <!-- Back button -->
+                    <a href="{{url_for('events.owned_events')}}" class="btn btn-secondary position-absolute top-50 translate-middle-y" style="left: 75px;">Back</a>
+                    
+                    <!-- Centered title -->
+                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Event Manager</h1>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}
 
 <!-- Main Content -->
 {% block content %}
+    <section>
         <!-- Update Event Form -->
-        <section>
         {% if event.status == "Open" or event.status == "Sold Out" %}
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
-                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                        <form id="eventForm" method="POST" enctype="multipart/form-data">
+                    <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7">
+                        <form id="eventCreationForm" method="POST" enctype="multipart/form-data" novalidate="novalidate">
                             {{ form.hidden_tag() }}
-                            <h1 class="form-title pt-2 pb-4 text-center">Update Event</h1>
                             <div class="form-group row">
-                                <div class="col-sm-5 col-md-5 col-lg-6">
+                                <div class="col-12">
                                     <!-- Event Title -->
                                     {{ form.title.label(class="form-label") }}<strong>*</strong>
                                     {{ form.title(class="form-control") }}
                                 </div>
+                            </div>    
 
-                                <!-- Genre -->
-                                <div class="col-sm-5 col-md-5 col-lg-6">
-                                    {{ form.genre.label(class="form-label") }}<strong>*</strong>
-                                    {{ form.genre(class="form-control") }}
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <!-- Artist(s) -->
+                                    {{ form.artist.label(class="form-label") }}
+                                    {{ form.artist(class="form-control", id="extraSmallTextArea") }}
                                 </div>
                             </div>
                                 
-                        <div class="form-group row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- Artist Name -->
-                                {{ form.artist.label(class="form-label") }}
-                                {{ form.artist(class="form-control") }}
-                            </div>
-                            
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- Venue -->
-                                {{ form.venue.label(class="form-label") }}<strong>*</strong>
-                                {{ form.venue(class="form-control") }}
+                            <div class="form-group row">
+                                <div class="col-sm-7">
+                                    <!-- Cover Image -->
+                                    {{ form.image.label(class="form-label") }}
+                                    {{ form.image(class="form-control") }}
+                                </div>
+                                
+                                <div class="col-sm-5">
+                                    <!-- Genre -->
+                                    {{ form.genre.label(class="form-label") }}<strong>*</strong>
+                                    {{ form.genre(class="form-control", id="genre") }}
+                                </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- Location -->
-                                {{ form.location.label(class="form-label") }}<strong>*</strong>
-                                {{ form.location(class="form-control") }}
+                            <div class="form-group row">
+                                <div class="col-12" id="customGenreField">
+                                    <!-- Custom Genre -->
+                                    {{ form.custom_genre.label(class="form-label") }}
+                                    {{ form.custom_genre(class="form-control") }}
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <!-- Venue -->
+                                    {{ form.venue.label(class="form-label") }}<strong>*</strong>
+                                    {{ form.venue(class="form-control") }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <!-- Location -->
+                                    {{ form.location.label(class="form-label") }}<strong>*</strong>
+                                    {{ form.location(class="form-control") }}
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <!-- Short Description -->
                                 <div class="col-12">
                                     {{ form.short_description.label(class="form-label") }}<strong>*</strong>
-                                    {{ form.short_description(class="form-control") }}
+                                    {{ form.short_description(class="form-control", id="smallTextArea") }}
                                 </div>
                             </div>
 
@@ -79,35 +96,27 @@
                                 <!-- Description -->
                                 <div class="col-12">
                                     {{ form.description.label(class="form-label") }}<strong>*</strong>
-                                    {{ form.description(class="form-control") }}
+                                    {{ form.description(class="form-control", id="largeTextArea") }}
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <!-- Date -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-md-4">
                                     {{ form.date.label(class="form-label") }}<strong>*</strong>
                                     {{ form.date(class="form-control") }}
                                 </div>
 
                                 <!-- Start Time -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-6 col-md-4">
                                     {{ form.start_time.label(class="form-label") }}<strong>*</strong>
                                     {{ form.start_time(class="form-control") }}
                                 </div>
 
                                 <!-- End Time -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-6 col-md-4">
                                     {{ form.end_time.label(class="form-label") }}<strong>*</strong>
                                     {{ form.end_time(class="form-control") }}
-                                </div>
-                            </div> 
-
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <!-- Image -->
-                                    {{ form.image.label(class="form-label") }}
-                                    {{ form.image(class="form-control") }}
                                 </div>
                             </div>
 
@@ -137,18 +146,18 @@
                             </div>
 
                             <!-- Add and remove ticket types -->
-                            <div class="form-group row pb-3">
+                            <div class="form-group row pt-3 pb-3">
                                 <div class="col-6 d-flex justify-content-center">
-                                    <button type="button" class="btn w-50" id="removeTicketBtn">Remove</button>
+                                    <button type="button" class="btn" id="removeTicketBtn">Remove Ticket</button>
                                 </div>
 
                                 <div class="col-6 d-flex justify-content-center">
-                                    <button type="button" class="btn w-50" id="addTicketBtn">Add Ticket</button>
+                                    <button type="button" class="btn" id="addTicketBtn">Add Ticket</button>
                                 </div>                            
                             </div>
 
                             <!-- Mandatory Fields Disclaimer -->
-                            <div class="form-group row mt-3">
+                            <div class="form-group row mt-5 mb-5">
                                 <div class="col-12 text-center">
                                     <small class="fst-italic">
                                         <strong>*</strong> Fields marked with an asterisk are mandatory.
@@ -156,15 +165,15 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row pt-4 pb-3 justify-content-center">
+                            <div class="form-group row pt-4">
                                 <!-- Clear Form Button -->
-                                <div class="col-12 col-md-4 mb-3">
+                                <div class="col-sm-6 mb-4 d-flex justify-content-center">
                                     <button type="reset" class="btn w-100" id="discardEventBtn">Clear Form</button>
                                 </div>
 
                                 <!-- Create Now Button -->
-                                <div class="col-12 col-md-4">
-                                    <button type="Submit" class="btn w-100" id="createNowBtn">Update</button>
+                                <div class="col-sm-6 mb-4 d-flex justify-content-center">
+                                    {{ form.submit(class="btn w-100", id="createNowBtn") }}
                                 </div>
                             </div>
                         </form>    
@@ -184,11 +193,10 @@
             </div>
         </div>
         {% endif %}
-        </section>
-        
+    </section>
 
-        <!-- Cancel Event Button -->
-        {% if event.status == "Open" or event.status == "Sold Out"%}
+    <!-- Cancel Event Button -->
+    {% if event.status == "Open" or event.status == "Sold Out"%}
         <section>
             <div class="container mt-5 mb-4">
                 <div class="row justify-content-center">
@@ -209,110 +217,108 @@
                 </div>
             </div>
         </section>
-        {% endif %}
+    {% endif %}
 
-        <!-- Cancel Event Modal -->
-        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">Confirm Event Cancellation</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to cancel this event?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                        <a class="btn btn-danger" href="{{ url_for('events.cancel', id=event.id) }}">Cancel Event</a>
-                    </div>
+    <!-- Cancel Event Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">Confirm Event Cancellation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel this event?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                    <a class="btn btn-danger" href="{{ url_for('events.cancel', id=event.id) }}">Cancel Event</a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- JS for detecting form changes -->
-        <script>
-            const form = document.getElementById("eventForm");
-            const submit = document.getElementById("createNowBtn");
-            const container = document.getElementById('ticket-table');
-            const addButton = document.getElementById('addTicketBtn');
-            const removeButton = document.getElementById('removeTicketBtn');
+    <!-- JS for detecting form changes -->
+    <script>
+        const form = document.getElementById("eventForm");
+        const submit = document.getElementById("createNowBtn");
+        const container = document.getElementById('ticket-table');
+        const addButton = document.getElementById('addTicketBtn');
+        const removeButton = document.getElementById('removeTicketBtn');
 
+        submit.classList.add('disabled');
+
+        // Store the initial values of all form fields
+        const initialValues = {};
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            initialValues[field.name] = field.value;
+        });
+
+        // Store the initial number of ticket types
+        let initialRowCount = container.querySelectorAll('.form-group.row').length;
+
+        // Function to check for changes
+        function checkForChanges() {
+            let changed = false;
+
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+            if (field.value !== initialValues[field.name]) {
+                changed = true;
+            }
+            });
+
+            // Check row count
+            const currentRowCount = container.querySelectorAll('.form-group.row').length;
+            if (currentRowCount !== initialRowCount) {
+                changed = true;
+            }
+
+            // update styling
+            if (changed) {
+            submit.classList.remove('disabled');
+            } else {
             submit.classList.add('disabled');
-
-            // Store the initial values of all form fields
-            const initialValues = {};
-            form.querySelectorAll('input, select, textarea').forEach(field => {
-                initialValues[field.name] = field.value;
-            });
-
-            // Store the initial number of ticket types
-            let initialRowCount = container.querySelectorAll('.form-group.row').length;
-
-            // Function to check for changes
-            function checkForChanges() {
-                let changed = false;
-
-                form.querySelectorAll('input, select, textarea').forEach(field => {
-                if (field.value !== initialValues[field.name]) {
-                    changed = true;
-                }
-                });
-
-                // Check row count
-                const currentRowCount = container.querySelectorAll('.form-group.row').length;
-                if (currentRowCount !== initialRowCount) {
-                    changed = true;
-                }
-
-                // update styling
-                if (changed) {
-                submit.classList.remove('disabled');
-                } else {
-                submit.classList.add('disabled');
-                }
             }
+        }
 
-            // Listen to changes on all fields
-            form.querySelectorAll('input, select, textarea').forEach(field => {
-                field.addEventListener('input', checkForChanges);
-            });
+        // Listen to changes on all fields
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', checkForChanges);
+        });
 
-            // Also listen for DOM changes inside the ticket table
-            const observer = new MutationObserver(checkForChanges);
-            observer.observe(container, { childList: true, subtree: true });
+        // Also listen for DOM changes inside the ticket table
+        const observer = new MutationObserver(checkForChanges);
+        observer.observe(container, { childList: true, subtree: true });
 
-            // Disable button if there is only 1 ticket type
-            function updateRemoveButtonState() {
-                const ticketRows = container.querySelectorAll('.ticket-row');
-                removeButton.disabled = ticketRows.length <= 1;
-            }
+        // Disable button if there is only 1 ticket type
+        function updateRemoveButtonState() {
+            const ticketRows = container.querySelectorAll('.ticket-row');
+            removeButton.disabled = ticketRows.length <= 1;
+        }
 
-            // Add another ticket type
-            document.getElementById('addTicketBtn').addEventListener('click', function() {
-                let index = container.querySelectorAll('.form-group.row').length;
+        // Add another ticket type
+        document.getElementById('addTicketBtn').addEventListener('click', function() {
+            let index = container.querySelectorAll('.form-group.row').length;
 
-                // Fetch a blank template from a hidden field or template string
-                fetch(`/events/get-ticket-form/${index}`)
-                    .then(res => res.text())
-                    .then(html => {
-                        container.insertAdjacentHTML('beforeend', html);
-                        updateRemoveButtonState();
-                    });
-            });
-
-            // Rempove last ticket type
-            document.getElementById('removeTicketBtn').addEventListener('click', function () {
-                let ticketRows = container.querySelectorAll('.ticket-row');
-
-                if (ticketRows.length > 1) {
-                    ticketRows[ticketRows.length - 1].remove();
+            // Fetch a blank template from a hidden field or template string
+            fetch(`/events/get-ticket-form/${index}`)
+                .then(res => res.text())
+                .then(html => {
+                    container.insertAdjacentHTML('beforeend', html);
                     updateRemoveButtonState();
-                }
-            });
+                });
+        });
 
-            document.addEventListener('DOMContentLoaded', updateRemoveButtonState);
-        </script>
+        // Rempove last ticket type
+        document.getElementById('removeTicketBtn').addEventListener('click', function () {
+            let ticketRows = container.querySelectorAll('.ticket-row');
 
+            if (ticketRows.length > 1) {
+                ticketRows[ticketRows.length - 1].remove();
+                updateRemoveButtonState();
+            }
+        });
 
+        document.addEventListener('DOMContentLoaded', updateRemoveButtonState);
+    </script>
 {% endblock %}
