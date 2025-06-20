@@ -274,9 +274,10 @@ body {
 #buyTicketsBtn,
 #signOutBtn,
 #cancelBtn,
+#cancelEventBtn,
 #proceedBtn,
 #addTicketBtn,
-#removetTicketBtn {
+#removeTicketBtn {
     color: #8B4513;
     padding: 10px 20px;
     font-size: 1rem;
@@ -307,6 +308,7 @@ body {
 #discardEventBtn,
 #removeTicketBtn,
 #deleteCommentBtn,
+#cancelEventBtn,
 #signOutBtn {
     background: #F28C82;
     border: 2px solid #FF2400;
@@ -315,6 +317,7 @@ body {
 #discardEventBtn:hover,
 #removeTicketBtn:hover,
 #deleteCommentBtn:hover,
+#cancelEventBtn:hover,
 #signOutBtn:hover {
     background: #E34234;
     color: white;
