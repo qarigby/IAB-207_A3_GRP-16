@@ -41,7 +41,7 @@ events = [
         short_description="Treat yourself to relaxing ocean tones with this rock outfit from the coast of Spain.",
         description="Let the soothing sounds of Seven Wonders transport you to the sun-kissed shores of Spain. This talented rock group blends oceanic melodies with pop sensibilities, creating a relaxing yet invigorating musical journey. Enjoy a night of smooth vocals, intricate guitar work, and captivating rhythms that evoke the beauty and tranquility of the coast. Whether you're a fan of pop, rock, or simply great live music, Seven Wonders promises an unforgettable evening of musical escape.",
         image="/static/img/acoustic_act.jpg",
-        owner_id=1
+        owner_id=3
     ),
     Event(
         title="Orphaned Land",
@@ -55,7 +55,7 @@ events = [
         short_description="Hear the thunderous roar of modern prog metal with this award-winning Israeli band.",
         description="Prepare for a powerful night as Orphaned Land, Israel's award-winning progressive metal band, takes the stage. Fusing thunderous metal riffs with Middle Eastern melodies, their music is a unique blend of cultures and sounds. Experience the intensity, passion, and technical mastery that have earned them a global following. This is more than just a concert—it's a musical journey that breaks boundaries and unites fans through the universal language of metal.",
         image="/static/img/metal_band.jpg",
-        owner_id=1
+        owner_id=2
     ),
     Event(
         title="Eminem",
@@ -83,7 +83,7 @@ events = [
         short_description="Experience the timeless brilliance of classical music with the Atlanta Symphony Orchestra.",
         description="Join the world-renowned Atlanta Symphony Orchestra for an enchanting evening of classical masterpieces. Let the orchestra's exquisite musicianship and passion for music sweep you away as they perform works by the greatest composers in history. From stirring symphonies to delicate chamber pieces, this sold-out concert promises a night of elegance, emotion, and unforgettable artistry. Perfect for classical aficionados and newcomers alike, this is a musical event not to be missed.",
         image="/static/img/live_orchestra.jpg",
-        owner_id=1
+        owner_id=3
     ),
     Event(
         title="Kurt Baker",
@@ -97,7 +97,7 @@ events = [
         short_description="Catch the electrifying energy of Kurt Baker as he rocks the stage with infectious tunes.",
         description="Get ready for a high-voltage night as Kurt Baker brings his infectious energy and catchy rock tunes to the stage. Known for his dynamic performances and blend of power pop, punk, and classic rock, Kurt delivers a show packed with driving beats, sing-along choruses, and a magnetic stage presence. Whether you're a longtime fan or new to his music, this concert promises a fun-filled, electrifying experience that will have you dancing and singing all night long.",
         image="/static/img/kurt_baker.jpg",
-        owner_id=1
+        owner_id=2
     ),
     Event(
         title="Rocktober Festival",
@@ -111,7 +111,7 @@ events = [
         short_description="Brisbane's biggest rock festival with live bands, food and fun for everyone.",
         description="Rocktober Festival is Brisbane's ultimate celebration of rock music, bringing together legendary acts, rising stars and passionate fans for an unforgettable day and night of live performances. Set across multiple stages at the iconic Brisbane Showgrounds, the festival features a diverse lineup spanning classic rock, indie, punk and alternative genres. Enjoy electrifying sets from headline bands, discover new favourites and immerse yourself in the vibrant festival atmosphere with gourmet food trucks, craft beer gardens and interactive art installations. Whether you're a die-hard rocker or just looking for a great time with friends, Rocktober Festival promises high-energy music, community spirit and memories that will last a lifetime. Don't miss out on Brisbane's biggest rock event of the year!",
         image=None,
-        owner_id=1
+        owner_id=2
     )
 ]
 
@@ -152,80 +152,26 @@ users = [
         surname="Rigby",
         username="quinn.rigby",
         email="quinn.rigby@outlook.com",
-        profile_pic=None, # Despises profile pictures, should = default
+        profile_pic=None, # Should = default_profile_picture.png
         phone_number="0456789123",
         street_address="321 Pine Street",
         password_hash=generate_password_hash("quinn123!"),
     )
 ]
 
+# Add new sample tickets
 tickets = [
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 150,
-        ticket_price = 89.99,
-        event_id = 1
-    ),
-    Ticket(
-        ticket_type = "VIP",
-        available_tickets = 50,
-        ticket_price = 180.00,
-        event_id = 1
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 150,
-        ticket_price = 109.99,
-        event_id = 2
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 300,
-        ticket_price = 69.99,
-        event_id = 3
-    ),
-    Ticket(
-        ticket_type = "VIP",
-        available_tickets = 150,
-        ticket_price = 140.00,
-        event_id = 3
-    ),
-    Ticket(
-        ticket_type = "VIP+",
-        available_tickets = 50,
-        ticket_price = 200.00,
-        event_id = 3
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 0,
-        ticket_price = 179.99,
-        event_id = 4
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 0,
-        ticket_price = 99.99,
-        event_id = 5
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 100,
-        ticket_price = 84.99,
-        event_id = 6
-    ),
-    Ticket(
-        ticket_type = "VIP",
-        available_tickets = 50,
-        ticket_price = 120.00,
-        event_id = 6
-    ),
-    Ticket(
-        ticket_type = "GA",
-        available_tickets = 200,
-        ticket_price = 54.99,
-        event_id = 7
-    )
+    Ticket(ticket_type="GA", available_tickets=150, ticket_price=89.99, event_id=1),
+    Ticket(ticket_type="VIP", available_tickets=50, ticket_price=180.00, event_id=1),
+    Ticket(ticket_type="GA", available_tickets=150, ticket_price=109.99, event_id=2),
+    Ticket(ticket_type="GA", available_tickets=300, ticket_price=69.99, event_id=3),
+    Ticket(ticket_type="VIP", available_tickets=150, ticket_price=140.00, event_id=3),
+    Ticket(ticket_type="VIP+", available_tickets=50, ticket_price=200.00, event_id=3),
+    Ticket(ticket_type="GA", available_tickets=0, ticket_price=179.99, event_id=4),
+    Ticket(ticket_type="GA", available_tickets=0, ticket_price=99.99, event_id=5),
+    Ticket(ticket_type="GA", available_tickets=100, ticket_price=84.99, event_id=6),
+    Ticket(ticket_type="VIP", available_tickets=50, ticket_price=120.00, event_id=6),
+    Ticket(ticket_type="GA", available_tickets=200, ticket_price=54.99, event_id=7)
 ]
 
 db.session.add_all(events)
@@ -233,4 +179,4 @@ db.session.add_all(tickets)
 db.session.add_all(users)
 db.session.commit()
 
-print("Seeded 6 new events and 4 new users into the database")
+print("Seeded 6 new events, 4 new users and 11 new tickets into the database")
