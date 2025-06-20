@@ -55,11 +55,11 @@
                                 <h4 class="mb-3" id="middleHeading">Tickets</h4>
                                 {% for ticket in event.tickets %}
                                     {% if ticket.available_tickets > 1 %}
-                                        <p>{{ ticket.available_tickets }} {{ticket.ticket_type}} Tickets Remain!<br>${{ ticket.ticket_price }}</p>
+                                        <p>{{ ticket.available_tickets }} {{ ticket.ticket_type }} Tickets Remain!<br>${{ ticket.ticket_price }}</p>
                                     {% elif ticket.available_tickets == 1 %}
-                                        <p>{{ ticket.available_tickets }} {{ticket.ticket_type}} Ticket Remains!<br>${{ ticket.ticket_price }}</p>
+                                        <p>Only {{ ticket.available_tickets }} {{ ticket.ticket_type }} Ticket Remains!<br>${{ ticket.ticket_price }}</p>
                                     {% else %}
-                                        <p>{{ ticket.available_tickets }} {{ticket.ticket_type}} Tickets Remain<br></p>
+                                        <p>{{ ticket.available_tickets }} {{ ticket.ticket_type }} Tickets Remain<br>Event is Sold Out</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -96,10 +96,10 @@
                                                         <span class="fw-bold me-2">{{ comment.user.username }}</span>
                                                         <span class="text-muted small">{{ comment.created_at.strftime('%b %d, %Y at %I:%M %p') }}</span>
                                                     </div>
-                                                    <div>{{ comment.text }}</div>
+                                                    <span class="comment-text">{{ comment.text }}</span>
                                                     {% if current_user.id == comment.user.id or current_user.id == event.owner_id %}
                                                         <form method="POST" action="{{ url_for('events.delete_comment', event_id=event.id, comment_id=comment.id) }}" class="mt-2">
-                                                            <button type="submit" class="btn btn-sm btn-danger">Delete Comment</button>
+                                                            <button type="submit" id="deleteCommentBtn" class="btn">Delete Comment</button>
                                                         </form>
                                                     {% endif %}
                                                 </div>
@@ -140,27 +140,27 @@
                             <div class="modal-content">
                                 <form id="bookingForm" method="POST" action="{{ url_for('events.book', event_id=event.id) }}">
                                     {{ booking_form.hidden_tag() }}
-                                    <div class="modal-header bg-warning">
-                                        <h4 class="modal-title text-center w-100" id="bookingModalLabel">Buy Your Tickets</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body text-center">
+                                <div class="modal-header bg-warning">
+                                    <h4 class="modal-title text-center w-100" id="bookingModalLabel">Buy Your Tickets</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
                                         <div>
                                             <p class="fst-italic"><strong>Note: Only one ticket type per booking is allowed.</strong></p>
                                         </div>
-                                        <div class="mx-auto col-2 mb-3">
+                                    <div class="mx-auto col-2 mb-3">
                                             {{ booking_form.num_tickets.label(class="form-label") }}
                                             {{ booking_form.num_tickets(class="form-control") }}
-                                        </div>
-                                        <div class="mx-auto col-6 mb-3">
+                                    </div>
+                                    <div class="mx-auto col-6 mb-3">
                                             {{ booking_form.ticket_type.label(class="form-label") }}
                                             {{ booking_form.ticket_type(class="form-control") }}   
-                                        </div>
                                     </div>
-                                    <div class="modal-footer justify-content-center mb-4">
-                                        <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="modal-footer justify-content-center mb-4">
+                                    <button type="button" class="btn me-3" id="cancelBtn" data-bs-dismiss="modal">Cancel</button>
                                         {{ booking_form.submit(class="btn ms-3", id="buyTicketsBtn") }}
-                                    </div>
+                                </div>
                                 </form>
                             </div>
                         </div>

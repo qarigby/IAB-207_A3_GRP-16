@@ -302,6 +302,7 @@ body {
 
 #discardEventBtn,
 #removeTicketBtn,
+#deleteCommentBtn,
 #signOutBtn {
     background: #F28C82;
     border: 2px solid #FF2400;
@@ -309,6 +310,7 @@ body {
 
 #discardEventBtn:hover,
 #removeTicketBtn:hover,
+#deleteCommentBtn:hover,
 #signOutBtn:hover {
     background: #E34234;
     color: white;
@@ -409,6 +411,10 @@ background: #4CBB17;
     display: flex;
     align-items: center;
     margin-bottom: 2em;
+}
+
+.comment-text {
+    font-weight: normal;
 }
 
 #eventForm .form-title {

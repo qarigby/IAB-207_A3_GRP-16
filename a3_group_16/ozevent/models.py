@@ -49,9 +49,9 @@ class Event(db.Model):
     status = db.Column(db.String(50), index=True, nullable=False)
 
     # Table Relations
-    comments = db.relationship('Comment', backref='event')
-    bookings = db.relationship('Booking', backref='event')
-    tickets = db.relationship('Ticket', backref='event')
+    comments = db.relationship('Comment', backref='event', cascade="all, delete-orphan") # Delete also if event is removed
+    bookings = db.relationship('Booking', backref='event') # Keep booking history
+    tickets = db.relationship('Ticket', backref='event', cascade="all, delete-orphan") # Delete also if event is removed
 
     # Foreign Key
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
