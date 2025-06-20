@@ -219,6 +219,12 @@ tickets = [
         available_tickets = 50,
         ticket_price = 120.00,
         event_id = 6
+    ),
+    Ticket(
+        ticket_type = "GA",
+        available_tickets = 200,
+        ticket_price = 54.99,
+        event_id = 7
     )
 ]
 
