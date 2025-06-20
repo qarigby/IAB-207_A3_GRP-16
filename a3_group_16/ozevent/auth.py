@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, render_template, request, url_for, redirect
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import current_user, login_user, login_required, logout_user
 from .models import User
 from .forms import LoginForm, RegisterForm
 from . import db
@@ -106,4 +106,5 @@ def register():
 @login_required
 def logout():
     logout_user()
+    flash(f"You have successfully logged out. Goodbye.")
     return redirect(url_for('main.index'))
