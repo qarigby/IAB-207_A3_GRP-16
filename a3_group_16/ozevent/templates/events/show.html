@@ -72,7 +72,7 @@
                         {% if event.status == "Open" %}
                             <div class="form-group row text-center mb-4">
                                 <div class="col-12">
-                                    <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Buy Tickets</button>
+                                    <button type="button" class="btn" id="buyTicketsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal" aria-label="Buy Tickets">Book Now!</button>
                                 </div>
                             </div>
                         {% endif %}
@@ -145,6 +145,9 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
+                                        <div>
+                                            <p class="fst-italic"><strong>Note: Only one ticket type per booking is allowed.</strong></p>
+                                        </div>
                                         <div class="mx-auto col-2 mb-3">
                                             {{ booking_form.num_tickets.label(class="form-label") }}
                                             {{ booking_form.num_tickets(class="form-control") }}
