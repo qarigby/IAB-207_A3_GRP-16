@@ -93,7 +93,7 @@ class EventForm(FlaskForm):
 
         # available_tickets cannot be set to 0 during event creation
         if self._create_event:
-            self.available_tickets.validators = [InputRequired('Please enter the number of tickets available'), NumberRange(min=1, message='Available ticket quantity must be greater than 1')]
+            self.available_tickets.validators = [InputRequired('Please enter the number of tickets available.'), NumberRange(min=1, message='Available ticket quantity must be greater than 1.')]
     
     # Field Validators
     def validate_date(self, field):

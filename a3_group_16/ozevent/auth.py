@@ -35,7 +35,6 @@ def login():
         else:
             login_user(existing_user)
             flash(f'Welcome back, {existing_user.firstname}!')
-            print(f"System logged in user: <username='{username}'>")
 
             # Redirect user to initially requested page
             nextp = request.args.get('next') # URL of login page access point
@@ -97,7 +96,6 @@ def register():
 
             # Commit to database and redirect to HTML page
             flash(f"Registration successful. Please log in to your new account, {new_user.firstname}.")
-            print(f"New user created: <username='{new_user.username}'>")
             return redirect(url_for('auth.login'))
     
     # If the register form is not validated

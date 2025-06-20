@@ -110,8 +110,7 @@ def create():
         
         db.session.add(new_event)
         db.session.commit()
-        flash(f"You have successfully created a new event, {current_user.firstname}.")
-        print(f"Event created: <title='{new_event.title}', date={new_event.date}>")
+        flash(f"You have successfully created a new event, '{new_event.title}'.")
         return redirect(url_for('events.show', event_id=new_event.id))
 
     # Error Validation
@@ -173,8 +172,6 @@ def manage(id):
         event.short_description = event_form.short_description.data
         event.description = event_form.description.data
 
-        print(event_form.available_tickets.data)
-
         # If the number of tickets is set to 0
         if event_form.available_tickets.data == 0:
             event.status = "Sold Out"
@@ -200,12 +197,11 @@ def manage(id):
 @events_bp.route('/manage/event-<id>/cancel')
 @login_required
 def cancel(id):
-    user_id = current_user.id
     event = db.session.scalar(db.select(Event).where(Event.id == id))
 
     if not event:
         abort(404)
-    if event.owner_id != user_id:
+    if event.owner_id != current_user.id:
         abort(403)
 
     if event.status == 'Open' or event.status == 'Sold Out':
