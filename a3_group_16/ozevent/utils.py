@@ -3,6 +3,8 @@ from flask import redirect, url_for, flash
 from flask_login import current_user
 import os
 from werkzeug.utils import secure_filename
+from .models import Booking
+from . import db
 
 # Ensures that the user is logged out of the system
 def logout_required(f):
@@ -41,3 +43,24 @@ def check_upload_file(form):
         return db_upload_path
 
     return None # No image uploaded → assume 'default_profile.png' or 'default_event.png'
+
+
+def generate_ref_code():
+    # Query max numeric part of ref_code (strip leading '#')
+    max_reference = (
+        db.session.query(Booking)
+        .order_by(Booking.ref_code.desc())
+        .with_entities(Booking.ref_code)
+        .first()
+    )
+    
+    if max_reference and max_reference[0]:
+        # Extract number, strip '#'
+        current_num = int(max_reference[0][1:])
+        new_num = current_num + 1
+    else:
+        new_num = 1  # Start from 1 if no bookings yet
+
+    # Format string with leading zeros, and append '#'
+    new_ref_code = f"#{new_num:09d}"
+    return new_ref_code

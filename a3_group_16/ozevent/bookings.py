@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, flash, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Booking, Event
+from .models import Booking, Event, Ticket
 from . import db 
 from sqlalchemy.orm import joinedload
 
@@ -41,11 +41,12 @@ def bookings():
     return render_template('booking_history.html', bookings=bookings, active_status=status, booking_exist=booking_exist)
 
 # Cancelling a booking
-@booking_bp.route('/bookings/cancel-<booking_id>')
+@booking_bp.route('/bookings/cancel/<booking_id>')
 @login_required
 def cancel(booking_id):
     booking = db.session.scalar(db.select(Booking).where(Booking.id == booking_id))
     event = db.session.scalar(db.select(Event).where(Event.id == booking.event.id))
+    ticket = db.session.scalar(db.select(Ticket).where(Ticket.id == booking.ticket.id))
 
     # if the booking doesnt exist
     if not booking:
@@ -55,7 +56,7 @@ def cancel(booking_id):
         abort(403)
 
     # Add the number of tickets being cancelled back to the event
-    event.available_tickets = event.available_tickets + booking.num_tickets
+    ticket.available_tickets = ticket.available_tickets + booking.num_tickets
 
     # If the event was sold out - it now isnt 
     if event.status == "Sold Out":

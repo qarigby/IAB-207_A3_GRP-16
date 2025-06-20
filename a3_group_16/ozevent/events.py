@@ -1,9 +1,9 @@
 from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 from sqlalchemy import asc
-from .models import Event, Comment, Ticket, User
+from .models import Booking, Event, Comment, Ticket, User
 from .forms import EventForm, CommentForm, BookingForm, TicketForm
-from .utils import check_upload_file
+from .utils import check_upload_file, generate_ref_code
 from . import db
 
 # Define Events Blueprint
@@ -17,44 +17,57 @@ def show(event_id):
         abort(404) # Triggers @app.errorhandler
     comment_form = CommentForm()
     booking_form = BookingForm()
+    booking_form.ticket_type.choices = [(ticket.id, ticket.ticket_type) for ticket in event.tickets]
     return render_template('events/show.html', event=event, comment_form=comment_form, booking_form=booking_form)
 
-# # Register Route: Book Event
-# @events_bp.route('/<event_id>/book', methods=['GET', 'POST'])
-# @login_required
-# def book(event_id):
-#     event = db.session.get(Event, event_id)
-#     if not event:
-#         abort(404)
-#     if event.status != 'Open':
-#         flash('This event is not currently open for bookings.')
-#         return redirect(url_for('events.show', event_id=event_id))
-#     form = BookingForm()
-#     if form.validate_on_submit():
-#         print('Booking form submitted and validated')
-#         # Check if there are enough tickets available
-#         if event.available_tickets < form.tickets.data:
-#             flash('Not enough tickets available for this booking.')
-#             return redirect(url_for('events.show', event_id=event_id))
+# Booking Route: Book tickets to an even
+@events_bp.route('/<event_id>/book', methods=['GET', 'POST'])
+@login_required
+def book(event_id):
+    event = db.session.get(Event, event_id)
+    booking_form = BookingForm()
+    booking_form.ticket_type.choices = [(ticket.id, ticket.ticket_type) for ticket in event.tickets]
 
-#         # Create a booking instance
-#         booking = BookingForm(
-#             user_id=current_user.id,
-#             event_id=event.id,
-#             tickets=form.tickets.data,
-#             total_price=event.ticket_price * form.tickets.data
-#         )
-#         db.session.add(booking)
+    # Check if the event exists
+    if not event:
+        abort(404)
+    # Checking if the event is accepting bookings
+    if event.status != "Open":
+        flash('This event is not currently open for bookings.')
+        return redirect(url_for('events.show', event_id=event_id))
+    
+    if booking_form.validate_on_submit():
+        ticket = next((t for t in event.tickets if t.id == booking_form.ticket_type.data), None)
+        ref_code = generate_ref_code()
+
+        # Checking that there are enough available tickets for the booking
+        if ticket and ticket.available_tickets < booking_form.num_tickets.data:
+            flash('The selected ticket type does not have enough available tickets to fulfill this booking.')
+            return redirect(url_for('events.show', event_id=event_id))
         
-#         # Update the event's available tickets
-#         event.available_tickets -= form.tickets.data
-#         if event.available_tickets == 0:
-#             event.status = 'Sold Out'
+        # Removing tickets from event
+        ticket.available_tickets -= booking_form.num_tickets.data
         
-#         db.session.commit()
-#         flash('Your booking was successful!')
-#         print(f"Booking created: <user_id={current_user.id}, event_id={event.id}, tickets={form.tickets.data}>")
-#         return redirect(url_for('events.show', event=event))
+        # Recalculate total available tickets for the event
+        total_available = sum(t.available_tickets for t in event.tickets)
+
+        # If all ticket types are sold out, update the event status
+        if total_available == 0:
+            event.status = "Sold Out"
+        
+        # Create booking
+        booking = Booking(
+            ref_code = ref_code,
+            num_tickets = booking_form.num_tickets.data,
+            user_id = current_user.id,
+            event_id = event_id,
+            ticket_id = ticket.id
+        )
+        db.session.add(booking)
+        db.session.commit()
+        flash(f"Your booking was successful. The reference number for this booking is {ref_code}")
+        return redirect(url_for('events.show', event_id=event.id))
+    return(url_for('events.show', event_id=event_id, booking_form=booking_form  ))
 
 # Register Route: Post Comments on Event
 @events_bp.route('/<event_id>/comment', methods=['GET', 'POST'])

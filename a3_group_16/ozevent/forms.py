@@ -147,11 +147,9 @@ class EventForm(FlaskForm):
 
 # Event Booking Form
 class BookingForm(FlaskForm):
-    ticket_type = SelectField('Ticket Type', validators=[InputRequired('Please select a type of ticket.')],
-        choices=[('general', 'General Admission'), ('reserved', 'Reserved Seating'), ('vip', 'VIP')])
-    num_tickets = IntegerField('Ticket(s)', validators=[InputRequired('Please enter the number of tickets.'), 
-                                                     NumberRange(min=1, message='Must be at least 1.')])
-    submit = SubmitField('Buy Now')
+    ticket_type = SelectField('Ticket Type',  coerce=int, validators=[InputRequired('Please select a ticket.')])
+    num_tickets = IntegerField('Ticket(s)', validators=[InputRequired('Please enter the number of tickets you wish to book.'), NumberRange(min=1, message='Must be at least 1.')])
+    submit = SubmitField('Book Now')
 
 # Event Comment Form
 class CommentForm(FlaskForm):
