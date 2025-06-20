@@ -47,25 +47,25 @@ class RegisterForm(FlaskForm):
 # Genre Choices (Event Creation)
 genre_choices = [
     ('', 'Select a genre'),  # Placeholder
-    ('alternative', 'Alternative'),
-    ('blues', 'Blues'),
-    ('classical', 'Classical'),
-    ('country', 'Country'),
-    ('drum & bass', 'Drum & Bass'),
-    ('edm', 'EDM'),
-    ('folk', 'Folk'),
-    ('hip-hop', 'Hip-Hop'),
-    ('jazz', 'Jazz'),
-    ('latin', 'Latin'),
-    ('metal', 'Metal'),
-    ('opera', 'Opera'),
-    ('pop', 'Pop'),
-    ('reggae', 'Reggae'),
-    ('r&b', 'R&B'),
-    ('rock', 'Rock'),
-    ('soul', 'Soul'),
-    ('other', 'Other')
-    ]
+    ('Alternative', 'Alternative'),
+    ('Blues', 'Blues'),
+    ('Classical', 'Classical'),
+    ('Country', 'Country'),
+    ('Drum & bass', 'Drum & Bass'),
+    ('Edm', 'EDM'),
+    ('Folk', 'Folk'),
+    ('Hip-hop', 'Hip-Hop'),
+    ('Jazz', 'Jazz'),
+    ('Latin', 'Latin'),
+    ('Metal', 'Metal'),
+    ('Opera', 'Opera'),
+    ('Pop', 'Pop'),
+    ('Reggae', 'Reggae'),
+    ('R&B', 'R&B'),
+    ('Rock', 'Rock'),
+    ('Soul', 'Soul'),
+    ('Other', 'Other')
+]
 
 # Ticket Form
 class TicketForm(Form):

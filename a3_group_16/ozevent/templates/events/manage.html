@@ -116,34 +116,34 @@
                                 {% for ticket_form in form.tickets %}
                                 <div class="form-group row ticket-row">
                                     <!-- Ticket Type -->
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="col-sm-6 col-md-5">
                                         {{ ticket_form.ticket_type.label(class="form-label") }}<strong>*</strong>
                                         {{ ticket_form.ticket_type(class="form-control") }}
                                     </div>
 
                                     <!-- Available Tickets  -->
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="col-sm-6 col-md-4">
                                         {{ ticket_form.available_tickets.label(class="form-label") }}<strong>*</strong>
                                         {{ ticket_form.available_tickets(class="form-control") }}
                                     </div>
 
                                     <!-- Ticket Price -->
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="col-md-3">
                                         {{ ticket_form.ticket_price.label(class="form-label") }}<strong>*</strong>
                                         {{ ticket_form.ticket_price(class="form-control") }}
                                     </div>
-                                </div> 
+                                </div>
                                 {% endfor %}
                             </div>
 
                             <!-- Add and remove ticket types -->
-                            <div class="form-group row justify-content-center pb-4">
-                                <div class="col-12 col-md-4 mb-3">
-                                    <button type="button" class="btn w-100" id="remove-ticket">Remove Ticket Type</button>
+                            <div class="form-group row pb-3">
+                                <div class="col-6 d-flex justify-content-center">
+                                    <button type="button" class="btn w-50" id="removeTicketBtn">Remove</button>
                                 </div>
 
-                                <div class="col-12 col-md-4 mb-3">
-                                    <button type="button" class="btn w-100" id="add-ticket">Add Ticket Type</button>
+                                <div class="col-6 d-flex justify-content-center">
+                                    <button type="button" class="btn w-50" id="addTicketBtn">Add Ticket</button>
                                 </div>                            
                             </div>
 
@@ -289,7 +289,7 @@
             }
 
             // Add another ticket type
-            document.getElementById('add-ticket').addEventListener('click', function() {
+            document.getElementById('addTicketBtn').addEventListener('click', function() {
                 let index = container.querySelectorAll('.form-group.row').length;
 
                 // Fetch a blank template from a hidden field or template string
@@ -302,7 +302,7 @@
             });
 
             // Rempove last ticket type
-            document.getElementById('remove-ticket').addEventListener('click', function () {
+            document.getElementById('removeTicketBtn').addEventListener('click', function () {
                 let ticketRows = container.querySelectorAll('.ticket-row');
 
                 if (ticketRows.length > 1) {
