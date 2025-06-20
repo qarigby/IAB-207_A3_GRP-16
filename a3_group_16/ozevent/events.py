@@ -160,7 +160,8 @@ def create():
             )
             db.session.add(ticket)
         db.session.commit()
-        flash('Successfully created new event')
+        flash(f"You have successfully created a new event, {current_user.firstname}.")
+        print(f"Event created: <title='{new_event.title}', date={new_event.date}>")
         return redirect(url_for('events.show', event_id=new_event.id))
 
     # Error Validation - flash the first error
@@ -173,10 +174,10 @@ def create():
                         # Handle nested dict structure
                         for subfield, suberrors in error.items():
                             if suberrors:
-                                flash(f"{subfield}: {suberrors[0]}")
+                                flash(f"{suberrors[0]}")
                                 break
                     else:
-                        flash(f"{field}: {error}")
+                        flash(f"{error}")
                         break
             break  # Only handle the first field
     return render_template('events/create.html', form=event_form)

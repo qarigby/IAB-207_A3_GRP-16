@@ -69,9 +69,9 @@ genre_choices = [
 
 # Ticket Form
 class TicketForm(Form):
-    ticket_type = StringField('Ticket Type', validators=[InputRequired('Ticket Type must be provided'), Length(max=50, message='Input exceeds maximum length')])
-    available_tickets = IntegerField('Available Tickets', validators=[InputRequired("Please enter the number of tickets available")])
-    ticket_price = DecimalField('Price ($)', validators=[InputRequired("Please enter ticket price"), NumberRange(min=0)])       
+    ticket_type = StringField('Ticket Type', validators=[InputRequired('A type of ticket must be provided.'), Length(max=50, message='Input exceeds maximum length')])
+    available_tickets = IntegerField('Available Tickets', validators=[InputRequired('Please enter the number of tickets available.')])
+    ticket_price = DecimalField('Sale Price', render_kw={"placeholder": "$"}, validators=[InputRequired('Please enter a ticket price.'), NumberRange(min=0)])
 
 # Event Creation Form
 class EventForm(FlaskForm):
@@ -88,8 +88,6 @@ class EventForm(FlaskForm):
     short_description = TextAreaField('Short Description', validators=[InputRequired('Please enter a brief event description.'),
                                                                        Length(max=255, message='Cannot exceed 255 characters.')])
     description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description.'), Length(max=1000, message='Cannot exceed 1000 characters.')])
-
-    description = TextAreaField('Description', validators=[InputRequired('Please enter a regular event description')])
     image = FileField('Cover Image', validators=[FileAllowed(file_format, 'Only JPG, WEBP or PNG file formats are accepted.')]) # Images are optional
     submit = SubmitField('Create Event')
 
