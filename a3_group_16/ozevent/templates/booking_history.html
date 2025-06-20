@@ -8,10 +8,10 @@
 <!-- No Header Element for this Page -->
 
 <!-- Booking History Cards -->
-{% block content %}  
+{% block content %}
         <section class="content-spacing">
             <!-- Booking Records -->
-            <div class="container mt-5 mb-3">
+            <div class="container mt-5 mb-3 min-vh-100">
                 <div class="row g-5 justify-content-center">
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
                         <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Recent Bookings</h1>
@@ -81,7 +81,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-center">
-                                                Are you sure you want to cancel your booking of {{booking.num_tickets}} tickets for {{booking.event.title}} on {{booking.event.date.strftime('%b %d, %Y')}}
+                                                Are you sure you want to cancel your booking of {{booking.num_tickets}} tickets for {{booking.event.title}} on {{booking.event.date.strftime('%b %d, %Y')}}?
                                             </div>
                                             <div class="modal-footer justify-content-center mb-4">
                                                 <button type="button" class="btn me-3" id="saveDraftBtn" data-bs-dismiss="modal">Back</button>

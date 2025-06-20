@@ -9,121 +9,122 @@
 
 <!-- Page Heading -->
 {% block header %}
-        <div class="container mt-4 mb-3">
+    <section class="content-spacing">
+        <div class="container mb-3 col-10 col-md-7 col-lg-7">
             <div class="row g-5 justify-content-center">
                 <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">{{ heading }}</h1>
+                    <h1 class="form-title pill-format mb-3 text-center w-100">{{ heading }}</h1>
                 </div>
             </div>
         </div>
+    </section>
 {% endblock %}
 
 {% block content %}
     {% if heading == 'Login' %}
-    <div class="container mt-5 mb-4">
-        <div class="row justify-content-center">
-            <div class="event-form col-md-6">
-                <div>
-                    {{ render_form(form, novalidate=True) }}
+        <div class="container mt-4 mb-4 min-vh-100">
+            <div class="row justify-content-center">
+                <div class="event-form col-10 col-md-7 col-lg-5">
+                    <div>
+                        {{ render_form(form, novalidate=True) }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center mt-5">
+                <div class="col-12 text-center">
+                    <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
                 </div>
             </div>
         </div>
-        
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-4 text-center">
-                <p>New user? <a href="{{ url_for('auth.register') }}">Click here</a> to register.</p>
-            </div>
-        </div>
-    </div>
-
     {% else %}
-     <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <form id="registerForm" method="POST" enctype="multipart/form-data">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group row mt-2">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- firstname -->
+        <div class="container mt-4 mb-5">
+            <div class="row justify-content-center">
+                <div class="event-form col-11 col-sm-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <form id="registerForm" method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group row mt-2">
+                            <div class="col-sm-6">
+                                <!-- First Name -->
                                 {{ form.firstname.label(class="form-label") }}<strong>*</strong>
                                 {{ form.firstname(class="form-control") }}
                             </div>
                             
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- surname -->
+                            <div class="col-sm-6">
+                                <!-- Surname -->
                                 {{ form.surname.label(class="form-label") }}<strong>*</strong>
                                 {{ form.surname(class="form-control") }}
                             </div>
+                        </div>
 
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <!-- username -->
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <!-- Username -->
                                 {{ form.username.label(class="form-label") }}<strong>*</strong>
                                 {{ form.username(class="form-control") }}
                             </div>
+
+                            <!-- Phone Number -->
+                            <div class="col-sm-6">
+                                {{ form.phone_number.label(class="form-label") }}<strong>*</strong>
+                                {{ form.phone_number(class="form-control") }}
+                            </div>
                         </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-5 col-md-5 col-lg-6">
-                            <!-- email address -->
-                            {{ form.email.label(class="form-label") }}<strong>*</strong>
-                            {{ form.email(class="form-control") }}
+                        <div class="form-group row">
+                            <!-- Email Address -->
+                            <div class="col-lg-6">
+                                {{ form.email.label(class="form-label") }}<strong>*</strong>
+                                {{ form.email(class="form-control") }}
+                            </div>
+                        
+                            <!-- Profile Picture -->
+                            <div class="col-lg-6">
+                                {{ form.image.label(class="form-label") }}
+                                {{ form.image(class="form-control") }}
+                            </div>
                         </div>
 
-                        <!-- phone number -->
-                        <div class="col-sm-5 col-md-5 col-lg-6">
-                            {{ form.phone_number.label(class="form-label") }}<strong>*</strong>
-                            {{ form.phone_number(class="form-control") }}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <!-- profile pic -->
-                        <div class="col-12">
-                            {{ form.image.label(class="form-label") }}
-                            {{ form.image(class="form-control") }}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <!-- address -->
-                        <div class="col-12">
-                            {{ form.street_address.label(class="form-label") }}<strong>*</strong>
-                            {{ form.street_address(class="form-control") }}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-5 col-md-5 col-lg-6">
-                            <!-- password -->
-                            {{ form.password.label(class="form-label") }}<strong>*</strong>
-                            {{ form.password(class="form-control") }}
+                        <div class="form-group row">
+                            <!-- Street Address -->
+                            <div class="col-12">
+                                {{ form.street_address.label(class="form-label") }}<strong>*</strong>
+                                {{ form.street_address(class="form-control", id="extraSmallTextArea") }}
+                            </div>
                         </div>
 
-                        <!-- confirm password -->
-                        <div class="col-sm-5 col-md-5 col-lg-6">
-                            {{ form.confirm.label(class="form-label") }}<strong>*</strong>
-                            {{ form.confirm(class="form-control") }}
-                        </div>
-                    </div>
+                        <div class="form-group row">
+                            <!-- Password -->
+                            <div class="col-sm-6">
+                                {{ form.password.label(class="form-label") }}<strong>*</strong>
+                                {{ form.password(class="form-control") }}
+                            </div>
 
-                    <!-- Mandatory Fields Disclaimer -->
-                    <div class="form-group row mt-3">
-                        <div class="col-12 text-center">
-                            <small class="fst-italic">
-                                <strong>*</strong> Fields marked with an asterisk are mandatory.
-                            </small>
+                            <!-- Confirm Password -->
+                            <div class="col-sm-6">
+                                {{ form.confirm.label(class="form-label") }}<strong>*</strong>
+                                {{ form.confirm(class="form-control") }}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row pt-4 pb-3 justify-content-center">
-                        <!-- Submit button -->
-                        <div class="col-12 col-md-4">
-                            {{ form.submit(class="btn w-100", id="createNowBtn") }}
+                        <!-- Mandatory Fields Disclaimer -->
+                        <div class="form-group row mt-3">
+                            <div class="col-12 text-center">
+                                <small class="fst-italic">
+                                    <strong>*</strong> Fields marked with an asterisk are mandatory.
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                </form>    
+
+                        <div class="form-group row pt-4 pb-3 justify-content-center">
+                            <!-- Submit Button -->
+                            <div class="col-7 col-md-6">
+                                {{ form.submit(class="btn w-100", id="createNowBtn") }}
+                            </div>
+                        </div>
+                    </form>    
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}

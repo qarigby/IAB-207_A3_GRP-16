@@ -7,69 +7,69 @@
 
 <!-- Header -->
 {% block header %}
-        <section class="content-spacing">
-            <div class="container mt-4 mb-3">
-                <div class="row g-5 justify-content-center">
-                    <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                        <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Events</h1>
-                    </div>
+    <section class="content-spacing">
+        <div class="container mt-4 mb-3">
+            <div class="row g-5 justify-content-center">
+                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
+                    <h1 class="form-title pill-format mt-2 mb-3 text-center w-100">Your Events</h1>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}
 
 <!-- Main Content -->
 {% block content %}
-        <section>
-            <div class="container mt-4 mb-4">
-                <div class="row g-5 justify-content-center">
-                    <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
-                        {% if events|length != 0 %}
-                            {% for event in events %}
-                            <div class="event">
-                                <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4">
-                                    <img src="{{ event.image }}" class="card-img-top" alt="event-img" />
-                                    <span class="status-bubble 
-                                        {% if event.status == 'Open' %}bg-open
-                                        {% elif event.status == 'Sold Out' %}bg-soldOut
-                                        {% elif event.status == 'Cancelled' %}bg-cancelled
-                                        {% elif event.status == 'Inactive' %}bg-inactive
-                                        {% endif %}">{{ event.status }}
-                                    </span>
-                                    <div class="card-body">
-                                        <div class="row justify-content-center">
-                                            <div class="col-auto text-center">
-                                                <h3><strong>{{ event.title }}</strong></h3>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <h5 class="card-subtitle mt-2 mb-1">{{ event.date.strftime('%b %d, %Y') }} at {{ event.start_time.strftime('%#I:%M%p')|upper }} - {{ event.end_time.strftime('%#I:%M%p')|upper }}</h5>
-                                                <h5 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h5>
-                                                <h5 class="card-subtitle mt-2 mb-1">Available Tickets: 
-                                                    {% for ticket in event.tickets %}
-                                                        {{ ticket.available_tickets }} {{ ticket.ticket_type }}{% if not loop.last %}, {% endif %}
-                                                    {% endfor %}
-                                                </h5>
-                                            </div>
-                                            <div class="col-4 text-end">
-                                                <h5 class="card-subtitle mt-2 mb-1">{{ event.short_description }}</h5>
-                                            </div>
+    <section>
+        <div class="container mt-4 mb-4">
+            <div class="row g-5 justify-content-center">
+                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xxl-8">
+                    {% if events|length != 0 %}
+                        {% for event in events %}
+                        <div class="event">
+                            <a href="{{url_for('events.manage', id=event.id)}}" class="card text-decoration-none mb-4">
+                                <img src="{{ event.image }}" class="card-img-top" alt="event-img" />
+                                <span class="status-bubble 
+                                    {% if event.status == 'Open' %}bg-open
+                                    {% elif event.status == 'Sold Out' %}bg-soldOut
+                                    {% elif event.status == 'Cancelled' %}bg-cancelled
+                                    {% elif event.status == 'Inactive' %}bg-inactive
+                                    {% endif %}">{{ event.status }}
+                                </span>
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                        <div class="col-auto text-center">
+                                            <h3><strong>{{ event.title }}</strong></h3>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="container mt-4 mb-4">
-                                <div class="text-center">
-                                    <h4>You have not created any events.</h4>
-                                    <h5>Click <a href="{{url_for('events.create')}}">here</a> to create an event.</h5>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-subtitle mt-2 mb-1">{{ event.date.strftime('%b %d, %Y') }} at {{ event.start_time.strftime('%#I:%M%p')|upper }} - {{ event.end_time.strftime('%#I:%M%p')|upper }}</h5>
+                                            <h5 class="card-subtitle mt-2 mb-1">{{ event.venue }}</h5>
+                                            <h5 class="card-subtitle mt-2 mb-1">Available Tickets: 
+                                                {% for ticket in event.tickets %}
+                                                    {{ ticket.available_tickets }} {{ ticket.ticket_type }}{% if not loop.last %}, {% endif %}
+                                                {% endfor %}
+                                            </h5>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <h5 class="card-subtitle mt-2 mb-1">{{ event.short_description }}</h5>
+                                        </div>
+                                    </div>
                                 </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="container mt-4 mb-4">
+                            <div class="text-center">
+                                <h4>You have not created any events.</h4>
+                                <h5>Click <a href="{{url_for('events.create')}}">here</a> to create an event.</h5>
                             </div>
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}

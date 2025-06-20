@@ -95,7 +95,8 @@ def register():
             db.session.commit()
 
             # Commit to database and redirect to HTML page
-            flash(f"Registration successful. Please log in to your new account, {new_user.firstname}.")
+            flash(f'Please log in to your new account, {new_user.firstname}.')
+            print(f"System created user: <username='{new_user.username}'>")
             return redirect(url_for('auth.login'))
     
     # If the register form is not validated
@@ -105,6 +106,8 @@ def register():
 @auth_bp.route('/logout')
 @login_required
 def logout():
+    logged_out = current_user.username
     logout_user()
     flash(f"You have successfully logged out. Goodbye.")
+    print(f"System logged out user: <username='{logged_out}'>")
     return redirect(url_for('main.index'))
