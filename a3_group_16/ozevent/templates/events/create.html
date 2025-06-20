@@ -33,16 +33,16 @@
                         </div>
                             
                         <div class="form-group row">
-                            <div class="col-sm-5">
-                                <!-- Genre -->
-                                {{ form.genre.label(class="form-label") }}<strong>*</strong>
-                                {{ form.genre(class="form-control", id="genre") }}
-                            </div>
-                            
                             <div class="col-sm-7">
                                 <!-- Cover Image -->
                                 {{ form.image.label(class="form-label") }}
                                 {{ form.image(class="form-control") }}
+                            </div>
+                            
+                            <div class="col-sm-5">
+                                <!-- Genre -->
+                                {{ form.genre.label(class="form-label") }}<strong>*</strong>
+                                {{ form.genre(class="form-control", id="genre") }}
                             </div>
                         </div>
 
@@ -112,23 +112,23 @@
                             {% for ticket_form in form.tickets %}
                             <div class="form-group row ticket-row">
                                 <!-- Ticket Type -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-sm-6">
                                     {{ ticket_form.ticket_type.label(class="form-label") }}<strong>*</strong>
                                     {{ ticket_form.ticket_type(class="form-control") }}
                                 </div>
 
                                 <!-- Available Tickets  -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-sm-6 col-md-3">
                                     {{ ticket_form.available_tickets.label(class="form-label") }}<strong>*</strong>
                                     {{ ticket_form.available_tickets(class="form-control") }}
                                 </div>
 
                                 <!-- Ticket Price -->
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="col-md-3">
                                     {{ ticket_form.ticket_price.label(class="form-label") }}<strong>*</strong>
                                     {{ ticket_form.ticket_price(class="form-control") }}
                                 </div>
-                            </div> 
+                            </div>
                             {% endfor %}
                         </div>
 

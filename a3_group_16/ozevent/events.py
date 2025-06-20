@@ -20,7 +20,7 @@ def show(event_id):
     booking_form.ticket_type.choices = [(ticket.id, ticket.ticket_type) for ticket in event.tickets]
     return render_template('events/show.html', event=event, comment_form=comment_form, booking_form=booking_form)
 
-# Booking Route: Book tickets to an even
+# Booking Route: Book Tickets for an Event
 @events_bp.route('/<event_id>/book', methods=['GET', 'POST'])
 @login_required
 def book(event_id):
@@ -65,7 +65,7 @@ def book(event_id):
         )
         db.session.add(booking)
         db.session.commit()
-        flash(f"Your booking was successful. The reference number for this booking is {ref_code}")
+        flash(f"Your booking was successful. The reference number for your booking is {ref_code}.")
         return redirect(url_for('events.show', event_id=event.id))
     return(redirect(url_for('events.show', event_id=event_id, booking_form=booking_form)))
 
@@ -112,7 +112,6 @@ def delete_comment(event_id, comment_id):
     flash("Comment deleted successfully.")
     return(redirect(url_for('events.show', event_id=event.id)))
 
-    
 
 # Register Route: Create Event
 @events_bp.route('/create', methods=['GET', 'POST'])
@@ -147,7 +146,6 @@ def create():
             owner_id=current_user.id
         )
         
-
         # Commit before adding ticket information so event_id exists
         db.session.add(new_event)
         db.session.commit()
