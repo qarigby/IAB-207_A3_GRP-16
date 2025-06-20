@@ -270,7 +270,9 @@ body {
 #buyTicketsBtn,
 #signOutBtn,
 #cancelBtn,
-#proceedBtn {
+#proceedBtn,
+#addTicketBtn,
+#removetTicketBtn {
     color: #8B4513;
     padding: 10px 20px;
     font-size: 1rem;
@@ -280,23 +282,27 @@ body {
     transition: all 0.5s ease;
 }
 
-#saveDraftBtn {
+#saveDraftBtn,
+#addTicketBtn {
     background: #90BFF9;
     border: 2px solid #6082B6;
 }
 
-#saveDraftBtn:hover {
+#saveDraftBtn:hover,
+#addTicketBtn:hover {
     background: #6495ED;
     color: white;
 }
 
 #discardEventBtn,
+#removeTicketBtn,
 #signOutBtn {
     background: #F28C82;
     border: 2px solid #FF2400;
 }
 
 #discardEventBtn:hover,
+#removeTicketBtn:hover,
 #signOutBtn:hover {
     background: #E34234;
     color: white;
@@ -616,31 +622,9 @@ background: #4CBB17;
     box-shadow: 0 0 8px rgba(0,0,0,0.08);
 }
 
-#remove-ticket {
-    background: #F28C82;
-    border: 2px solid #FF2400;
-}
+
 
 #remove-ticket:hover{
     background: #E34234;
     color: white;
-}
-
-#add-ticket {
-    background: grey;
-    border: 2px solid black;
-}
-
-#add-ticket:hover {
-    background: darkgray;
-    color: black;
-}
-
-#remove-ticket,
-#add-ticket {
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 5px;
-    padding: 10px;
-    transition: all 0.5s ease;
 }
