@@ -16,28 +16,28 @@
                 <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
-                <a class="carousel-item active" href="#">
+                <a class="carousel-item active" href="{{ url_for('events.show', event_id=9) }}">
                     <img src="{{ url_for('static', filename='img/beatles_tribute.jpg') }}" class="d-block w-100" alt="Beatles Tribute">
                     <div class="carousel-caption">
                         <h1>Exciting Tributes</h1>
                         <p>Let It Be (United Kingdom)</p>
                     </div>
                 </a>
-                <a class="carousel-item" href="#">
+                <a class="carousel-item" href="{{ url_for('events.show', event_id=2) }}">
                     <img src="{{ url_for('static', filename='img/acoustic_act.jpg') }}" class="d-block w-100" alt="Acoustic Act">
                     <div class="carousel-caption">
                         <h1>Immersive Experiences</h1>
                         <p>Seven Wonders (Spain)</p>
                     </div>
                 </a>
-                <a class="carousel-item" href="#">
+                <a class="carousel-item" href="{{ url_for('events.show', event_id=4) }}">
                     <img src="{{ url_for('static', filename='img/eminem_concert.jpg') }}" class="d-block w-100" alt="Rap Concert">
                     <div class="carousel-caption">
                         <h1>Global Artists</h1>
                         <p>Eminem (United States)</p>
                     </div>
                 </a>
-                <a class="carousel-item" href="#">
+                <a class="carousel-item" href="{{ url_for('events.show', event_id=3) }}">
                     <img src="{{ url_for('static', filename='img/metal_band.jpg') }}" class="d-block w-100" alt="Metal Band">
                     <div class="carousel-caption">
                         <h1>Powerhouse Performers</h1>

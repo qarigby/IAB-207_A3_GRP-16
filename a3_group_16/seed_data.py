@@ -166,17 +166,18 @@ tickets = [
     Ticket(ticket_type="GA", available_tickets=150, ticket_price=109.99, event_id=2),
     Ticket(ticket_type="GA", available_tickets=300, ticket_price=69.99, event_id=3),
     Ticket(ticket_type="VIP", available_tickets=150, ticket_price=140.00, event_id=3),
-    Ticket(ticket_type="VIP+", available_tickets=50, ticket_price=200.00, event_id=3),
+    Ticket(ticket_type="VIP+", available_tickets=50, ticket_price=200.00, event_id=9),
     Ticket(ticket_type="GA", available_tickets=0, ticket_price=179.99, event_id=4),
     Ticket(ticket_type="GA", available_tickets=0, ticket_price=99.99, event_id=5),
-    Ticket(ticket_type="GA", available_tickets=100, ticket_price=84.99, event_id=6),
-    Ticket(ticket_type="VIP", available_tickets=50, ticket_price=120.00, event_id=6),
-    Ticket(ticket_type="GA", available_tickets=200, ticket_price=54.99, event_id=7)
+    Ticket(ticket_type="GA", available_tickets=100, ticket_price=84.99, event_id=9),
+    Ticket(ticket_type="VIP", available_tickets=75, ticket_price=120.00, event_id=9),
+    Ticket(ticket_type="GA", available_tickets=280, ticket_price=54.99, event_id=8)
 ]
 
+# Commit all changes to DB
 db.session.add_all(events)
-db.session.add_all(tickets)
 db.session.add_all(users)
+db.session.add_all(tickets)
 db.session.commit()
 
 print("Seeded 6 new events, 4 new users and 11 new tickets into the database.")
